@@ -273,6 +273,19 @@
         }
 
         window.addEventListener('load', checkProStatus);
+                // Логика автоматической активации Pro-версии после оплаты
+        window.addEventListener('load', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('auth') === 'success') {
+                // Записываем флаг активации в память браузера
+                localStorage.setItem('localjson_pro_status', 'activated');
+                // Очищаем адресную строку от хвостика, чтобы ссылка снова стала красивой
+                window.history.replaceState({}, document.title, window.location.pathname);
+                // Обновляем статус кнопки в шапке
+                checkProStatus();
+                alert("Thank you! LocalJSON Pro features have been unlocked permanently.");
+            }
+        });
     </script>
 </body>
 </html>
