@@ -171,21 +171,33 @@
 
         btn.addEventListener('click', () => {
             try {
-                const raw = JSON.parse(inp.value.trim());
+                // Очистка от скрытых символов и BOM-маркеров
+                let rawText = inp.value.trim().replace(/[\u200B-\u200D\uFEFF]/g, "");
+                
+                if (!rawText.startsWith('"') && !rawText.startsWith('{') && !rawText.startsWith('[')) {
+                    alert("Invalid JSON format. Check structure.");
+                    return;
+                }
+
+                const raw = JSON.parse(rawText);
                 data = Array.isArray(raw) ? raw : [raw];
                 if (!data.length) { alert("Empty array"); return; }
                 
                 if (!checkUsageLimit()) return;
                 
                 const keys = new Set();
-                data.forEach(o => Object.keys(o).forEach(k => keys.add(k)));
+                data.forEach(o => {
+                    if (o && typeof o === 'object') {
+                        Object.keys(o).forEach(k => keys.add(k));
+                    }
+                });
                 cols = Array.from(keys);
                 
                 cc.style.display = 'block';
                 renderCb();
                 renderTable();
             } catch (e) {
-                alert("Invalid JSON format. Check array commas and structure.");
+                alert("Invalid JSON format. Details: " + e.message);
             }
         });
 
@@ -230,7 +242,7 @@
                 const tr = document.createElement('tr');
                 cols.forEach(c => {
                     const td = document.createElement('td');
-                    let v = r[c];
+                    let v = r ? r[c] : '';
                     if (typeof v === 'object' && v !== null) v = JSON.stringify(v);
                     td.textContent = v !== undefined ? v : '';
                     tr.appendChild(td);
@@ -241,13 +253,15 @@
             rc.classList.remove('hidden');
             dl.disabled = false;
         }
+
         dl.addEventListener('click', () => {
             const rows = [];
             rows.push(cols.map(c => `"${c.replace(/"/g, '""')}"`).join(','));
             data.forEach(r => {
+                if (!r) return;
                 const v = cols.map(c => {
                     let val = r[c];
-                    if (typeof val === 'object' && val !== null) val = JSON.stringify(val);
+                    if (typeof val === 'object' && v !== null) val = JSON.stringify(val);
                     return `"${String(val !== undefined ? val : '').replace(/"/g, '""')}"`;
                 });
                 rows.push(v.join(','));
@@ -267,7 +281,8 @@
             if (keyInput.startsWith('LJSON-PRO-') && keyInput.length > 14) {
                 localStorage.setItem('localjson_pro_status', 'activated');
                 alert("Success! Pro features unlocked.");
-                document.getElementById('m').classList.add('hidden');
+                const m = document.getElementById('m');
+                if (m) m.classList.add('hidden');
                 checkProStatus();
             } else {
                 alert("Invalid Key. Ensure it starts with 'LJSON-PRO-'");
@@ -291,7 +306,14 @@
                 return true;
             }
             const today = new Date().toDateString();
-            let usageData = JSON.parse(localStorage.getItem('localjson_usage_counter')) || { date: today, count: 0 };
+            let usageData = { date: today, count: 0 };
+            
+            try {
+                const stored = localStorage.getItem('localjson_usage_counter');
+                if (stored) usageData = JSON.parse(stored);
+            } catch(e) {
+                usageData = { date: today, count: 0 };
+            }
             
             if (usageData.date !== today) {
                 usageData.date = today;
@@ -303,7 +325,8 @@
                 if (descEl) {
                     descEl.innerHTML = "<span style='color: #ef4444; font-weight: 600;'>⚠️ Daily Free Limit Reached!</span><br>You have used your 3 free actions for today. Upgrade to unlock unlimited processing.";
                 }
-                document.getElementById('m').classList.remove('hidden');
+                const m = document.getElementById('m');
+                if (m) m.classList.remove('hidden');
                 return false; 
             }
             
