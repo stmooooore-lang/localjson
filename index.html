@@ -158,7 +158,7 @@
             <a href="https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310" id="checkoutLink" target="_blank" class="buy-btn">Purchase Activation Key</a>
         </div>
     </div>
-    <script>
+<script>
         let data = [], cols = [];
         const inp = document.getElementById('inp');
         const btn = document.getElementById('btn');
@@ -170,11 +170,38 @@
         const rc = document.getElementById('rc');
 
         btn.addEventListener('click', () => {
+            const isProActive = localStorage.getItem('localjson_pro_status') === 'activated';
+
+            if (!isProActive) {
+                const today = new Date().toDateString();
+                let usageData = JSON.parse(localStorage.getItem('localjson_usage_counter')) || { date: today, count: 0 };
+                
+                if (usageData.date !== today) {
+                    usageData.date = today;
+                    usageData.count = 0;
+                }
+                
+                if (usageData.count >= 3) {
+                    const descEl = document.querySelector('.modal-desc');
+                    if (descEl) {
+                        descEl.innerHTML = "<span style='color: #ef4444; font-weight: 600;'>⚠️ Daily Free Limit Reached!</span><br>You have used your 3 free actions for today. Upgrade to unlock unlimited processing.";
+                    }
+                    document.getElementById('m').classList.remove('hidden');
+                    return; 
+                }
+            }
+
             try {
                 const raw = JSON.parse(inp.value.trim());
                 data = Array.isArray(raw) ? raw : [raw];
                 if (!data.length) { alert("Empty array"); return; }
                 
+                if (!isProActive) {
+                    let usageData = JSON.parse(localStorage.getItem('localjson_usage_counter'));
+                    usageData.count += 1;
+                    localStorage.setItem('localjson_usage_counter', JSON.stringify(usageData));
+                }
+
                 const keys = new Set();
                 data.forEach(o => Object.keys(o).forEach(k => keys.add(k)));
                 cols = Array.from(keys);
