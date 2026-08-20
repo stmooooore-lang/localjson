@@ -91,7 +91,9 @@ Target Keyword Clusters:
 Note: Currently only index.html is deployed. Offline/Activate pages distributed as files to buyers.
 
 ## 7. Backlinks & Listings (Known)
-- Gumroad / Lemonsqueezy product page: Marketplace - Active
+- Product Hunt: https://www.producthunt.com/products/localjson — Active listing
+- AlternativeTo: https://alternativeto.net/software/localjson/ — Active listing
+- Gumroad / Lemonsqueezy product page: Marketplace - Active (legacy, now Lava.top)
 - Vercel dashboard: Platform - Active
 - GitHub repo: Code host - Active
 - Core: json mapper, json formatter online, json to csv converter, json viewer (Tool usage)
