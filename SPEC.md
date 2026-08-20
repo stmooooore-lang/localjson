@@ -46,7 +46,11 @@ Pro Tier:
 - No server validation - key checked locally
 
 Payment Flow (External):
-1. User buys via Gumroad / Lemonsqueezy / Stripe link (external)
+1. User buys via Lava.top (https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310) — "Purchase Activation Key" button in Pro modal
+2. Receives LJSON-PRO-... key via email / download page
+3. Enters key in app -> localStorage set -> Pro unlocked permanently
+4. Offline version delivered as separate HTML (pre-activated)
+
 ## 5. SEO - Current State (Audit)
 
 Present:
