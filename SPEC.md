@@ -51,6 +51,10 @@ Payment Flow (External):
 3. Enters key in app -> localStorage set -> Pro unlocked permanently
 4. Offline version delivered as separate HTML (pre-activated)
 
+Support Channels:
+- Secure contact form (Formspree) in LocalJSON_Pro_Documentation_and_License_Key.html
+- Telegram: https://t.me/localjson (required by Lava.top for seller verification/support)
+
 ## 5. SEO - Current State (Audit)
 
 Present:
