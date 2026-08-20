@@ -101,34 +101,34 @@ Note: Currently only index.html is deployed. Offline/Activate pages distributed 
 - Core: json mapper, json formatter online, json to csv converter, json viewer (Tool usage)
 ## 8. Roadmap - SEO First (Zero Budget)
 
-Phase 1: Technical Foundation (Week 1) IN PROGRESS
+Phase 1: Technical Foundation (Week 1) **DONE**
 - [x] Git repo connected
 - [x] .gitignore added
-- [ ] robots.txt + sitemap.xml (auto-generated via GitHub Action)
-- [ ] JSON-LD Schema.org (SoftwareApplication + Product + FAQ)
-- [ ] Open Graph / Twitter Cards
-- [ ] Canonical URLs + hreflang=en
-- [ ] Semantic HTML5 restructure
-- [ ] Image alt attributes
+- [x] robots.txt + sitemap.xml (auto-generated via GitHub Action)
+- [x] JSON-LD Schema.org (SoftwareApplication + Product + FAQPage)
+- [x] Open Graph / Twitter Cards
+- [x] Canonical URLs + hreflang=en
+- [x] Semantic HTML5 restructure (header, main, section, article, footer)
+- [x] Image alt attributes — N/A (no <img> tags in body; screenshots only in meta tags)
 
-Phase 2: Content Expansion (Week 1-2)
-- [ ] How it Works section (step-by-step, 4-5 steps)
-- [ ] Use Cases (3-4 cards: API debugging, CSV export, Data cleaning, Offline work)
-- [ ] FAQ (8-10 questions, marked up with FAQPage schema)
-- [ ] Feature Comparison table (Free vs Pro)
+Phase 2: Content Expansion (Week 1-2) **DONE**
+- [x] How it Works section (step-by-step, 4 steps)
+- [x] Use Cases (4 cards: API debugging, CSV export, Data cleaning, Offline work)
+- [x] FAQ (6 questions, marked up with FAQPage schema + visible on page)
+- [x] Feature Comparison table (Free vs Pro)
 - [ ] Testimonials / Social Proof placeholder
 
-Phase 3: On-Page Optimization (Week 2)
-- [ ] Optimize title / meta description / h1 for target clusters
-- [ ] Add keyword-rich section headings (h2, h3)
-- [ ] Internal links: index <-> offline <-> activate
-- [ ] Anchor links for scroll-to sections
+Phase 3: On-Page Optimization (Week 2) **MOSTLY DONE**
+- [x] Optimize title / meta description / h1 for target clusters
+- [x] Add keyword-rich section headings (h2, h3)
+- [ ] Internal links: index <-> offline <-> activate (footer has anchor links to sections; cross-page links to offline/activate HTML files not added)
+- [x] Anchor links for scroll-to sections
 
-Phase 4: Authority & Signals (Ongoing)
-- [ ] Submit sitemap to Google Search Console
+Phase 4: Authority & Signals (Ongoing) **PENDING**
+- [ ] Submit sitemap to Google Search Console (manual)
 - [ ] Fix GSC coverage/indexing errors
 - [ ] Request indexing for updated pages
-- [ ] Add to JSON tool directories (alternative.to, producthunt, etc.)
+- [ ] Add to JSON tool directories (Product Hunt, Indie Hackers, AlternativeTo — already listed)
 ## 9. Deployment & Operations
 
 Deploy to Production:
