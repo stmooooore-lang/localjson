@@ -5,6 +5,7 @@
 - Vercel Project: localjson-black
 - GitHub Repo: https://github.com/stmooooore-lang/localjson
 - Google Analytics: G-ZV5DKDT69T
+- GA4 Property: https://analytics.google.com/analytics/web/#/a402128824p546826873/
 - Google Site Verification: 10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM
 - Primary Branch: main
 - Deploy Trigger: Push to main -> Vercel auto-deploy
