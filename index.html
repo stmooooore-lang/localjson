@@ -13,9 +13,131 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="100% client-side, privacy-first JSON utility for web developers and analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads.">
-    <meta name="keywords" content="local json mapper, offline json viewer, privacy first json formatter, client side data cleaner, secure json utility, b2b data mapper">
-    <title>LocalJSON - Offline Privacy-First B2B JSON Data Mapper & Cleaner</title>
+    <meta name="description" content="LocalJSON — 100% client-side, privacy-first JSON mapper, formatter & CSV converter. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline. Free tier: 3 actions/day.">
+    <meta name="keywords" content="json mapper, json formatter online, json to csv converter, json viewer, offline json viewer, client side json tool, private json editor, b2b json data cleaner, json data mapping tool, api response formatter">
+    <title>LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First</title>
+    <link rel="canonical" href="https://localjson-black.vercel.app/">
+    <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/">
+    <link rel="alternate" hreflang="x-default" href="https://localjson-black.vercel.app/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://localjson-black.vercel.app/">
+    <meta property="og:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First">
+    <meta property="og:description" content="100% client-side JSON utility for developers & analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline.">
+    <meta property="og:image" content="https://localjson-black.vercel.app/1.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://localjson-black.vercel.app/">
+    <meta name="twitter:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter">
+    <meta name="twitter:description" content="Privacy-first JSON tool for developers. Format, map, export CSV — all client-side, zero server uploads. Free tier available.">
+    <meta name="twitter:image" content="https://localjson-black.vercel.app/1.jpg">
+    
+    <!-- JSON-LD Schema.org: SoftwareApplication + Product + FAQ -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "LocalJSON",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Web Browser",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock"
+                },
+                "description": "100% client-side, privacy-first JSON utility for formatting, mapping, and cleaning sensitive B2B data arrays in the browser. Zero server uploads.",
+                "url": "https://localjson-black.vercel.app/",
+                "author": {
+                    "@type": "Organization",
+                    "name": "LocalJSON"
+                },
+                "featureList": [
+                    "JSON Formatter & Beautifier",
+                    "JSON to CSV Converter",
+                    "Column Mapping for B2B Data",
+                    "Offline Mode",
+                    "Privacy-First (No Server Uploads)",
+                    "Large Array Handling"
+                ],
+                "screenshot": "https://localjson-black.vercel.app/1.jpg"
+            },
+            {
+                "@type": "Product",
+                "name": "LocalJSON Pro",
+                "description": "Unlimited actions, lifetime license, offline version included. One-time purchase.",
+                "brand": {
+                    "@type": "Brand",
+                    "name": "LocalJSON"
+                },
+                "offers": {
+                    "@type": "Offer",
+                    "url": "https://localjson-black.vercel.app/",
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock"
+                },
+                "sku": "LJSON-PRO"
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "Is my JSON data sent to a server?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Does LocalJSON work offline?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the free tier limit?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How do I upgrade to Pro?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "Can I convert JSON to CSV?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What browsers are supported?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+."
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+    </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #0f172a; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; padding-bottom: 40px; }
@@ -79,8 +201,8 @@
         <div class="logo-box">
             <div class="logo-icon">L</div>
             <div class="logo-text">
-                <h1>Secure Offline JSON Data Mapper & Cleaner</h1>
-                <span>Privacy-First SaaS Utility</span>
+                <h1>LocalJSON</h1>
+                <span>Offline JSON Mapper, Formatter & CSV Converter</span>
             </div>
         </div>
         <div style="display: flex; align-items: center; gap: 16px;">
@@ -128,8 +250,153 @@
         </section>
     </main>
 
+    <!-- SEO Content Sections -->
+    <section id="how-it-works" aria-labelledby="how-it-works-heading" style="max-width: 1200px; margin: 60px auto; padding: 0 16px;">
+        <h2 id="how-it-works-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">How It Works</h2>
+        <p style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">LocalJSON runs entirely in your browser — no uploads, no servers, no tracking. Here's the workflow:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">1</div>
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Paste Your JSON</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste a JSON array into the input area. LocalJSON auto-detects the structure and shows all available columns.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">2</div>
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Map & Select Columns</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Choose which fields to keep, rename columns for clarity, and reorder them. Perfect for cleaning messy API responses.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">3</div>
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Preview Live Grid</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">See your mapped data in an interactive table. Sort, scroll, and verify before exporting.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">4</div>
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Export CSV</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Download as UTF-8 CSV with BOM — ready for Excel, Google Sheets, or your data pipeline.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="use-cases" aria-labelledby="use-cases-heading" style="max-width: 1200px; margin: 60px auto; padding: 0 16px;">
+        <h2 id="use-cases-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Use Cases</h2>
+        <p style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">Built for developers, analysts, and B2B teams who work with JSON daily.</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">API Response Debugging</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste raw API responses, filter to relevant fields, and export clean CSV for testing or documentation.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">B2B Data Cleaning</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Map inconsistent vendor data to your schema. Rename columns, drop nulls, standardize formats — all client-side.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">JSON to CSV for Excel</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Convert nested JSON arrays to flat CSV with UTF-8 BOM for perfect Excel compatibility. No online converters needed.</p>
+            </article>
+            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
+                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Offline & Air-Gapped Work</h3>
+                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Pro Offline Version runs without internet. Ideal for secure environments, compliance workflows, and travel.</p>
+            </article>
+        </div>
+    </section>
+
+    <section id="faq" aria-labelledby="faq-heading" style="max-width: 800px; margin: 60px auto; padding: 0 16px;">
+        <h2 id="faq-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Frequently Asked Questions</h2>
+        <p style="color: #94a3b8; margin-bottom: 32px;">Quick answers to common questions about LocalJSON.</p>
+        <dl style="display: grid; gap: 16px;">
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Is my JSON data sent to a server?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing.</dd>
+            </div>
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Does LocalJSON work offline?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all.</dd>
+            </div>
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">What is the free tier limit?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time.</dd>
+            </div>
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">How do I upgrade to Pro?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently.</dd>
+            </div>
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Can I convert JSON to CSV?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility.</dd>
+            </div>
+            <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
+                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">What browsers are supported?</dt>
+                <dd style="color: #94a3b8; line-height: 1.6;">Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.</dd>
+            </div>
+        </dl>
+    </section>
+
+    <section id="free-vs-pro" aria-labelledby="free-vs-pro-heading" style="max-width: 1000px; margin: 60px auto; padding: 0 16px;">
+        <h2 id="free-vs-pro-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px; text-align: center;">Free vs Pro Comparison</h2>
+        <p style="color: #94a3b8; margin-bottom: 32px; text-align: center;">Choose the plan that fits your workflow.</p>
+        <table style="width: 100%; border-collapse: collapse; background: #020617; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
+            <thead>
+                <tr style="background: #0f172a; border-bottom: 1px solid #1e293b;">
+                    <th style="padding: 16px; text-align: left; font-weight: 600; color: white;">Feature</th>
+                    <th style="padding: 16px; text-align: center; font-weight: 600; color: #6366f1;">Free</th>
+                    <th style="padding: 16px; text-align: center; font-weight: 600; color: #f59e0b;">Pro</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">Daily Actions</td>
+                    <td style="padding: 16px; text-align: center; color: #f87171;">3 / day</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">Unlimited</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">JSON Formatting</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">Column Mapping & Renaming</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">CSV Export (UTF-8 BOM)</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">Offline Version (Standalone HTML)</td>
+                    <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">Inline Column Renaming</td>
+                    <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #1e293b;">
+                    <td style="padding: 16px; color: #e2e8f0;">One-Click Deduplication</td>
+                    <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
+                    <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
+                </tr>
+                <tr>
+                    <td style="padding: 16px; color: #e2e8f0;">License Type</td>
+                    <td style="padding: 16px; text-align: center; color: #94a3b8;">Free Forever</td>
+                    <td style="padding: 16px; text-align: center; color: #f59e0b;">Lifetime ($5)</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
     <footer>
         <p>&copy; 2026 LocalJSON Studio. Built for global freelancers, developers, and analysts.</p>
+        <p style="margin-top: 8px; font-size: 12px; color: #64748b;">
+            <a href="https://localjson-black.vercel.app/" style="color: #6366f1;">Home</a> · 
+            <a href="#how-it-works" style="color: #6366f1;">How It Works</a> · 
+            <a href="#use-cases" style="color: #6366f1;">Use Cases</a> · 
+            <a href="#faq" style="color: #6366f1;">FAQ</a> · 
+            <a href="#free-vs-pro" style="color: #6366f1;">Pricing</a>
+        </p>
     </footer>
 
     <div id="m" class="modal-overlay hidden">

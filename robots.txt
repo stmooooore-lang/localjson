@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://localjson-black.vercel.app/sitemap.xml
