@@ -125,10 +125,16 @@ Phase 3: On-Page Optimization (Week 2) **MOSTLY DONE**
 - [x] Anchor links for scroll-to sections
 
 Phase 4: Authority & Signals (Ongoing) **PENDING**
-- [ ] Submit sitemap to Google Search Console (manual)
+- [x] Submit sitemap to Google Search Console (manual) — accepted by Google, sitemap status: Success
 - [ ] Fix GSC coverage/indexing errors
-- [ ] Request indexing for updated pages
+- [ ] Request indexing for updated pages (including `/index.html` — pending, daily quota blocked)
+- [ ] Index sitemap URLs — ensure all submitted URLs are indexed (backlog task)
 - [ ] Add to JSON tool directories (Product Hunt, Indie Hackers, AlternativeTo — already listed)
+
+Phase 5: Trust & Social Proof (Backlog)
+- [ ] Research & implement real testimonials/social proof: collect real tweets, Product Hunt comments, Indie Hackers feedback, user screenshots; add logos with permission. No fake content.
+- [ ] Add cross-page links in footer/header to LocalJSON_Pro_Offline_Version.html and LocalJSON_Pro_Documentation_and_License_Key.html
+
 ## 9. Deployment & Operations
 
 Deploy to Production:
