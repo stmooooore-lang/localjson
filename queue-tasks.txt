@@ -1,0 +1,3 @@
+/Users/moore/my work/localjson;/Users/moore/my work/localjson/tasks/fix-and-polish-localjson-i18n-seo.md;plexus-act
+/Users/moore/my work/localjson;/Users/moore/my work/localjson/tasks/fix-ux-i18n-seo-complete.md;plexus-act
+/Users/moore/my work/localjson;/Users/moore/my work/localjson/tasks/TG-01-telegram-watch.md;plexus-act
