@@ -18,7 +18,9 @@
     <title>LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First</title>
     <link rel="canonical" href="https://localjson-black.vercel.app/">
     <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/">
+    <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/?lang=es">
     <link rel="alternate" hreflang="x-default" href="https://localjson-black.vercel.app/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
@@ -35,7 +37,7 @@
     <meta name="twitter:image" content="https://localjson-black.vercel.app/1.jpg">
     
     <!-- JSON-LD Schema.org: SoftwareApplication + Product + FAQ -->
-    <script type="application/ld+json">
+    <script type="application/ld+json" id="schema-jsonld">
     {
         "@context": "https://schema.org",
         "@graph": [
@@ -138,6 +140,215 @@
         ]
     }
     </script>
+    <script>
+        // I18N object loaded inline in <head> before first paint (prevents FOUC)
+        const I18N = {
+            en: {
+                "header-subtitle": "Offline JSON Mapper, Formatter & CSV Converter",
+                "input-heading": "1. Input Dataset",
+                "input-tag": "JSON Array",
+                "inp-placeholder": "Paste your JSON array here...\n e.g., [{\"id\": 1, \"name\": \"Alice\"}]",
+                "analyze-btn": "Analyze Data Structure",
+                "how-it-works": "How It Works",
+                "how-it-works-heading": "How It Works",
+                "how-it-works-desc": "LocalJSON processes your data entirely in the browser. No server uploads, ever.",
+                "step1-title": "Paste JSON",
+                "step1-desc": "Paste your JSON array into the input area.",
+                "step2-title": "Analyze",
+                "step2-desc": "Click Analyze to detect the data structure.",
+                "step3-title": "Select Columns",
+                "step3-desc": "Choose which columns to include in your output.",
+                "step4-title": "Export",
+                "step4-desc": "Download your clean data as CSV.",
+                "use-cases": "Use Cases",
+                "use-cases-heading": "Use Cases",
+                "use-cases-desc": "Perfect for developers, analysts, and data professionals.",
+                "case1-title": "API Response Cleanup",
+                "case1-desc": "Quickly format and filter API responses before importing.",
+                "case2-title": "B2B Data Mapping",
+                "case2-desc": "Map and clean sensitive business data without server exposure.",
+                "case3-title": "CSV Conversion",
+                "case3-desc": "Convert JSON arrays to CSV for spreadsheet analysis.",
+                "case4-title": "Data Deduplication",
+                "case4-desc": "Identify and remove duplicate records in large datasets.",
+                "faq": "Frequently Asked Questions",
+                "faq-heading": "Frequently Asked Questions",
+                "faq-desc": "Quick answers to common questions about LocalJSON.",
+                "faq-q1": "Is my JSON data sent to a server?",
+                "faq-a1": "No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing.",
+                "faq-q2": "Does LocalJSON work offline?",
+                "faq-a2": "Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all.",
+                "faq-q3": "What is the free tier limit?",
+                "faq-a3": "Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time.",
+                "faq-q4": "How do I upgrade to Pro?",
+                "faq-a4": "Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently.",
+                "faq-q5": "Can I convert JSON to CSV?",
+                "faq-a5": "Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility.",
+                "faq-q6": "What browsers are supported?",
+                "faq-a6": "Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.",
+                "free-vs-pro": "Free vs Pro",
+                "free-vs-pro-heading": "Free vs Pro Comparison",
+                "free-vs-pro-desc": "Choose the plan that fits your workflow.",
+                "pf1": "Basic Formatting",
+                "pf2": "Column Selection",
+                "pf3": "CSV Export",
+                "pf4": "3 Actions/Day",
+                "pf5": "Unlimited Record Processing",
+                "pf6": "Inline Column Renaming",
+                "pf7": "One-Click Deduplication",
+                "pf8": "License Type",
+                "free-label": "Free Forever",
+                "pro-label": "Lifetime ($5)",
+                "footer-tagline": "Built for global freelancers, developers, and analysts.",
+                "footer-text": "Built for global freelancers, developers, and analysts.",
+                "footer-home": "Home",
+                "footer-how-it-works": "How It Works",
+                "footer-use-cases": "Use Cases",
+                "footer-faq": "FAQ",
+                "footer-pricing": "Pricing",
+                "footer-offline": "Offline Version",
+                "footer-pro-docs": "Pro Docs",
+                "modal-title": "Unlock LocalJSON Pro",
+                "modal-desc": "Scale your workflow with advanced client-side utilities.",
+                "license-placeholder": "Paste Pro License Key here",
+                "activate-btn": "Activate License",
+                "pro-btn": "★ Upgrade to Pro",
+                "badge-text": "100% Client-Side Secure",
+                "grid-heading": "3. Interactive Grid",
+                "export-btn": "Export Clean CSV",
+                "modal-feature-1": "Unlimited Record Processing",
+                "modal-feature-2": "Inline Column Renaming",
+                "modal-feature-3": "One-Click Deduplication Tool",
+                "price-title": "Lifetime License",
+                "price-sub": "Pay once, use forever",
+                "buy-btn": "Purchase Activation Key",
+                "toast-pro": "🎉 Pro activated! Unlimited actions unlocked.",
+                "toast-pro-invalid": "Invalid license key format. Use LJSON-PRO-XXXXXXXXXXXX"
+            },
+            es: {
+                "header-subtitle": "Mapeador JSON sin conexión, Formateador y Convertidor CSV",
+                "input-heading": "1. Conjunto de datos de entrada",
+                "input-tag": "Array JSON",
+                "inp-placeholder": "Pega tu array JSON aquí...\n ej., [{\"id\": 1, \"nombre\": \"Alice\"}]",
+                "analyze-btn": "Analizar Estructura de Datos",
+                "how-it-works": "Cómo Funciona",
+                "how-it-works-heading": "Cómo Funciona",
+                "how-it-works-desc": "LocalJSON procesa tus datos completamente en el navegador. Sin subidas al servidor, nunca.",
+                "step1-title": "Pegar JSON",
+                "step1-desc": "Pega tu array JSON en el área de entrada.",
+                "step2-title": "Analizar",
+                "step2-desc": "Haz clic en Analizar para detectar la estructura de datos.",
+                "step3-title": "Seleccionar Columnas",
+                "step3-desc": "Elige qué columnas incluir en tu salida.",
+                "step4-title": "Exportar",
+                "step4-desc": "Descarga tus datos limpios como CSV.",
+                "use-cases": "Casos de Uso",
+                "use-cases-heading": "Casos de Uso",
+                "use-cases-desc": "Perfecto para desarrolladores, analistas y profesionales de datos.",
+                "case1-title": "Limpieza de Respuestas API",
+                "case1-desc": "Formatea y filtra rápidamente respuestas API antes de importar.",
+                "case2-title": "Mapeo de Datos B2B",
+                "case2-desc": "Mapea y limpia datos empresariales sensibles sin exposición al servidor.",
+                "case3-title": "Conversión a CSV",
+                "case3-desc": "Convierte arrays JSON a CSV para análisis en hojas de cálculo.",
+                "case4-title": "Deduplicación de Datos",
+                "case4-desc": "Identifica y elimina registros duplicados en grandes conjuntos de datos.",
+                "faq": "Preguntas Frecuentes",
+                "faq-heading": "Preguntas Frecuentes",
+                "faq-desc": "Todo lo que necesitas saber sobre LocalJSON.",
+                "faq-q1": "¿Se envían mis datos a un servidor?",
+                "faq-a1": "No. Todo el procesamiento ocurre 100% en el lado del cliente en tu navegador.",
+                "faq-q2": "¿Funciona LocalJSON sin conexión?",
+                "faq-a2": "Sí. Una vez cargado, LocalJSON funciona completamente sin conexión. La Versión Pro Offline es un archivo HTML independiente que no requiere internet.",
+                "faq-q3": "¿Cuál es el límite del nivel gratuito?",
+                "faq-a3": "El nivel gratuito permite 3 acciones por día (formatear, mapear o exportar = 1 acción cada una). El contador se reinicia a medianoche hora local.",
+                "faq-q4": "¿Cómo actualizo a Pro?",
+                "faq-a4": "Compra una clave de licencia (formato: LJSON-PRO-XXXXXXXX) en nuestra tienda e ingrésala en la app. Pro desbloquea acciones ilimitadas permanentemente.",
+                "faq-q5": "¿Puedo convertir JSON a CSV?",
+                "faq-a5": "Sí. Mapea las columnas de tu array JSON y luego exporta a CSV (UTF-8 con BOM) para compatibilidad con Excel.",
+                "faq-q6": "¿Qué navegadores son compatibles?",
+                "faq-a6": "Cualquier navegador moderno con soporte para ES2020: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.",
+                "free-vs-pro": "Gratis vs Pro",
+                "free-vs-pro-heading": "Comparación Free vs Pro",
+                "free-vs-pro-desc": "Elige el plan que se adapta a tu flujo de trabajo.",
+                "pf1": "Formateo Básico",
+                "pf2": "Selección de Columnas",
+                "pf3": "Exportación CSV",
+                "pf4": "3 Acciones/Día",
+                "pf5": "Procesamiento de Registros Ilimitado",
+                "pf6": "Renombrado de Columnas en Línea",
+                "pf7": "Deduplicación con un Clic",
+                "pf8": "Tipo de Licencia",
+                "free-label": "Gratis para Siempre",
+                "pro-label": "De por Vida ($5)",
+                "footer-tagline": "Construido para freelancers, desarrolladores y analistas globales.",
+                "footer-text": "Construido para freelancers, desarrolladores y analistas globales.",
+                "footer-home": "Inicio",
+                "footer-how-it-works": "Cómo Funciona",
+                "footer-use-cases": "Casos de Uso",
+                "footer-faq": "Preguntas Frecuentes",
+                "footer-pricing": "Precios",
+                "footer-offline": "Versión Offline",
+                "footer-pro-docs": "Documentación Pro",
+                "modal-title": "Desbloquear LocalJSON Pro",
+                "modal-desc": "Escala tu flujo de trabajo con utilidades avanzadas del lado del cliente.",
+                "license-placeholder": "Pega la clave de licencia Pro aquí",
+                "activate-btn": "Activar Licencia",
+                "pro-btn": "★ Actualizar a Pro",
+                "badge-text": "100% Seguro en el Cliente",
+                "grid-heading": "3. Rejilla Interactiva",
+                "export-btn": "Exportar CSV Limpio",
+                "modal-feature-1": "Procesamiento Ilimitado de Registros",
+                "modal-feature-2": "Renombrado de Columnas en Línea",
+                "modal-feature-3": "Deduplicación con Un Clic",
+                "price-title": "Licencia De Por Vida",
+                "price-sub": "Paga una vez, usa para siempre",
+                "buy-btn": "Comprar Clave de Activación",
+                "toast-pro": "🎉 ¡Pro activado! Acciones ilimitadas desbloqueadas.",
+                "toast-pro-invalid": "Formato de clave de licencia inválido. Usa LJSON-PRO-XXXXXXXXXXXX"
+            }
+        };
+        window.I18N = I18N;
+    </script>
+    <script>
+        // Apply translations synchronously before DOMContentLoaded to prevent FOUC
+        (function() {
+            const savedLang = localStorage.getItem('localjson_lang') ||
+                new URLSearchParams(window.location.search).get('lang') || 'en';
+            const lang = window.I18N[savedLang] ? savedLang : 'en';
+            document.documentElement.lang = lang;
+
+            function applyLang(dict) {
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    if (dict[key]) {
+                        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                            el.placeholder = dict[key];
+                        } else {
+                            el.textContent = dict[key];
+                        }
+                    }
+                });
+                document.querySelectorAll('[data-i18n-attr]').forEach(el => {
+                    const attrs = el.getAttribute('data-i18n-attr').split(',');
+                    attrs.forEach(attr => {
+                        const [key, attribute] = attr.split(':');
+                        if (dict[key]) el.setAttribute(attribute, dict[key]);
+                    });
+                });
+            }
+
+            function initLang() {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => applyLang(window.I18N[lang]), { once: true });
+                } else {
+                    applyLang(window.I18N[lang]);
+                }
+            }
+            
+            initLang();
+        })();
+    </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #0f172a; color: #f1f5f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; padding-bottom: 40px; }
@@ -145,12 +356,25 @@
         .logo-box { display: flex; align-items: center; gap: 12px; }
         .logo-icon { width: 36px; height: 36px; background-image: linear-gradient(to top right, #4f46e5, #8b5cf6); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: white; font-size: 18px; }
         .logo-text h1 { font-size: 16px; font-weight: 700; color: white; }
-        .logo-text span { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 2px; }
-        .badge { font-size: 12px; color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); padding: 4px 12px; border-radius: 9999px; font-weight: 500; }
-        .pro-btn { font-size: 12px; font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .logo-text span { font-size: 10px; color: #64748b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 2px; white-space: nowrap; }
+        .badge { font-size: 12px; color: #34d399; background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.2); padding: 4px 12px; border-radius: 9999px; font-weight: 500; white-space: nowrap; }
+        .pro-btn { font-size: 12px; font-weight: 700; color: #fbbf24; background: rgba(251, 191, 36, 0.1); border: 1px solid rgba(251, 191, 36, 0.2); border-radius: 8px; height: 36px; padding: 6px 14px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
         .pro-btn:hover { background: rgba(251, 191, 36, 0.2); }
+        .lang-btn { height: 36px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; font-size: 12px; font-weight: 600; cursor: pointer; padding: 0 12px; }
+        .lang-btn:first-child { color: #e2e8f0; }
+        .lang-btn:last-child { color: #64748b; }
         .workspace { max-width: 1200px; width: 100%; margin: 24px auto; padding: 0 16px; display: grid; grid-template-columns: 1fr; gap: 24px; }
         @media (min-width: 1024px) { .workspace { grid-template-columns: 5fr 7fr; } }
+        @media (max-width: 640px) {
+            header { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            header > div { width: 100%; justify-content: center; }
+            header > div > div { justify-content: center; width: 100%; }
+            header .badge { order: 3; }
+        }
+        @media (max-width: 480px) {
+            header > div:last-child { flex-wrap: wrap; gap: 8px; }
+            header > div:last-child > div:first-child { flex: 0 0 100%; justify-content: center; }
+        }
         .card { background-color: #020617; border: 1px solid #1e293b; border-radius: 16px; display: flex; flex-direction: column; padding: 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
         .card-title-area { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-b: 1px solid #1e293b; padding-bottom: 12px; }
         .card-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #64748b; }
@@ -194,6 +418,96 @@
         .buy-btn { width: 100%; display: block; text-align: center; text-decoration: none; background: linear-gradient(to right, #f59e0b, #ea580c); color: #020617; font-weight: 700; padding: 10px; border-radius: 12px; font-size: 13px; box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.2); }
         .buy-btn:hover { filter: brightness(1.1); }
         .hidden { display: none !important; }
+
+        /* SEO Grid - Strict: 4 cols x 1 row OR 2 cols x 2 rows desktop (>=1024px), 2 cols x 2 rows tablet (768-1023px), 1 col x 4 rows mobile (<=767px) - NO 3-col ever */
+        .seo-grid {
+            display: grid;
+            gap: 24px;
+            grid-template-columns: repeat(4, 1fr);
+        }
+        @media (max-width: 1023px) {
+            .seo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 767px) {
+            .seo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Header subtitle - no wrap on desktop, wrap only <=640px */
+        [data-i18n="header-subtitle"] {
+            white-space: nowrap;
+        }
+        @media (max-width: 640px) {
+            [data-i18n="header-subtitle"] {
+                white-space: normal;
+            }
+        }
+
+        /* Header buttons responsive - wrap on mobile, EN/ES pair never splits */
+        header > div:last-child {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: flex-end;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        header .lang-btn {
+            flex: 0 0 auto;
+        }
+        @media (max-width: 640px) {
+            header > div:last-child {
+                gap: 8px;
+            }
+        }
+
+        /* Centered section titles */
+        #how-it-works h2, #use-cases h2, #faq h2 {
+            text-align: center;
+        }
+        #how-it-works > p, #use-cases > p, #faq > p {
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* How It Works - Step numbers 3x larger (~96px) */
+        .step-number {
+            font-size: 96px !important;
+            font-weight: 800;
+            color: #6366f1;
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        /* How It Works - Plain cards (no decorations) */
+        .step-card {
+            background: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        /* FAQ - Subtle question mark watermarks */
+        #faq > dl > div {
+            position: relative;
+        }
+        #faq > dl > div::before {
+            content: '?';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 120px;
+            font-weight: 800;
+            color: rgba(15, 23, 42, 0.05);
+            pointer-events: none;
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
     </style>
 </head>
 <body>
@@ -202,38 +516,42 @@
             <div class="logo-icon">L</div>
             <div class="logo-text">
                 <h1>LocalJSON</h1>
-                <span>Offline JSON Mapper, Formatter & CSV Converter</span>
+                <span data-i18n="header-subtitle">Offline JSON Mapper, Formatter & CSV Converter</span>
             </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 16px;">
-            <div class="badge">100% Client-Side Secure</div>
-            <button onclick="document.getElementById('m').classList.remove('hidden')" class="pro-btn">★ Upgrade to Pro</button>
+        <div style="display: flex; align-items: center; gap: 16px; justify-content: flex-end; width: 100%;">
+            <div style="display: flex; gap: 8px;">
+                <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+                <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+            </div>
+            <div class="badge" data-i18n="badge-text">100% Client-Side Secure</div>
+            <button onclick="document.getElementById('m').classList.remove('hidden')" class="pro-btn" data-i18n="pro-btn">★ Upgrade to Pro</button>
         </div>
     </header>
 
     <main class="workspace">
         <section class="card">
             <div class="card-title-area">
-                <h2 class="card-title">1. Input Dataset</h2>
-                <span class="card-tag">JSON Array</span>
+                <h2 class="card-title" data-i18n="input-heading">1. Input Dataset</h2>
+                <span class="card-tag" data-i18n="input-tag">JSON Array</span>
             </div>
-            <textarea id="inp" placeholder='Paste your JSON array here...&#10;e.g., [{"id": 1, "name": "Alice"}]'></textarea>
-            <button id="btn" class="primary-btn">Analyze Data Structure</button>
+            <textarea id="inp" data-i18n="inp-placeholder" placeholder='Paste your JSON array here...&#10;e.g., [{"id": 1, "name": "Alice"}]'></textarea>
+            <button id="btn" class="primary-btn" data-i18n="analyze-btn">Analyze Data Structure</button>
         </section>
 
         <section class="right-pane">
             <div id="cc" class="card hidden-card">
-                <h2 class="card-title" style="margin-bottom: 12px;">2. Schema Pipeline</h2>
+                <h2 class="card-title" style="margin-bottom: 12px;" data-i18n="grid-heading">2. Schema Pipeline</h2>
                 <div id="cb" class="cb-wrapper"></div>
             </div>
 
             <div class="card" style="flex: 1;">
                 <div class="card-title-area">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <h2 class="card-title">3. Interactive Grid</h2>
+                        <h2 class="card-title" data-i18n="grid-heading">3. Interactive Grid</h2>
                         <span id="rc" class="row-badge hidden"></span>
                     </div>
-                    <button id="dl" class="export-btn" disabled>Export Clean CSV</button>
+                    <button id="dl" class="export-btn" disabled data-i18n="export-btn">Export Clean CSV</button>
                 </div>
 
                 <div class="table-container">
@@ -252,89 +570,89 @@
 
     <!-- SEO Content Sections -->
     <section id="how-it-works" aria-labelledby="how-it-works-heading" style="max-width: 1200px; margin: 60px auto; padding: 0 16px;">
-        <h2 id="how-it-works-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">How It Works</h2>
-        <p style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">LocalJSON runs entirely in your browser — no uploads, no servers, no tracking. Here's the workflow:</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">1</div>
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Paste Your JSON</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste a JSON array into the input area. LocalJSON auto-detects the structure and shows all available columns.</p>
+        <h2 id="how-it-works-heading" data-i18n="how-it-works" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">How It Works</h2>
+        <p data-i18n="how-it-works-desc" style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">LocalJSON runs entirely in your browser — no uploads, no servers, no tracking. Here's the workflow:</p>
+        <div class="seo-grid">
+            <article class="step-card">
+                <div class="step-number">1</div>
+                <h3 data-i18n="step1-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Paste Your JSON</h3>
+                <p data-i18n="step1-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste a JSON array into the input area. LocalJSON auto-detects the structure and shows all available columns.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">2</div>
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Map & Select Columns</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Choose which fields to keep, rename columns for clarity, and reorder them. Perfect for cleaning messy API responses.</p>
+            <article class="step-card">
+                <div class="step-number">2</div>
+                <h3 data-i18n="step2-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Map & Select Columns</h3>
+                <p data-i18n="step2-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Choose which fields to keep, rename columns for clarity, and reorder them. Perfect for cleaning messy API responses.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">3</div>
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Preview Live Grid</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">See your mapped data in an interactive table. Sort, scroll, and verify before exporting.</p>
+            <article class="step-card">
+                <div class="step-number">3</div>
+                <h3 data-i18n="step3-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Preview Live Grid</h3>
+                <p data-i18n="step3-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">See your mapped data in an interactive table. Sort, scroll, and verify before exporting.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <div style="font-size: 32px; font-weight: 800; color: #6366f1; margin-bottom: 12px;">4</div>
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Export CSV</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Download as UTF-8 CSV with BOM — ready for Excel, Google Sheets, or your data pipeline.</p>
+            <article class="step-card">
+                <div class="step-number">4</div>
+                <h3 data-i18n="step4-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Export CSV</h3>
+                <p data-i18n="step4-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Download as UTF-8 CSV with BOM — ready for Excel, Google Sheets, or your data pipeline.</p>
             </article>
         </div>
     </section>
 
     <section id="use-cases" aria-labelledby="use-cases-heading" style="max-width: 1200px; margin: 60px auto; padding: 0 16px;">
-        <h2 id="use-cases-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Use Cases</h2>
-        <p style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">Built for developers, analysts, and B2B teams who work with JSON daily.</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">API Response Debugging</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste raw API responses, filter to relevant fields, and export clean CSV for testing or documentation.</p>
+        <h2 id="use-cases-heading" data-i18n="use-cases" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Use Cases</h2>
+        <p data-i18n="use-cases-desc" style="color: #94a3b8; margin-bottom: 32px; max-width: 700px;">Built for developers, analysts, and B2B teams who work with JSON daily.</p>
+        <div class="seo-grid">
+            <article>
+                <h3 data-i18n="case1-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">API Response Debugging</h3>
+                <p data-i18n="case1-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Paste raw API responses, filter to relevant fields, and export clean CSV for testing or documentation.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">B2B Data Cleaning</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Map inconsistent vendor data to your schema. Rename columns, drop nulls, standardize formats — all client-side.</p>
+            <article>
+                <h3 data-i18n="case2-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">B2B Data Cleaning</h3>
+                <p data-i18n="case2-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Map inconsistent vendor data to your schema. Rename columns, drop nulls, standardize formats — all client-side.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">JSON to CSV for Excel</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Convert nested JSON arrays to flat CSV with UTF-8 BOM for perfect Excel compatibility. No online converters needed.</p>
+            <article>
+                <h3 data-i18n="case3-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">JSON to CSV for Excel</h3>
+                <p data-i18n="case3-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Convert nested JSON arrays to flat CSV with UTF-8 BOM for perfect Excel compatibility. No online converters needed.</p>
             </article>
-            <article style="background: #020617; border: 1px solid #1e293b; border-radius: 16px; padding: 24px;">
-                <h3 style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Offline & Air-Gapped Work</h3>
-                <p style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Pro Offline Version runs without internet. Ideal for secure environments, compliance workflows, and travel.</p>
+            <article>
+                <h3 data-i18n="case4-title" style="font-size: 18px; font-weight: 600; color: white; margin-bottom: 8px;">Offline & Air-Gapped Work</h3>
+                <p data-i18n="case4-desc" style="color: #94a3b8; font-size: 14px; line-height: 1.6;">Pro Offline Version runs without internet. Ideal for secure environments, compliance workflows, and travel.</p>
             </article>
         </div>
     </section>
 
     <section id="faq" aria-labelledby="faq-heading" style="max-width: 800px; margin: 60px auto; padding: 0 16px;">
-        <h2 id="faq-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Frequently Asked Questions</h2>
-        <p style="color: #94a3b8; margin-bottom: 32px;">Quick answers to common questions about LocalJSON.</p>
+        <h2 id="faq-heading" data-i18n="faq-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px;">Frequently Asked Questions</h2>
+        <p data-i18n="faq-desc" style="color: #94a3b8; margin-bottom: 32px;">Quick answers to common questions about LocalJSON.</p>
         <dl style="display: grid; gap: 16px;">
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Is my JSON data sent to a server?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing.</dd>
+                <dt data-i18n="faq-q1" style="font-weight: 600; color: white; margin-bottom: 8px;">Is my JSON data sent to a server?</dt>
+                <dd data-i18n="faq-a1" style="color: #94a3b8; line-height: 1.6;">No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing.</dd>
             </div>
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Does LocalJSON work offline?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all.</dd>
+                <dt data-i18n="faq-q2" style="font-weight: 600; color: white; margin-bottom: 8px;">Does LocalJSON work offline?</dt>
+                <dd data-i18n="faq-a2" style="color: #94a3b8; line-height: 1.6;">Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all.</dd>
             </div>
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">What is the free tier limit?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time.</dd>
+                <dt data-i18n="faq-q3" style="font-weight: 600; color: white; margin-bottom: 8px;">What is the free tier limit?</dt>
+                <dd data-i18n="faq-a3" style="color: #94a3b8; line-height: 1.6;">Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time.</dd>
             </div>
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">How do I upgrade to Pro?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently.</dd>
+                <dt data-i18n="faq-q4" style="font-weight: 600; color: white; margin-bottom: 8px;">How do I upgrade to Pro?</dt>
+                <dd data-i18n="faq-a4" style="color: #94a3b8; line-height: 1.6;">Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently.</dd>
             </div>
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">Can I convert JSON to CSV?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility.</dd>
+                <dt data-i18n="faq-q5" style="font-weight: 600; color: white; margin-bottom: 8px;">Can I convert JSON to CSV?</dt>
+                <dd data-i18n="faq-a5" style="color: #94a3b8; line-height: 1.6;">Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility.</dd>
             </div>
             <div style="background: #020617; border: 1px solid #1e293b; border-radius: 12px; padding: 20px;">
-                <dt style="font-weight: 600; color: white; margin-bottom: 8px;">What browsers are supported?</dt>
-                <dd style="color: #94a3b8; line-height: 1.6;">Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.</dd>
+                <dt data-i18n="faq-q6" style="font-weight: 600; color: white; margin-bottom: 8px;">What browsers are supported?</dt>
+                <dd data-i18n="faq-a6" style="color: #94a3b8; line-height: 1.6;">Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.</dd>
             </div>
         </dl>
     </section>
 
     <section id="free-vs-pro" aria-labelledby="free-vs-pro-heading" style="max-width: 1000px; margin: 60px auto; padding: 0 16px;">
-        <h2 id="free-vs-pro-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px; text-align: center;">Free vs Pro Comparison</h2>
-        <p style="color: #94a3b8; margin-bottom: 32px; text-align: center;">Choose the plan that fits your workflow.</p>
+        <h2 id="free-vs-pro-heading" data-i18n="free-vs-pro-heading" style="font-size: 28px; font-weight: 700; color: white; margin-bottom: 8px; text-align: center;">Free vs Pro Comparison</h2>
+        <p data-i18n="free-vs-pro-desc" style="color: #94a3b8; margin-bottom: 32px; text-align: center;">Choose the plan that fits your workflow.</p>
         <table style="width: 100%; border-collapse: collapse; background: #020617; border: 1px solid #1e293b; border-radius: 12px; overflow: hidden;">
             <thead>
                 <tr style="background: #0f172a; border-bottom: 1px solid #1e293b;">
@@ -345,59 +663,59 @@
             </thead>
             <tbody>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">Daily Actions</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf4">Daily Actions</td>
                     <td style="padding: 16px; text-align: center; color: #f87171;">3 / day</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">Unlimited</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">JSON Formatting</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf1">JSON Formatting</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">Column Mapping & Renaming</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf2">Column Mapping & Renaming</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">CSV Export (UTF-8 BOM)</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf3">CSV Export (UTF-8 BOM)</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">Offline Version (Standalone HTML)</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf5">Offline Version (Standalone HTML)</td>
                     <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">Inline Column Renaming</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf6">Inline Column Renaming</td>
                     <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr style="border-bottom: 1px solid #1e293b;">
-                    <td style="padding: 16px; color: #e2e8f0;">One-Click Deduplication</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf7">One-Click Deduplication</td>
                     <td style="padding: 16px; text-align: center; color: #f87171;">✗</td>
                     <td style="padding: 16px; text-align: center; color: #34d399;">✓</td>
                 </tr>
                 <tr>
-                    <td style="padding: 16px; color: #e2e8f0;">License Type</td>
-                    <td style="padding: 16px; text-align: center; color: #94a3b8;">Free Forever</td>
-                    <td style="padding: 16px; text-align: center; color: #f59e0b;">Lifetime ($5)</td>
+                    <td style="padding: 16px; color: #e2e8f0;" data-i18n="pf8">License Type</td>
+                    <td style="padding: 16px; text-align: center; color: #94a3b8;" data-i18n="free-label">Free Forever</td>
+                    <td style="padding: 16px; text-align: center; color: #f59e0b;" data-i18n="pro-label">Lifetime ($5)</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
     <footer>
-        <p>&copy; 2026 LocalJSON Studio. Built for global freelancers, developers, and analysts.</p>
+        <p data-i18n="footer-tagline">&copy; 2026 LocalJSON Studio. Built for global freelancers, developers, and analysts.</p>
         <p style="margin-top: 8px; font-size: 12px; color: #64748b;">
-            <a href="https://localjson-black.vercel.app/" style="color: #6366f1;">Home</a> · 
-            <a href="#how-it-works" style="color: #6366f1;">How It Works</a> · 
-            <a href="#use-cases" style="color: #6366f1;">Use Cases</a> · 
-            <a href="#faq" style="color: #6366f1;">FAQ</a> · 
-            <a href="#free-vs-pro" style="color: #6366f1;">Pricing</a> ·
-            <a href="LocalJSON_Pro_Offline_Version.html" style="color: #6366f1;">Offline Version</a> ·
-            <a href="LocalJSON_Pro_Documentation_and_License_Key.html" style="color: #6366f1;">Pro Docs</a>
+            <a href="https://localjson-black.vercel.app/" data-i18n="footer-home" style="color: #6366f1;">Home</a> · 
+            <a href="#how-it-works" data-i18n="footer-how-it-works" style="color: #6366f1;">How It Works</a> · 
+            <a href="#use-cases" data-i18n="footer-use-cases" style="color: #6366f1;">Use Cases</a> · 
+            <a href="#faq" data-i18n="footer-faq" style="color: #6366f1;">FAQ</a> · 
+            <a href="#free-vs-pro" data-i18n="footer-pricing" style="color: #6366f1;">Pricing</a> ·
+            <a href="LocalJSON_Pro_Offline_Version.html" data-i18n="footer-offline" style="color: #6366f1;">Offline Version</a> ·
+            <a href="LocalJSON_Pro_Documentation_and_License_Key.html" data-i18n="footer-pro-docs" style="color: #6366f1;">Pro Docs</a>
         </p>
     </footer>
 
@@ -406,25 +724,25 @@
             <button onclick="document.getElementById('m').classList.add('hidden')" class="modal-close">&times;</button>
             <div class="modal-header">
                 <div class="modal-icon">★</div>
-                <h3 class="modal-title">Unlock LocalJSON Pro</h3>
-                <p class="modal-desc">Scale your workflow with advanced client-side utilities.</p>
+                <h3 class="modal-title" data-i18n="modal-title">Unlock LocalJSON Pro</h3>
+                <p class="modal-desc" data-i18n="modal-desc">Scale your workflow with advanced client-side utilities.</p>
             </div>
             
             <div style="margin-bottom: 16px;">
-                <input type="text" id="licenseKey" placeholder="Paste Pro License Key here" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
-                <button onclick="activatePro()" style="width:100%; background:#4f46e5; border:none; color:white; font-size:11px; font-weight:700; padding:6px; border-radius:8px; cursor:pointer;">Activate License</button>
+                <input type="text" id="licenseKey" placeholder="Paste Pro License Key here" data-i18n-attr="license-placeholder:placeholder" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
+                <button onclick="activatePro()" data-i18n="activate-btn" style="width:100%; background:#4f46e5; border:none; color:white; font-size:11px; font-weight:700; padding:6px; border-radius:8px; cursor:pointer;">Activate License</button>
             </div>
 
             <div class="feature-list">
-                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span><b>Unlimited Record Processing</b></span></div>
-                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span><b>Inline Column Renaming</b></span></div>
-                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span><b>One-Click Deduplication</b> Tool</span></div>
+                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span data-i18n="modal-feature-1"><b>Unlimited Record Processing</b></span></div>
+                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span data-i18n="modal-feature-2"><b>Inline Column Renaming</b></span></div>
+                <div class="feature-item"><span style="color: #f59e0b;">✓</span> <span data-i18n="modal-feature-3"><b>One-Click Deduplication</b> Tool</span></div>
             </div>
             <div class="price-box">
-                <div><span class="price-title">Lifetime License</span><span class="price-sub">Pay once, use forever</span></div>
+                <div><span class="price-title" data-i18n="price-title">Lifetime License</span><span class="price-sub" data-i18n="price-sub">Pay once, use forever</span></div>
                 <span class="price-amount">$5.00</span>
             </div>
-            <a href="https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310" id="checkoutLink" target="_blank" class="buy-btn">Purchase Activation Key</a>
+            <a href="https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310" id="checkoutLink" target="_blank" class="buy-btn" data-i18n="buy-btn">Purchase Activation Key</a>
         </div>
     </div>
     <script>
@@ -553,7 +871,9 @@
             }
         }
 
-        window.addEventListener('load', checkProStatus);
+        // Run synchronously before first paint to prevent amber flash
+        checkProStatus();
+
         window.addEventListener('load', () => {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('auth') === 'success') {
@@ -562,7 +882,43 @@
                 checkProStatus();
                 alert("Thank you! LocalJSON Pro features have been unlocked permanently.");
             }
+
+            // Language switcher click handlers
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const newLang = btn.getAttribute('data-lang');
+                    if (!window.I18N[newLang]) return;
+
+                    // Update aria-pressed
+                    document.querySelectorAll('.lang-btn').forEach(b => {
+                        b.setAttribute('aria-pressed', b.getAttribute('data-lang') === newLang);
+                        b.style.color = b.getAttribute('data-lang') === newLang ? '#e2e8f0' : '#64748b';
+                    });
+
+                    // Persist to localStorage and URL
+                    localStorage.setItem('localjson_lang', newLang);
+                    const url = new URL(window.location);
+                    url.searchParams.set('lang', newLang);
+                    window.history.replaceState({}, '', url);
+
+                    // Apply translations
+                    applyTranslations(window.I18N[newLang]);
+                    document.documentElement.lang = newLang;
+                });
+            });
+
+            // Apply translations on load
+            const savedLang = localStorage.getItem('localjson_lang') ||
+                new URLSearchParams(window.location.search).get('lang') || 'en';
+            const lang = window.I18N[savedLang] ? savedLang : 'en';
+            document.querySelectorAll('.lang-btn').forEach(b => {
+                b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang);
+                b.style.color = b.getAttribute('data-lang') === lang ? '#e2e8f0' : '#64748b';
+            });
+            applyTranslations(window.I18N[lang]);
+            document.documentElement.lang = lang;
         });
     </script>
 </body>
 </html>
+
