@@ -156,13 +156,16 @@ if (mobileHeaderStack) {
   fail("Mobile header does not stack on <=640px");
 }
 
-// 8. Test JSON auto-loads on fresh page
-const testJsonAutoLoad = html.includes("Alex Rivera") && html.includes("Elena Rostova") && 
-  html.includes("DOMContentLoaded") && html.includes("inp-placeholder");
-if (testJsonAutoLoad) {
-  pass("Test JSON auto-loads on DOMContentLoaded (Alex Rivera, Elena Rostova)");
+// 8. Sample JSON auto-load REMOVED per fix-ux-i18n-seo-complete req. 5:
+// textarea must be empty on load (no Alex Rivera / Elena Rostova injection),
+// translated placeholder key must remain
+const sampleGone = !html.includes("Alex Rivera") && !html.includes("Elena Rostova");
+const placeholderKept = html.includes('"inp-placeholder"');
+if (sampleGone && placeholderKept) {
+  pass("Sample JSON auto-load removed; textarea empty on load with translated placeholder");
 } else {
-  fail("Test JSON auto-load not implemented");
+  if (!sampleGone) fail("Sample JSON auto-load still present (Alex Rivera / Elena Rostova found)");
+  if (!placeholderKept) fail("Translated placeholder key inp-placeholder missing");
 }
 
 // 9. Pro activation works with dummy key
