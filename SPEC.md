@@ -9,7 +9,7 @@
 - Google Site Verification: 10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM
 - Primary Branch: main
 - Deploy Trigger: Push to main -> Vercel auto-deploy
-- Language: English only (EN)
+- Language: English + Spanish (EN/ES switcher, ?lang= URL param, ES license/docs page live)
 - Target Audience: Web developers, data analysts, B2B integrators working with JSON
 
 ## 2. Product Overview
@@ -133,7 +133,8 @@ Phase 4: Authority & Signals (Ongoing) **PENDING**
 
 Phase 5: Trust & Social Proof (Backlog)
 - [ ] Research & implement real testimonials/social proof: collect real tweets, Product Hunt comments, Indie Hackers feedback, user screenshots; add logos with permission. No fake content.
-- [ ] Add cross-page links in footer/header to LocalJSON_Pro_Offline_Version.html and LocalJSON_Pro_Documentation_and_License_Key.html
+- [x] Add cross-page links in footer/header to LocalJSON_Pro_Offline_Version.html and LocalJSON_Pro_Documentation_and_License_Key.html
+- [ ] Spanish checkout: update Lava.top purchase link for the Spanish version now that LocalJSON_Pro_Documentation_and_License_Key_es.html is live (recorded per fix-ux-i18n-seo-complete req. 12)
 
 ## 9. Deployment & Operations
 
@@ -154,6 +155,7 @@ Environment Variables (Vercel):
 ## 10. Changelog
 - 2025-08-20: f01dd80 - Initial local sync - all production files committed
 - 2025-08-20: (this session) - .gitignore added, SPEC.md created
+- 2026-10-06: Shipped pending i18n/SEO work to production (5ad286a Spanish localisation, SEO content blocks with strict 4/2/1 grid, header rework; final-polish acceptance check aligned with task req. 5 — sample JSON auto-load removed)
 
 ## 11. Quick Reference for AI Assistants
 When user asks to modify the site:
@@ -175,7 +177,7 @@ Do NOT:
 - Change license validation (client-only by design)
 - Remove privacy-first architecture
 
-*Last updated: 2025-08-20 - SPEC.md created, repo connected*
+*Last updated: 2026-10-06 - EN/ES i18n + SEO work deployed*
 - [ ] Create comparison content (vs jsonformatter.org, vs onlinejsontools.com)
 
 Phase 5: Performance & UX (Parallel)
