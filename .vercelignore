@@ -1,0 +1,23 @@
+# Service documents — never public
+*.md
+*.zip
+README.txt
+README_es.txt
+queue-tasks.txt
+
+# Dev / internal
+acceptance/
+tasks/
+.claude/
+.git/
+.gitignore
+.vercelignore
+*.py
+check_i18n.js
+
+# macOS
+.DS_Store
+
+# Local unpack folders
+localjson/
+localjson-es/
