@@ -13,8 +13,8 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="100% client-side, privacy-first JSON utility for web developers and analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads.">
-    <meta name="keywords" content="local json mapper, offline json viewer, privacy first json formatter, client side data cleaner, secure json utility, b2b data mapper">
+    <meta name="description" content="Utilidad JSON 100% del lado del cliente, centrada en la privacidad, para desarrolladores web y analistas. Formatea, mapea y limpia arrays de datos B2B confidenciales de forma segura en tu navegador. Cero subidas a servidores.">
+    <meta name="keywords" content="mapeador json local, visor json sin conexión, formateador json privado, limpiador de datos lado cliente, utilidad json segura, mapeador datos b2b">
     <title>LocalJSON - Mapeador y Limpiador de Datos JSON B2B Offline Centrado en la Privacidad</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -84,7 +84,7 @@
             </div>
         </div>
         <div style="display: flex; align-items: center; gap: 16px;">
-            <div class="badge">100% Client-Side Secure</div>
+            <div class="badge">100% Seguro en el Lado del Cliente</div>
             <button onclick="document.getElementById('m').classList.remove('hidden')" class="pro-btn">★ Actualizar a Pro</button>
         </div>
     </header>
@@ -95,7 +95,7 @@
                 <h2 class="card-title">1. Dataset de Entrada</h2>
                 <span class="card-tag">JSON Array</span>
             </div>
-            <textarea id="inp" placeholder='Paste your JSON array here...&#10;e.g., [{"id": 1, "name": "Alice"}]'></textarea>
+            <textarea id="inp" placeholder='Pega tu array JSON aquí...&#10;ej., [{"id": 1, "name": "Alice"}]'></textarea>
             <button id="btn" class="primary-btn">Analizar Estructura de Datos</button>
         </section>
 
@@ -129,7 +129,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 LocalJSON Studio. Built for global freelancers, developers, and analysts.</p>
+        <p>&copy; 2026 LocalJSON Studio. Creado para freelancers, desarrolladores y analistas de todo el mundo.</p>
     </footer>
 
     <div id="m" class="modal-overlay hidden">
@@ -235,7 +235,7 @@
                 });
                 tb.appendChild(tr);
             });
-            rc.textContent = `${data.length} rows`;
+            rc.textContent = `${data.length} filas`;
             rc.classList.remove('hidden');
             dl.disabled = false;
         }
@@ -277,7 +277,7 @@
             if (status === 'activated') {
                 const pBtn = document.querySelector('.pro-btn');
                 if (pBtn) {
-                    pBtn.textContent = "★ Pro Active";
+                    pBtn.textContent = "★ Pro Activo";
                     pBtn.style.color = "#34d399";
                     pBtn.style.background = "rgba(52, 211, 153, 0.1)";
                 }
