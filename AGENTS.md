@@ -202,4 +202,26 @@ If the brief does not say how to report, ask before working rather than
 inventing a shape.
 
 Queue rules for every project: `/Users/moore/my work/Continue MODELS integration/docs/QUEUE-RULES.md`.
+
+## Push and deploy — founder gate
+
+No push to `origin/main` without the founder's written acceptance.
+
+`git push origin main` on this project is not an intermediate step — it is
+a production deploy. Vercel auto-deploys on push. Treat it accordingly.
+
+Rules:
+
+- Edit, commit locally, run acceptance checks — fine. Do not push.
+- "Acceptance checks passed" is not the gate. The founder's explicit
+  "принято" / "accepted" in the conversation is the gate. Two separate
+  events; do not treat one as the other.
+- If the change needs to be visible for review before acceptance, hand it
+  over as a local commit and let the founder pull — never push "just to
+  let them see it."
+- If a task brief says "commit and push", this rule still applies unless
+  the founder wrote "push" explicitly in the same conversation.
+- What to hand over instead of a push: `git log --oneline -3`,
+  `git status --short`, the acceptance output, `git show <sha> -- <file>`.
+
 <!-- /lane -->
