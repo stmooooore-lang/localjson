@@ -213,8 +213,11 @@
                 "license-placeholder": "Paste Pro License Key here",
                 "activate-btn": "Activate License",
                 "pro-btn": "★ Upgrade to Pro",
+                "pro-btn-active": "★ Pro Active",
                 "badge-text": "100% Client-Side Secure",
                 "grid-heading": "3. Interactive Grid",
+                "grid-heading-pipeline": "2. Schema Pipeline",
+                "grid-empty": "No live dataset loaded yet. Paste your array on the left.",
                 "export-btn": "Export Clean CSV",
                 "modal-feature-1": "Unlimited Record Processing",
                 "modal-feature-2": "Inline Column Renaming",
@@ -295,8 +298,11 @@
                 "license-placeholder": "Pega la clave de licencia Pro aquí",
                 "activate-btn": "Activar Licencia",
                 "pro-btn": "★ Actualizar a Pro",
+                "pro-btn-active": "★ Pro Activo",
                 "badge-text": "100% Seguro en el Cliente",
                 "grid-heading": "3. Rejilla Interactiva",
+                "grid-heading-pipeline": "2. Pipeline de Esquema",
+                "grid-empty": "Aún no hay datos cargados. Pega tu array a la izquierda.",
                 "export-btn": "Exportar CSV Limpio",
                 "modal-feature-1": "Procesamiento Ilimitado de Registros",
                 "modal-feature-2": "Renombrado de Columnas en Línea",
@@ -337,6 +343,7 @@
                     });
                 });
             }
+            window.applyLang = applyLang;
 
             function initLang() {
                 if (document.readyState === 'loading') {
@@ -541,7 +548,7 @@
 
         <section class="right-pane">
             <div id="cc" class="card hidden-card">
-                <h2 class="card-title" style="margin-bottom: 12px;" data-i18n="grid-heading">2. Schema Pipeline</h2>
+                <h2 class="card-title" style="margin-bottom: 12px;" data-i18n="grid-heading-pipeline">2. Schema Pipeline</h2>
                 <div id="cb" class="cb-wrapper"></div>
             </div>
 
@@ -559,7 +566,7 @@
                         <thead id="th"></thead>
                         <tbody id="tb">
                             <tr>
-                                <td colspan="100" style="padding: 48px; text-align: center; color: #475569; font-style: italic; max-width: none;">No live dataset loaded yet. Paste your array on the left.</td>
+                                <td colspan="100" data-i18n="grid-empty" style="padding: 48px; text-align: center; color: #475569; font-style: italic; max-width: none;">No live dataset loaded yet. Paste your array on the left.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -864,7 +871,8 @@
             if (status === 'activated') {
                 const pBtn = document.querySelector('.pro-btn');
                 if (pBtn) {
-                    pBtn.textContent = "★ Pro Active";
+                    pBtn.setAttribute('data-i18n', 'pro-btn-active');
+                    pBtn.textContent = window.I18N[document.documentElement.lang || 'en']['pro-btn-active'];
                     pBtn.style.color = "#34d399";
                     pBtn.style.background = "rgba(52, 211, 153, 0.1)";
                 }
@@ -902,7 +910,7 @@
                     window.history.replaceState({}, '', url);
 
                     // Apply translations
-                    applyTranslations(window.I18N[newLang]);
+                    window.applyLang(window.I18N[newLang]);
                     document.documentElement.lang = newLang;
                 });
             });
@@ -915,7 +923,7 @@
                 b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang);
                 b.style.color = b.getAttribute('data-lang') === lang ? '#e2e8f0' : '#64748b';
             });
-            applyTranslations(window.I18N[lang]);
+            window.applyLang(window.I18N[lang]);
             document.documentElement.lang = lang;
         });
     </script>
