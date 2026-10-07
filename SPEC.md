@@ -83,7 +83,11 @@ Missing / Weak:
 Target Keyword Clusters:
 ## 6. Content Inventory (Pages / States)
 - / (index.html): Main App - Free tier + Pro unlock - Yes
-- /?auth=success: Post-payment redirect - Sets Pro in localStorage - No (canonical to /)
+- /?auth=success: Post-payment redirect from Lava.top. Sets Pro in
+  localStorage. **Live production mechanism — DO NOT REMOVE.** Lava
+  activates Pro through this path; the doc pages
+  (LocalJSON_Pro_Documentation_and_License_Key*.html)
+  are certificates and do not participate in activation.
 - /offline/ (future): Offline Version - Pre-activated Pro, no network - Yes
 - /activate/ (future): Activation & Docs - License entry, documentation - Yes
 - /privacy/ (future): Privacy Policy - GDPR/CCPA compliance - Yes
@@ -144,6 +148,20 @@ git push origin main  # Vercel auto-deploys
 Rollback:
 git revert HEAD && git push origin main
 # Or: Vercel dashboard -> Deployments -> Promote previous
+
+### How to test prod
+
+Two modes, different things:
+
+- **Normal window** — prod as seen by a returning user. localStorage, i18n
+  preference, Pro status, cached assets. Use this to check what a real
+  customer sees after using the app once.
+- **Incognito window** — prod as seen by a new user. Empty localStorage, no
+  cache. Use this first when something looks broken, to rule out local
+  state (Pro flag, saved language, stale CSS).
+
+When a bug appears, check incognito before looking at code. If it disappears
+there, the cause is local state, not a deployment.
 
 Local Development:
 # No build step - open index.html directly in browser
