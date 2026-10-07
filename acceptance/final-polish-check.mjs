@@ -74,7 +74,7 @@ if (i18nInHead) {
   fail("I18N object not loaded inline in <head>");
 }
 
-if (html.includes("document.readyState === 'loading'") && html.includes("DOMContentLoaded") && html.includes("applyTranslations")) {
+if (html.includes("document.readyState === 'loading'") && html.includes("DOMContentLoaded") && html.includes("applyLang(window.I18N[")) {
   pass("Synchronous translation apply before DOMContentLoaded detected");
 } else {
   fail("No synchronous translation apply before DOMContentLoaded");
