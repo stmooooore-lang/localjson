@@ -53,7 +53,7 @@ if (canonicalRegex.test(html)) {
 
 // 4. index.html lines ~20-22 have three hreflang tags for en, es, x-default
 const hreflangEn = /<link rel="alternate" hreflang="en" href="https:\/\/localjson-black\.vercel\.app\/"[^>]*>/;
-const hreflangEs = /<link rel="alternate" hreflang="es" href="https:\/\/localjson-black\.vercel\.app\/\?lang=es"[^>]*>/;
+const hreflangEs = /<link rel="alternate" hreflang="es" href="https:\/\/localjson-black\.vercel\.app\/es\/"[^>]*>/;
 const hreflangXDefault = /<link rel="alternate" hreflang="x-default" href="https:\/\/localjson-black\.vercel\.app\/"[^>]*>/;
 
 if (hreflangEn.test(html) && hreflangEs.test(html) && hreflangXDefault.test(html)) {
