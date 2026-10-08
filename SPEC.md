@@ -174,6 +174,16 @@ Environment Variables (Vercel):
 - 2025-08-20: f01dd80 - Initial local sync - all production files committed
 - 2025-08-20: (this session) - .gitignore added, SPEC.md created
 - 2026-10-06: Shipped pending i18n/SEO work to production (5ad286a Spanish localisation, SEO content blocks with strict 4/2/1 grid, header rework; final-polish acceptance check aligned with task req. 5 — sample JSON auto-load removed)
+- 2026-10-07: 91f838b - docs(agents): founder gate for push and deploy
+- 2026-10-07: 16f34c5 - fix(i18n): export applyLang, translate empty-grid placeholder, split pipeline heading, pro-btn state key
+- 2026-10-07: a2b483f - docs(spec): how to test prod (normal vs incognito), auth=success marked as live mechanism
+- 2026-10-07: eb7c7ef - acceptance: align final-polish check #3 No-FOUC marker with window.applyLang (dead since 16f34c5)
+- 2026-10-07: 2a42477 - feat(es): offline package, readme, zip; fix readme.txt stale filename; rebuild zips without macosx
+- 2026-10-07: bb98eee - security: add .vercelignore, close public access to archives and docs; allow *.zip in git; ES Lava URL in offline ES
+- 2026-10-07: d00277b - fix(i18n): restore EN fallback URL, add buy-btn-href via data-i18n-attr
+- 2026-10-07: 6625839 - i18n(es): finish Spanish localisation of offline ES page (meta, badge, placeholder, footer, row count, Pro state); rebuild localjson-es.zip
+- 2026-10-08: 8908b15 - seo(es): serve Spanish on its own /es/ URL instead of /?lang=es
+- 2026-10-08: 23b2aba - seo(es): Spanish meta for /es/, close /bin, fix stale hreflang check
 
 ## 11. Quick Reference for AI Assistants
 When user asks to modify the site:
@@ -222,3 +232,37 @@ File Inventory:
 - LocalJSON_Pro_Documentation_and_License_Key.html: Activation page + docs - Live
 - 1.jpg, 2.jpg: Screenshots for listings - Assets
 - README.txt: Buyer delivery note - Legacy
+
+## 12. Current State (2026-10-08)
+
+**Live:** https://localjson-black.vercel.app (Vercel, auto-deploy on push)
+
+**Языки:** EN (default) + ES на отдельном URL /es/.
+- /es/index.html генерируется скриптом bin/build-es.mjs из index.html + ES-словарь.
+- Переключатель в шапке: ссылки на / и /es/ (не JS-переключение).
+- ?lang=es остаётся работающим, но не ранжируется (canonical на /).
+
+**Монетизация:** Lava.top, $5 USD lifetime.
+- EN: https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310
+- ES: https://app.lava.top/products/299d1b1c-24ea-42ac-b654-f66afe5cbfb8
+- Активация: Lava редиректит на /?auth=success, index.html читает
+  параметр, ставит localStorage.localjson_pro_status=activated.
+  **Живой механизм — не удалять.**
+
+**Пакеты покупателей:**
+- localjson.zip (EN): offline HTML + doc page + README.txt
+- localjson-es.zip (ES): offline HTML ES + doc page ES + README_es.txt
+- Пересобираются вручную, заливаются в Lava вручную.
+- .vercelignore блокирует *.zip, *.md, bin/, acceptance/, tasks/ от
+  публичной раздачи на Vercel.
+
+**SEO:**
+- GSC: главная проиндексирована, краулится регулярно (Oct 3).
+- Показы за 3 месяца: 7, клики: 0. Причина — одна страница, ноль
+  ссылок. Не техническая поломка. Рост — только через каналы.
+- sitemap.xml: /, /es/, две докстраницы (EN и ES).
+- hreflang: en → /, es → /es/, x-default → /.
+
+**Стратегия (2026-10-07):** продвижение через каналы
+(Reddit, HN, dev.to, PH), не через SEO-контент.
+Подробности — DECISIONS.md.
