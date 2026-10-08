@@ -14,9 +14,9 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LocalJSON — 100% client-side, privacy-first JSON mapper, formatter & CSV converter. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline. Free tier: 3 actions/day.">
+    <meta name="description" content="Formatea, mapea y limpia datos JSON 100% en tu navegador. Centrado en la privacidad. Sin subidas, sin servidor. Nivel gratuito + Pro de por vida." data-i18n-attr="meta-description:content">
     <meta name="keywords" content="json mapper, json formatter online, json to csv converter, json viewer, offline json viewer, client side json tool, private json editor, b2b json data cleaner, json data mapping tool, api response formatter">
-    <title>LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First</title>
+    <title data-i18n="meta-title">LocalJSON — Formateador, Mapeador y Convertidor JSON del Lado del Cliente</title>
     <link rel="canonical" href="https://localjson-black.vercel.app/es/">
     <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/">
     <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/es/">
@@ -26,15 +26,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://localjson-black.vercel.app/es/">
-    <meta property="og:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First">
-    <meta property="og:description" content="100% client-side JSON utility for developers & analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline.">
+    <meta property="og:title" content="LocalJSON — Herramienta JSON Centrada en la Privacidad" data-i18n-attr="og-title:content">
+    <meta property="og:description" content="Formatea, mapea y limpia datos JSON 100% en tu navegador. Sin subidas, sin servidor." data-i18n-attr="og-description:content">
     <meta property="og:image" content="https://localjson-black.vercel.app/1.jpg">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://localjson-black.vercel.app/">
-    <meta name="twitter:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter">
-    <meta name="twitter:description" content="Privacy-first JSON tool for developers. Format, map, export CSV — all client-side, zero server uploads. Free tier available.">
+    <meta name="twitter:title" content="LocalJSON — Herramienta JSON Centrada en la Privacidad" data-i18n-attr="og-title:content">
+    <meta name="twitter:description" content="Formatea, mapea y limpia datos JSON 100% en tu navegador. Sin subidas, sin servidor." data-i18n-attr="og-description:content">
     <meta name="twitter:image" content="https://localjson-black.vercel.app/1.jpg">
     
     <!-- JSON-LD Schema.org: SoftwareApplication + Product + FAQ -->
@@ -141,183 +141,22 @@
         ]
     }
     </script>
-    <script>
-        // I18N object loaded inline in <head> before first paint (prevents FOUC)
-        const I18N = {
-            en: {
-                "header-subtitle": "Offline JSON Mapper, Formatter & CSV Converter",
-                "input-heading": "1. Input Dataset",
-                "input-tag": "JSON Array",
-                "inp-placeholder": "Paste your JSON array here...\n e.g., [{\"id\": 1, \"name\": \"Alice\"}]",
-                "analyze-btn": "Analyze Data Structure",
-                "how-it-works": "How It Works",
-                "how-it-works-heading": "How It Works",
-                "how-it-works-desc": "LocalJSON processes your data entirely in the browser. No server uploads, ever.",
-                "step1-title": "Paste JSON",
-                "step1-desc": "Paste your JSON array into the input area.",
-                "step2-title": "Analyze",
-                "step2-desc": "Click Analyze to detect the data structure.",
-                "step3-title": "Select Columns",
-                "step3-desc": "Choose which columns to include in your output.",
-                "step4-title": "Export",
-                "step4-desc": "Download your clean data as CSV.",
-                "use-cases": "Use Cases",
-                "use-cases-heading": "Use Cases",
-                "use-cases-desc": "Perfect for developers, analysts, and data professionals.",
-                "case1-title": "API Response Cleanup",
-                "case1-desc": "Quickly format and filter API responses before importing.",
-                "case2-title": "B2B Data Mapping",
-                "case2-desc": "Map and clean sensitive business data without server exposure.",
-                "case3-title": "CSV Conversion",
-                "case3-desc": "Convert JSON arrays to CSV for spreadsheet analysis.",
-                "case4-title": "Data Deduplication",
-                "case4-desc": "Identify and remove duplicate records in large datasets.",
-                "faq": "Frequently Asked Questions",
-                "faq-heading": "Frequently Asked Questions",
-                "faq-desc": "Quick answers to common questions about LocalJSON.",
-                "faq-q1": "Is my JSON data sent to a server?",
-                "faq-a1": "No. LocalJSON runs 100% in your browser. Your data never leaves your device — no uploads, no tracking, no server processing.",
-                "faq-q2": "Does LocalJSON work offline?",
-                "faq-a2": "Yes. Once loaded, LocalJSON works completely offline. The Pro Offline Version is a standalone HTML file that requires no internet connection at all.",
-                "faq-q3": "What is the free tier limit?",
-                "faq-a3": "Free tier allows 3 actions per day (format, map, or export = 1 action each). Counter resets at midnight local time.",
-                "faq-q4": "How do I upgrade to Pro?",
-                "faq-a4": "Purchase a license key (format: LJSON-PRO-XXXXXXXX) from our store, then enter it in the app. Pro unlocks unlimited actions permanently.",
-                "faq-q5": "Can I convert JSON to CSV?",
-                "faq-a5": "Yes. Map your JSON array columns, then export to CSV (UTF-8 with BOM) for Excel compatibility.",
-                "faq-q6": "What browsers are supported?",
-                "faq-a6": "Any modern browser with ES2020 support: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.",
-                "free-vs-pro": "Free vs Pro",
-                "free-vs-pro-heading": "Free vs Pro Comparison",
-                "free-vs-pro-desc": "Choose the plan that fits your workflow.",
-                "pf1": "Basic Formatting",
-                "pf2": "Column Selection",
-                "pf3": "CSV Export",
-                "pf4": "3 Actions/Day",
-                "pf5": "Unlimited Record Processing",
-                "pf6": "Inline Column Renaming",
-                "pf7": "One-Click Deduplication",
-                "pf8": "License Type",
-                "free-label": "Free Forever",
-                "pro-label": "Lifetime ($5)",
-                "footer-tagline": "Built for global freelancers, developers, and analysts.",
-                "footer-text": "Built for global freelancers, developers, and analysts.",
-                "footer-home": "Home",
-                "footer-how-it-works": "How It Works",
-                "footer-use-cases": "Use Cases",
-                "footer-faq": "FAQ",
-                "footer-pricing": "Pricing",
-                "footer-offline": "Offline Version",
-                "footer-pro-docs": "Pro Docs",
-                "modal-title": "Unlock LocalJSON Pro",
-                "modal-desc": "Scale your workflow with advanced client-side utilities.",
-                "license-placeholder": "Paste Pro License Key here",
-                "activate-btn": "Activate License",
-                "pro-btn": "★ Upgrade to Pro",
-                "pro-btn-active": "★ Pro Active",
-                "badge-text": "100% Client-Side Secure",
-                "grid-heading": "3. Interactive Grid",
-                "grid-heading-pipeline": "2. Schema Pipeline",
-                "grid-empty": "No live dataset loaded yet. Paste your array on the left.",
-                "export-btn": "Export Clean CSV",
-                "modal-feature-1": "Unlimited Record Processing",
-                "modal-feature-2": "Inline Column Renaming",
-                "modal-feature-3": "One-Click Deduplication Tool",
-                "price-title": "Lifetime License",
-                "price-sub": "Pay once, use forever",
-                "buy-btn": "Purchase Activation Key",
-                "buy-btn-href": "https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310",
-                "toast-pro": "🎉 Pro activated! Unlimited actions unlocked.",
-                "toast-pro-invalid": "Invalid license key format. Use LJSON-PRO-XXXXXXXXXXXX"
-            },
-            es: {
-                "header-subtitle": "Mapeador JSON sin conexión, Formateador y Convertidor CSV",
-                "input-heading": "1. Conjunto de datos de entrada",
-                "input-tag": "Array JSON",
-                "inp-placeholder": "Pega tu array JSON aquí...\n ej., [{\"id\": 1, \"nombre\": \"Alice\"}]",
-                "analyze-btn": "Analizar Estructura de Datos",
-                "how-it-works": "Cómo Funciona",
-                "how-it-works-heading": "Cómo Funciona",
-                "how-it-works-desc": "LocalJSON procesa tus datos completamente en el navegador. Sin subidas al servidor, nunca.",
-                "step1-title": "Pegar JSON",
-                "step1-desc": "Pega tu array JSON en el área de entrada.",
-                "step2-title": "Analizar",
-                "step2-desc": "Haz clic en Analizar para detectar la estructura de datos.",
-                "step3-title": "Seleccionar Columnas",
-                "step3-desc": "Elige qué columnas incluir en tu salida.",
-                "step4-title": "Exportar",
-                "step4-desc": "Descarga tus datos limpios como CSV.",
-                "use-cases": "Casos de Uso",
-                "use-cases-heading": "Casos de Uso",
-                "use-cases-desc": "Perfecto para desarrolladores, analistas y profesionales de datos.",
-                "case1-title": "Limpieza de Respuestas API",
-                "case1-desc": "Formatea y filtra rápidamente respuestas API antes de importar.",
-                "case2-title": "Mapeo de Datos B2B",
-                "case2-desc": "Mapea y limpia datos empresariales sensibles sin exposición al servidor.",
-                "case3-title": "Conversión a CSV",
-                "case3-desc": "Convierte arrays JSON a CSV para análisis en hojas de cálculo.",
-                "case4-title": "Deduplicación de Datos",
-                "case4-desc": "Identifica y elimina registros duplicados en grandes conjuntos de datos.",
-                "faq": "Preguntas Frecuentes",
-                "faq-heading": "Preguntas Frecuentes",
-                "faq-desc": "Todo lo que necesitas saber sobre LocalJSON.",
-                "faq-q1": "¿Se envían mis datos a un servidor?",
-                "faq-a1": "No. Todo el procesamiento ocurre 100% en el lado del cliente en tu navegador.",
-                "faq-q2": "¿Funciona LocalJSON sin conexión?",
-                "faq-a2": "Sí. Una vez cargado, LocalJSON funciona completamente sin conexión. La Versión Pro Offline es un archivo HTML independiente que no requiere internet.",
-                "faq-q3": "¿Cuál es el límite del nivel gratuito?",
-                "faq-a3": "El nivel gratuito permite 3 acciones por día (formatear, mapear o exportar = 1 acción cada una). El contador se reinicia a medianoche hora local.",
-                "faq-q4": "¿Cómo actualizo a Pro?",
-                "faq-a4": "Compra una clave de licencia (formato: LJSON-PRO-XXXXXXXX) en nuestra tienda e ingrésala en la app. Pro desbloquea acciones ilimitadas permanentemente.",
-                "faq-q5": "¿Puedo convertir JSON a CSV?",
-                "faq-a5": "Sí. Mapea las columnas de tu array JSON y luego exporta a CSV (UTF-8 con BOM) para compatibilidad con Excel.",
-                "faq-q6": "¿Qué navegadores son compatibles?",
-                "faq-a6": "Cualquier navegador moderno con soporte para ES2020: Chrome 80+, Firefox 75+, Safari 14+, Edge 80+.",
-                "free-vs-pro": "Gratis vs Pro",
-                "free-vs-pro-heading": "Comparación Free vs Pro",
-                "free-vs-pro-desc": "Elige el plan que se adapta a tu flujo de trabajo.",
-                "pf1": "Formateo Básico",
-                "pf2": "Selección de Columnas",
-                "pf3": "Exportación CSV",
-                "pf4": "3 Acciones/Día",
-                "pf5": "Procesamiento de Registros Ilimitado",
-                "pf6": "Renombrado de Columnas en Línea",
-                "pf7": "Deduplicación con un Clic",
-                "pf8": "Tipo de Licencia",
-                "free-label": "Gratis para Siempre",
-                "pro-label": "De por Vida ($5)",
-                "footer-tagline": "Construido para freelancers, desarrolladores y analistas globales.",
-                "footer-text": "Construido para freelancers, desarrolladores y analistas globales.",
-                "footer-home": "Inicio",
-                "footer-how-it-works": "Cómo Funciona",
-                "footer-use-cases": "Casos de Uso",
-                "footer-faq": "Preguntas Frecuentes",
-                "footer-pricing": "Precios",
-                "footer-offline": "Versión Offline",
-                "footer-pro-docs": "Documentación Pro",
-                "modal-title": "Desbloquear LocalJSON Pro",
-                "modal-desc": "Escala tu flujo de trabajo con utilidades avanzadas del lado del cliente.",
-                "license-placeholder": "Pega la clave de licencia Pro aquí",
-                "activate-btn": "Activar Licencia",
-                "pro-btn": "★ Actualizar a Pro",
+        <script>
+        // Static Spanish page: the markup already carries the translations, so
+        // only the keys the inline script reads and the markup declares as
+        // attributes are kept; every other translation lives in the HTML itself.
+        window.I18N = {
+            "es": {
                 "pro-btn-active": "★ Pro Activo",
-                "badge-text": "100% Seguro en el Cliente",
-                "grid-heading": "3. Rejilla Interactiva",
-                "grid-heading-pipeline": "2. Pipeline de Esquema",
-                "grid-empty": "Aún no hay datos cargados. Pega tu array a la izquierda.",
-                "export-btn": "Exportar CSV Limpio",
-                "modal-feature-1": "Procesamiento Ilimitado de Registros",
-                "modal-feature-2": "Renombrado de Columnas en Línea",
-                "modal-feature-3": "Deduplicación con Un Clic",
-                "price-title": "Licencia De Por Vida",
-                "price-sub": "Paga una vez, usa para siempre",
-                "buy-btn": "Comprar Clave de Activación",
-                "buy-btn-href": "https://app.lava.top/products/299d1b1c-24ea-42ac-b654-f66afe5cbfb8",
-                "toast-pro": "🎉 ¡Pro activado! Acciones ilimitadas desbloqueadas.",
-                "toast-pro-invalid": "Formato de clave de licencia inválido. Usa LJSON-PRO-XXXXXXXXXXXX"
+                "meta-description": "Formatea, mapea y limpia datos JSON 100% en tu navegador. Centrado en la privacidad. Sin subidas, sin servidor. Nivel gratuito + Pro de por vida.",
+                "og-title": "LocalJSON — Herramienta JSON Centrada en la Privacidad",
+                "og-description": "Formatea, mapea y limpia datos JSON 100% en tu navegador. Sin subidas, sin servidor.",
+                "footer-offline-href": "LocalJSON_Pro_Offline_Version_es.html",
+                "footer-pro-docs-href": "LocalJSON_Pro_Documentation_and_License_Key_es.html",
+                "license-placeholder": "Pega la clave de licencia Pro aquí",
+                "buy-btn-href": "https://app.lava.top/products/299d1b1c-24ea-42ac-b654-f66afe5cbfb8"
             }
         };
-        window.I18N = I18N;
     </script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -684,8 +523,8 @@
             <a href="#use-cases" data-i18n="footer-use-cases" style="color: #6366f1;">Casos de Uso</a> · 
             <a href="#faq" data-i18n="footer-faq" style="color: #6366f1;">Preguntas Frecuentes</a> · 
             <a href="#free-vs-pro" data-i18n="footer-pricing" style="color: #6366f1;">Precios</a> ·
-            <a href="LocalJSON_Pro_Offline_Version.html" data-i18n="footer-offline" style="color: #6366f1;">Versión Offline</a> ·
-            <a href="LocalJSON_Pro_Documentation_and_License_Key.html" data-i18n="footer-pro-docs" style="color: #6366f1;">Documentación Pro</a>
+            <a href="LocalJSON_Pro_Offline_Version_es.html" data-i18n="footer-offline" data-i18n-attr="footer-offline-href:href" style="color: #6366f1;">Versión Offline</a> ·
+            <a href="LocalJSON_Pro_Documentation_and_License_Key_es.html" data-i18n="footer-pro-docs" data-i18n-attr="footer-pro-docs-href:href" style="color: #6366f1;">Documentación Pro</a>
         </p>
     </footer>
 

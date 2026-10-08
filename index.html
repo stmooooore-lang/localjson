@@ -13,9 +13,9 @@
     <meta charset="UTF-8">
     <meta name="google-site-verification" content="10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LocalJSON — 100% client-side, privacy-first JSON mapper, formatter & CSV converter. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline. Free tier: 3 actions/day.">
+    <meta name="description" content="Format, map, and clean JSON data 100% in your browser. Privacy-first. No uploads, no server. Free tier + Pro lifetime." data-i18n-attr="meta-description:content">
     <meta name="keywords" content="json mapper, json formatter online, json to csv converter, json viewer, offline json viewer, client side json tool, private json editor, b2b json data cleaner, json data mapping tool, api response formatter">
-    <title>LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First</title>
+    <title data-i18n="meta-title">LocalJSON — Client-Side JSON Formatter, Mapper & CSV Converter</title>
     <link rel="canonical" href="https://localjson-black.vercel.app/">
     <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/">
     <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/es/">
@@ -25,15 +25,15 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://localjson-black.vercel.app/">
-    <meta property="og:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter | Privacy-First">
-    <meta property="og:description" content="100% client-side JSON utility for developers & analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads. Works offline.">
+    <meta property="og:title" content="LocalJSON — Privacy-First JSON Tool" data-i18n-attr="og-title:content">
+    <meta property="og:description" content="Format, map, and clean JSON data 100% in your browser. No uploads, no server." data-i18n-attr="og-description:content">
     <meta property="og:image" content="https://localjson-black.vercel.app/1.jpg">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://localjson-black.vercel.app/">
-    <meta name="twitter:title" content="LocalJSON — Offline JSON Mapper, Formatter & CSV Converter">
-    <meta name="twitter:description" content="Privacy-first JSON tool for developers. Format, map, export CSV — all client-side, zero server uploads. Free tier available.">
+    <meta name="twitter:title" content="LocalJSON — Privacy-First JSON Tool" data-i18n-attr="og-title:content">
+    <meta name="twitter:description" content="Format, map, and clean JSON data 100% in your browser. No uploads, no server." data-i18n-attr="og-description:content">
     <meta name="twitter:image" content="https://localjson-black.vercel.app/1.jpg">
     
     <!-- JSON-LD Schema.org: SoftwareApplication + Product + FAQ -->
@@ -144,6 +144,10 @@
         // I18N object loaded inline in <head> before first paint (prevents FOUC)
         const I18N = {
             en: {
+                "meta-title": "LocalJSON — Client-Side JSON Formatter, Mapper & CSV Converter",
+                "meta-description": "Format, map, and clean JSON data 100% in your browser. Privacy-first. No uploads, no server. Free tier + Pro lifetime.",
+                "og-title": "LocalJSON — Privacy-First JSON Tool",
+                "og-description": "Format, map, and clean JSON data 100% in your browser. No uploads, no server.",
                 "header-subtitle": "Offline JSON Mapper, Formatter & CSV Converter",
                 "input-heading": "1. Input Dataset",
                 "input-tag": "JSON Array",
@@ -208,6 +212,8 @@
                 "footer-pricing": "Pricing",
                 "footer-offline": "Offline Version",
                 "footer-pro-docs": "Pro Docs",
+                "footer-offline-href": "LocalJSON_Pro_Offline_Version.html",
+                "footer-pro-docs-href": "LocalJSON_Pro_Documentation_and_License_Key.html",
                 "modal-title": "Unlock LocalJSON Pro",
                 "modal-desc": "Scale your workflow with advanced client-side utilities.",
                 "license-placeholder": "Paste Pro License Key here",
@@ -230,6 +236,10 @@
                 "toast-pro-invalid": "Invalid license key format. Use LJSON-PRO-XXXXXXXXXXXX"
             },
             es: {
+                "meta-title": "LocalJSON — Formateador, Mapeador y Convertidor JSON del Lado del Cliente",
+                "meta-description": "Formatea, mapea y limpia datos JSON 100% en tu navegador. Centrado en la privacidad. Sin subidas, sin servidor. Nivel gratuito + Pro de por vida.",
+                "og-title": "LocalJSON — Herramienta JSON Centrada en la Privacidad",
+                "og-description": "Formatea, mapea y limpia datos JSON 100% en tu navegador. Sin subidas, sin servidor.",
                 "header-subtitle": "Mapeador JSON sin conexión, Formateador y Convertidor CSV",
                 "input-heading": "1. Conjunto de datos de entrada",
                 "input-tag": "Array JSON",
@@ -294,6 +304,8 @@
                 "footer-pricing": "Precios",
                 "footer-offline": "Versión Offline",
                 "footer-pro-docs": "Documentación Pro",
+                "footer-offline-href": "LocalJSON_Pro_Offline_Version_es.html",
+                "footer-pro-docs-href": "LocalJSON_Pro_Documentation_and_License_Key_es.html",
                 "modal-title": "Desbloquear LocalJSON Pro",
                 "modal-desc": "Escala tu flujo de trabajo con utilidades avanzadas del lado del cliente.",
                 "license-placeholder": "Pega la clave de licencia Pro aquí",
@@ -723,8 +735,8 @@
             <a href="#use-cases" data-i18n="footer-use-cases" style="color: #6366f1;">Use Cases</a> · 
             <a href="#faq" data-i18n="footer-faq" style="color: #6366f1;">FAQ</a> · 
             <a href="#free-vs-pro" data-i18n="footer-pricing" style="color: #6366f1;">Pricing</a> ·
-            <a href="LocalJSON_Pro_Offline_Version.html" data-i18n="footer-offline" style="color: #6366f1;">Offline Version</a> ·
-            <a href="LocalJSON_Pro_Documentation_and_License_Key.html" data-i18n="footer-pro-docs" style="color: #6366f1;">Pro Docs</a>
+            <a href="LocalJSON_Pro_Offline_Version.html" data-i18n="footer-offline" data-i18n-attr="footer-offline-href:href" style="color: #6366f1;">Offline Version</a> ·
+            <a href="LocalJSON_Pro_Documentation_and_License_Key.html" data-i18n="footer-pro-docs" data-i18n-attr="footer-pro-docs-href:href" style="color: #6366f1;">Pro Docs</a>
         </p>
     </footer>
 

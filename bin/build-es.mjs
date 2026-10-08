@@ -98,7 +98,7 @@ function replaceOnce(html, re, replacement, label) {
 
 /* --------------------------------------------------------- I18N extraction */
 
-function extractEsDict(html) {
+function extractDicts(html) {
   const blocks = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map((m) => m[1]);
   const block = blocks.find((code) => /\bI18N\s*=/.test(code));
   if (!block) fail('I18N block not found in index.html');
@@ -112,9 +112,10 @@ function extractEsDict(html) {
     fail(`could not evaluate the I18N script block: ${err.message}`);
   }
 
-  const es = sandbox.window && sandbox.window.I18N && sandbox.window.I18N.es;
-  if (!es) fail('window.I18N.es not found in index.html (ES dictionary is missing)');
-  return es;
+  const i18n = sandbox.window && sandbox.window.I18N;
+  if (!i18n || !i18n.es) fail('window.I18N.es not found in index.html (ES dictionary is missing)');
+  if (!i18n.en) warn('window.I18N.en not found — the English-leftover self-check will be limited');
+  return { es: i18n.es, en: i18n.en || {} };
 }
 
 /* ---------------------------------------------------------------- transforms */
@@ -220,6 +221,63 @@ function removeScriptBlocks(html, predicate, label) {
   return html;
 }
 
+/**
+ * Shrink the inline I18N dictionary down to the keys this static page still needs.
+ *
+ * The page is static Spanish once this generator is done, so the full EN+ES
+ * dictionary is dead weight — and worse, it puts English strings (the EN title,
+ * the EN documentation links) back into a Spanish page that the SEO checks then
+ * read as leftovers. Two sets survive:
+ *
+ *   1. keys the surviving inline script actually looks up at runtime, and
+ *   2. keys the markup itself declares through data-i18n-attr,
+ *
+ * so the page stays self-describing for anything that re-applies translations
+ * later. Everything referenced only by a baked data-i18n text is dropped: those
+ * strings are already in the markup, and keeping them would leave a second copy
+ * of the Spanish <title> in the file.
+ */
+function minimiseInlineDict(html, dict) {
+  const referenced = new Set();
+
+  const lookup = /window\.I18N\s*\[[^\]]*\]\s*\[\s*['"]([^'"]+)['"]\s*\]/g;
+  let m;
+  while ((m = lookup.exec(html)) !== null) referenced.add(m[1]);
+
+  const declared = /data-i18n-attr="([^"]*)"/g;
+  while ((m = declared.exec(html)) !== null) {
+    for (const pair of m[1].split(',')) {
+      const key = (pair.split(':')[0] || '').trim();
+      if (key) referenced.add(key);
+    }
+  }
+
+  const keep = {};
+  for (const key of referenced) {
+    if (typeof dict[key] === 'string') {
+      keep[key] = dict[key];
+    } else {
+      warn(`the ES page references "${key}", which has no ES value — it will be undefined`);
+    }
+  }
+
+  const re = /<script\b[^>]*>[\s\S]*?<\/script>/gi;
+  const block = [...html.matchAll(re)].find((b) => /const\s+I18N\s*=/.test(b[0]));
+  if (!block) fail('cannot find the inline I18N dictionary in the generated page');
+
+  const body = JSON.stringify({ es: keep }, null, 4).replace(/\n/g, '\n        ');
+  const replacement =
+    '    <script>\n' +
+    '        // Static Spanish page: the markup already carries the translations, so\n' +
+    '        // only the keys the inline script reads and the markup declares as\n' +
+    '        // attributes are kept; every other translation lives in the HTML itself.\n' +
+    `        window.I18N = ${body};\n` +
+    '    </script>';
+
+  note(`inline dictionary reduced from ${Object.keys(dict).length} keys to ${Object.keys(keep).length} (${Object.keys(keep).join(', ') || 'none'})`);
+  return html.slice(0, block.index) + replacement + html.slice(block.index + block[0].length);
+}
+
 /* --------------------------------------------------------------------- main */
 
 function build() {
@@ -227,7 +285,7 @@ function build() {
   let html = fs.readFileSync(SRC_PATH, 'utf8');
   const before = html.length;
 
-  const dict = extractEsDict(html);
+  const { es: dict, en: enDict } = extractDicts(html);
 
   // 1-5. Bake the Spanish dictionary into the static markup.
   const elements = translateElements(html, dict);
@@ -297,7 +355,10 @@ function build() {
     'the language click handler block'
   );
 
-  // 12. provenance banner (after the doctype, so the doctype stays first)
+  // 12. shrink the inline dictionary to what the surviving script actually reads
+  html = minimiseInlineDict(html, dict);
+
+  // 13. provenance banner (after the doctype, so the doctype stays first)
   html = replaceOnce(html, /<!DOCTYPE html>\n/, `<!DOCTYPE html>\n${BANNER}\n`, 'the doctype');
 
   // ---- self-check: never write a page that is still half-English in the head ----
@@ -316,6 +377,19 @@ function build() {
   if (/window\.applyLang/.test(html)) problems.push('window.applyLang is still referenced but its definition was removed');
   if (/window\.I18N\[document\.documentElement\.lang/.test(html) === false && /checkProStatus/.test(html)) {
     warn('checkProStatus no longer reads window.I18N — check the Pro button label manually');
+  }
+  const bareI18N = html.replace(/window\.I18N/g, '').match(/.{0,60}\bI18N\b.{0,60}/s);
+  if (bareI18N) {
+    problems.push(`a bare I18N identifier survived while the dictionary is no longer declared: …${bareI18N[0].trim()}…`);
+  }
+
+  // No English leftovers: the ES page must not carry the EN head strings or the
+  // EN documentation links anywhere, dictionary included.
+  for (const key of ['meta-title', 'meta-description', 'og-title', 'og-description', 'footer-offline-href', 'footer-pro-docs-href']) {
+    const en = enDict[key];
+    if (typeof en === 'string' && html.includes(en)) {
+      problems.push(`the English value of "${key}" is still present in the Spanish page`);
+    }
   }
   if (problems.length) fail(`self-check failed: ${problems.join('; ')}`);
 
