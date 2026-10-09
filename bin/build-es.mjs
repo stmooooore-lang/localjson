@@ -332,6 +332,24 @@ function build() {
     'the og:url meta tag'
   );
 
+  // 9b. twitter:url -> /es/. It is a separate tag from og:url, so replacing one
+  //     left the Spanish page advertising the English URL as its twitter:url.
+  html = replaceOnce(
+    html,
+    /(<meta name="twitter:url" content=")[^"]*(")/,
+    (_m, p1, p2) => p1 + ES_URL + p2,
+    'the twitter:url meta tag'
+  );
+
+  // 9c. the footer home link points at the English root in index.html; on the
+  //     Spanish page "Inicio" has to stay inside /es/.
+  html = replaceOnce(
+    html,
+    /<a href="(?:https:\/\/localjson-black\.vercel\.app)?\/" data-i18n="footer-home"/,
+    '<a href="/es/" data-i18n="footer-home"',
+    'the footer home link'
+  );
+
   // 10. the language switch becomes two plain links (no JS, crawlable)
   html = replaceOnce(
     html,

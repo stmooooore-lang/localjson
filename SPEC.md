@@ -239,7 +239,9 @@ File Inventory:
 
 **Языки:** EN (default) + ES на отдельном URL /es/.
 - /es/index.html генерируется скриптом bin/build-es.mjs из index.html + ES-словарь.
-- Переключатель в шапке: ссылки на / и /es/ (не JS-переключение).
+- На `/es/` переключатель в шапке — это ссылки на `/` и `/es/` (не JS).
+- На `/` переключатель по-прежнему JS-кнопки с `?lang=`, их наличие
+  требуется `acceptance/final-polish-check.mjs`.
 - ?lang=es остаётся работающим, но не ранжируется (canonical на /).
 
 **Монетизация:** Lava.top, $5 USD lifetime.
