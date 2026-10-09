@@ -96,6 +96,49 @@ function replaceOnce(html, re, replacement, label) {
   return html.replace(re, replacement);
 }
 
+/* ------------------------------------------------------------ JSON-LD block */
+
+/**
+ * The application/ld+json block is structured data, not markup, so data-i18n
+ * cannot reach it and its strings are replaced directly — inside that block
+ * only.
+ *
+ * `replaceOnce` is not usable here: it takes a non-global regex, so it replaces
+ * the first hit and says nothing about the rest, and the block holds the very
+ * same literal twice (SoftwareApplication.url and the Product offer url). Half a
+ * replacement would leave English microdata on the Spanish page and no one would
+ * notice, which is the failure this function exists to prevent.
+ *
+ * Every pair must therefore match exactly once. Pairs are [from, to, label];
+ * `from` may be a string (compared and replaced literally) or a regexp whose
+ * captures the replacement can use.
+ */
+function translateJsonLd(html, pairs) {
+  const opening = '<script type="application/ld+json"';
+  const start = html.indexOf(opening);
+  if (start === -1) fail('the application/ld+json script tag is missing from index.html');
+  const end = html.indexOf('</script>', start);
+  if (end === -1) fail('the application/ld+json script block is never closed in index.html');
+
+  const global = (re) => new RegExp(re.source, re.flags.includes('g') ? re.flags : `${re.flags}g`);
+
+  let block = html.slice(start, end);
+  for (const [from, to, label] of pairs) {
+    const pattern = from instanceof RegExp;
+    const hits = pattern
+      ? (block.match(global(from)) || []).length
+      : block.split(from).length - 1;
+    if (hits !== 1) {
+      fail(
+        `JSON-LD ${label}: expected exactly one occurrence, found ${hits}` +
+          ' — source changed, refusing to write a partially translated page'
+      );
+    }
+    block = pattern ? block.replace(global(from), to) : block.split(from).join(to);
+  }
+  return html.slice(0, start) + block + html.slice(end);
+}
+
 /* --------------------------------------------------------- I18N extraction */
 
 function extractDicts(html) {
@@ -350,6 +393,71 @@ function build() {
     'the footer home link'
   );
 
+  // 9d. JSON-LD (structured data) on /es/. The block is JSON, not markup, so the
+  //     i18n layer cannot reach it: the text is replaced directly, by pair, and
+  //     every pair must be found exactly once.
+  //
+  //     Translated: what Google puts in front of a user — the two descriptions,
+  //     the feature list, and the FAQ (rich results show it, and Google wants the
+  //     markup to agree with the page). Left alone: @context, @type, schema.org
+  //     vocabulary, prices, the sku, and the screenshot URL, which points at a
+  //     real asset in the site root.
+  //
+  //     The FAQ pairs are taken from the dictionaries instead of being written
+  //     out again, so the microdata cannot drift from the FAQ the page shows.
+  const appDescriptionEn =
+    '100% client-side, privacy-first JSON utility for formatting, mapping, and cleaning sensitive B2B data arrays in the browser. Zero server uploads.';
+  const appDescriptionEs =
+    'Utilidad JSON 100% en el navegador y centrada en la privacidad, para formatear, mapear y limpiar arrays de datos B2B sensibles. Cero subidas al servidor.';
+  const productDescriptionEn =
+    'Unlimited actions, lifetime license, offline version included. One-time purchase.';
+  const productDescriptionEs =
+    'Acciones ilimitadas, licencia de por vida, versión offline incluida. Pago único.';
+  const jsonLdPairs = [
+    [
+      `"description": ${JSON.stringify(appDescriptionEn)}`,
+      `"description": ${JSON.stringify(appDescriptionEs)}`,
+      'the SoftwareApplication description',
+    ],
+    [
+      `"description": ${JSON.stringify(productDescriptionEn)}`,
+      `"description": ${JSON.stringify(productDescriptionEs)}`,
+      'the Product description',
+    ],
+    // Both "url" fields hold the same literal; each is anchored to its own node
+    // so that neither can be skipped.
+    [
+      /("@type": "SoftwareApplication"[\s\S]*?"url": ")https:\/\/localjson-black\.vercel\.app\//,
+      (_m, p1) => p1 + ES_URL,
+      'the SoftwareApplication url',
+    ],
+    [
+      /("@type": "Product"[\s\S]*?"url": ")https:\/\/localjson-black\.vercel\.app\//,
+      (_m, p1) => p1 + ES_URL,
+      'the Product offer url',
+    ],
+  ];
+  const featureList = [
+    ['JSON Formatter & Beautifier', 'Formateador y Embellecedor JSON'],
+    ['JSON to CSV Converter', 'Convertidor de JSON a CSV'],
+    ['Column Mapping for B2B Data', 'Mapeo de Columnas para Datos B2B'],
+    ['Offline Mode', 'Modo Offline'],
+    ['Privacy-First (No Server Uploads)', 'Privacidad Primero (Sin Subidas al Servidor)'],
+    ['Large Array Handling', 'Manejo de Arrays Grandes'],
+  ];
+  for (const [en, es] of featureList) {
+    jsonLdPairs.push([JSON.stringify(en), JSON.stringify(es), `the featureList item ${JSON.stringify(en)}`]);
+  }
+  for (let i = 1; i <= 6; i += 1) {
+    for (const key of [`faq-q${i}`, `faq-a${i}`]) {
+      if (typeof enDict[key] !== 'string' || typeof dict[key] !== 'string') {
+        fail(`the JSON-LD FAQ needs "${key}" in both dictionaries`);
+      }
+      jsonLdPairs.push([JSON.stringify(enDict[key]), JSON.stringify(dict[key]), `the JSON-LD "${key}" text`]);
+    }
+  }
+  html = translateJsonLd(html, jsonLdPairs);
+
   // 10. the language switch becomes two plain links (no JS, crawlable)
   html = replaceOnce(
     html,
@@ -407,6 +515,15 @@ function build() {
     const en = enDict[key];
     if (typeof en === 'string' && html.includes(en)) {
       problems.push(`the English value of "${key}" is still present in the Spanish page`);
+    }
+  }
+
+  // The JSON-LD strings are replaced by literal, so a pair that quietly stopped
+  // matching would leave English microdata behind invisibly. Each pair is
+  // re-checked against the finished page.
+  for (const [from, , label] of jsonLdPairs) {
+    if (typeof from === 'string' && html.includes(from)) {
+      problems.push(`${label}: the English JSON-LD string is still present in the Spanish page`);
     }
   }
   if (problems.length) fail(`self-check failed: ${problems.join('; ')}`);
