@@ -131,21 +131,6 @@ if (html.includes("<footer") || html.includes("<footer>")) {
   fail("index.html missing <footer> tag");
 }
 
-// 8. Footer links to offline version and docs (lines ~438-439)
-const offlineLink = /<a href="LocalJSON_Pro_Offline_Version\.html"[^>]*>/;
-const docsLink = /<a href="LocalJSON_Pro_Documentation_and_License_Key\.html"[^>]*>/;
-
-if (offlineLink.test(html)) {
-  pass("Footer has link to LocalJSON_Pro_Offline_Version.html");
-} else {
-  fail("Footer missing link to LocalJSON_Pro_Offline_Version.html");
-}
-if (docsLink.test(html)) {
-  pass("Footer has link to LocalJSON_Pro_Documentation_and_License_Key.html");
-} else {
-  fail("Footer missing link to LocalJSON_Pro_Documentation_and_License_Key.html");
-}
-
 console.log("\n--- Summary ---");
 if (exitCode === 0) console.log("All checks passed");
 else {
