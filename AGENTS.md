@@ -224,4 +224,21 @@ Rules:
 - What to hand over instead of a push: `git log --oneline -3`,
   `git status --short`, the acceptance output, `git show <sha> -- <file>`.
 
+## Founder gate for blog content
+
+The founder gate applies to infrastructure: the blog pipeline
+(`bin/build-blog.mjs`, `blog/template.html`, `acceptance/blog-check.mjs`)
+requires written founder acceptance once, before the pipeline is
+enabled. After that, articles produced through the pipeline are
+pre-approved by the pipeline's own acceptance criteria
+(`acceptance/blog-check.mjs`) and do not require per-article founder
+sign-off.
+
+An article that fails `blog-check.mjs` twice in a row escalates to the
+founder. An article that passed and is published can be unpublished by
+founder decision — delete the directory, rebuild sitemap, commit.
+
+The founder's acceptance of this pipeline is recorded in
+`DECISIONS.md`.
+
 <!-- /lane -->
