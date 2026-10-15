@@ -242,3 +242,37 @@ The founder's acceptance of this pipeline is recorded in
 `DECISIONS.md`.
 
 <!-- /lane -->
+
+## Working state — START-HERE.md
+
+`START-HERE.md` is the canonical working-state file of this project. It is
+rewritten, never appended. History lives in `git log -- START-HERE.md`.
+
+**Reading.** Read it once, at conversation start, before your first task. Do
+not re-read it for every subsequent task in the same conversation. Re-read
+only when (a) a task brief contradicts a fact in START-HERE — then stop and
+report the contradiction, or (b) the founder says «обнови контекст».
+
+**«обнови контекст» — the merge.** When the founder pastes one or more chat
+digests and says this, merge **all** of them into START-HERE in one pass:
+- The output is the union, not the last digest. Current content stays unless
+  a digest or the repo contradicts it.
+- Overlapping content is rewritten to a single current version, not
+  accumulated. Two paragraphs about one subject is the defect.
+- `Decided` / `Rejected` / `Open questions` lines from a digest are never
+  dropped.
+- "Drop what the repo does not confirm" applies only to claims about repo
+  state ("fix applied", "committed", "deployed"). An unconfirmed claim is
+  marked unverified, not deleted, and the command that would settle it is
+  named.
+- Contradictions between digests, or between a digest and the repo, are
+  named explicitly. Do not silently pick a winner.
+
+Update the date line, add `Folded:` listing every digest merged in this
+pass, commit only this file:
+
+    docs(start-here): <what changed>
+
+    Chat-Source: <project> <date> <label>[, <label>, …]
+
+Commit locally. Never push — the push barrier is the owner's.
