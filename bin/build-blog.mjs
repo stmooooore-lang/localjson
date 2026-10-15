@@ -12,6 +12,7 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -19,6 +20,8 @@ const POSTS_DIR = path.join(ROOT, 'blog', 'posts');
 const TEMPLATE_PATH = path.join(ROOT, 'blog', 'template.html');
 const BLOG_DIR = path.join(ROOT, 'blog');
 const SITEMAP_PATH = path.join(ROOT, 'sitemap.xml');
+const ASSETS_DIR = path.join(ROOT, 'blog', 'assets');
+const SCREENSHOT_SCRIPT = path.join(ROOT, 'bin', 'make-screenshot.mjs');
 
 const ORIGIN = 'https://localjson-black.vercel.app';
 const BLOG_URL = `${ORIGIN}/blog/`;
@@ -433,6 +436,87 @@ function generateBlogIndex(posts, template) {
     return indexTemplate;
 }
 
+/* ------------------------------------------------------------------ screenshots */
+
+// Legacy alias: an early draft used {{SCREENSHOT_SCHEMA}}; it now maps to the
+// unified {{SCREENSHOT:schema}} syntax.
+function normalizeScreenshotTokens(markdown) {
+    return markdown.replace(/\{\{SCREENSHOT_SCHEMA\}\}/g, '{{SCREENSHOT:schema}}');
+}
+
+const SCREENSHOT_RE = /\{\{SCREENSHOT:([a-z0-9-]+)\}\}/g;
+
+function findScreenshotNames(text) {
+    const names = [];
+    for (const m of text.matchAll(SCREENSHOT_RE)) {
+        if (!names.includes(m[1])) names.push(m[1]);
+    }
+    return names;
+}
+
+function escapeAttr(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
+// Generate blog/assets/<name>.png on demand (at most once per name per build).
+function ensureScreenshot(name, slug) {
+    const pngPath = path.join(ASSETS_DIR, `${name}.png`);
+    if (fs.existsSync(pngPath)) return true;
+
+    info(`screenshot "${name}" missing — generating via bin/make-screenshot.mjs`);
+    try {
+        execFileSync(process.execPath, [SCREENSHOT_SCRIPT, name], { cwd: ROOT, stdio: 'inherit' });
+    } catch (err) {
+        warn(`screenshot "${name}" for post "${slug}" failed to generate (${String(err.message).split('\n')[0]}) — placeholder left as-is`);
+        return false;
+    }
+
+    if (!fs.existsSync(pngPath)) {
+        warn(`screenshot "${name}" for post "${slug}" was not created — placeholder left as-is`);
+        return false;
+    }
+    return true;
+}
+
+// alt: frontmatter override, else the nearest preceding <h2>, else the post title.
+function screenshotAlt(html, offset, fm) {
+    const fromFm = fm['screenshot-alt'] || fm['screenshot_alt'];
+    if (fromFm) return String(fromFm);
+
+    const preceding = html.slice(0, offset);
+    const h2s = [...preceding.matchAll(/<h2>([\s\S]*?)<\/h2>/g)];
+    if (h2s.length > 0) {
+        const text = h2s[h2s.length - 1][1].replace(/<[^>]+>/g, '').trim();
+        if (text) return text;
+    }
+    return fm.title;
+}
+
+function applyScreenshots(html, fm, slug) {
+    const names = findScreenshotNames(html);
+    if (names.length === 0) return html;
+
+    const available = new Map();
+    for (const name of names) available.set(name, ensureScreenshot(name, slug));
+
+    const imgTag = (name, offset) =>
+        `<img src="/blog/assets/${name}.png" alt="${escapeAttr(screenshotAlt(html, offset, fm))}">`;
+
+    // A placeholder alone in its own paragraph becomes a bare <img>.
+    let out = html.replace(/<p>\s*\{\{SCREENSHOT:([a-z0-9-]+)\}\}\s*<\/p>/g, (match, name, offset) =>
+        available.get(name) ? imgTag(name, offset) : match);
+
+    // Any remaining inline placeholder is replaced in place.
+    out = out.replace(SCREENSHOT_RE, (match, name, offset) =>
+        available.get(name) ? imgTag(name, offset) : match);
+
+    return out;
+}
+
 /* ------------------------------------------------------------------ main */
 
 function build() {
@@ -476,8 +560,13 @@ function build() {
             fail(`invalid slug "${slug}" in ${file} — must be lowercase, hyphens only`);
         }
 
-        // Convert Markdown to HTML
-        const bodyHtml = markdownToHtml(body, slugMap);
+        // Convert Markdown to HTML, then resolve {{SCREENSHOT:name}} placeholders
+        // (missing PNGs are generated on demand by bin/make-screenshot.mjs).
+        const bodyHtml = applyScreenshots(
+            markdownToHtml(normalizeScreenshotTokens(body), slugMap),
+            frontmatter,
+            slug
+        );
 
         // Count internal links
         const internalLinkCount = (body.match(/\[\[[^\]]+\]\]/g) || []).length;

@@ -36,7 +36,7 @@ The built-in parser handles:
 - Bold: `**text**`
 - Italic: `*text*`
 - Links: `[text](url)`
-- Images: `![alt](/path/to/image.png)`
+- Images: use the screenshot placeholder (see "Screenshots" below)
 - Blockquotes: `> quote`
 - Horizontal rule: `---`
 
@@ -85,9 +85,50 @@ Running `node bin/build-blog.mjs` produces:
 9. Slug matches folder name
 10. No duplicate slugs
 
-## Adding Images
+## Screenshots
 
-Place images in `blog/assets/` and reference them as `/blog/assets/image.png` in Markdown.
+Use the `{{SCREENSHOT:name}}` placeholder to embed a screenshot of the live
+LocalJSON app. Put it on its own line:
+
+```markdown
+## Where the data lands
+
+{{SCREENSHOT:schema}}
+
+The figure above shows the analyzed grid.
+```
+
+How it resolves:
+
+1. If `blog/assets/<name>.png` exists, it is embedded right away.
+2. Otherwise the generator runs `bin/make-screenshot.mjs <name>` once: headless
+   Chromium (Playwright) opens the production site, pastes a small test dataset,
+   clicks "Analyze Data Structure", waits for the results grid and captures a
+   1440x900 viewport screenshot.
+3. If generation fails, a WARN is printed and the placeholder is left untouched —
+   the build still succeeds.
+
+The emitted tag is:
+
+```html
+<img src="/blog/assets/<name>.png" alt="...">
+```
+
+`alt` comes from `screenshot-alt` in the frontmatter, else from the nearest
+preceding `## heading`, else from the article title. A placeholder alone in its
+own paragraph is replaced by a bare `<img>` (no wrapping `<p>`).
+
+`{{SCREENSHOT_SCHEMA}}` is a legacy alias for `{{SCREENSHOT:schema}}`.
+
+Generate or refresh a screenshot by hand:
+
+```bash
+node bin/make-screenshot.mjs schema   # writes blog/assets/schema.png
+node bin/make-screenshot.mjs          # writes blog/assets/screenshot-default.png
+```
+
+Playwright is a devDependency: `npm install` plus `npx playwright install chromium`.
+Generated PNGs in `blog/assets/` are committed — CI does not need a browser.
 
 ## Rebuilding
 
