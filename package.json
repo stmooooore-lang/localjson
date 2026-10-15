@@ -1,0 +1,24 @@
+{
+  "name": "localjson",
+  "version": "1.0.0",
+  "description": "",
+  "main": "check_i18n.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stmooooore-lang/localjson.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/stmooooore-lang/localjson/issues"
+  },
+  "homepage": "https://github.com/stmooooore-lang/localjson#readme",
+  "devDependencies": {
+    "playwright": "1.54"
+  }
+}
