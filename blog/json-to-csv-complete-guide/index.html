@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZV5DKDT69T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZV5DKDT69T');
+</script>
+    <meta charset="UTF-8">
+    <meta name="google-site-verification" content="10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM" />
+    <meta name="msvalidate.01" content="5A92DE55C5FCDDF2E4109607C32B446A" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Three practical ways to convert JSON to CSV — in Excel, with Python, or in the browser. Handles nested JSON, large files, and unicode correctly.">
+    <meta name="keywords" content="json to csv, convert json to csv, json to excel">
+    <title>JSON to CSV: The Complete Guide (Excel, Python, APIs) | LocalJSON Blog</title>
+    <link rel="canonical" href="https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/">
+    <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/">
+    <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/es/" />
+    <link rel="alternate" hreflang="x-default" href="https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/">
+    <meta property="og:title" content="JSON to CSV: The Complete Guide (Excel, Python, APIs)">
+    <meta property="og:description" content="Three practical ways to convert JSON to CSV — in Excel, with Python, or in the browser. Handles nested JSON, large files, and unicode correctly.">
+    <meta property="og:image" content="https://localjson-black.vercel.app/1.jpg">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/">
+    <meta name="twitter:title" content="JSON to CSV: The Complete Guide (Excel, Python, APIs)">
+    <meta name="twitter:description" content="Three practical ways to convert JSON to CSV — in Excel, with Python, or in the browser. Handles nested JSON, large files, and unicode correctly.">
+    <meta name="twitter:image" content="https://localjson-black.vercel.app/1.jpg">
+
+    <!-- JSON-LD Article -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JSON to CSV: The Complete Guide (Excel, Python, APIs)",
+  "description": "Three practical ways to convert JSON to CSV — in Excel, with Python, or in the browser. Handles nested JSON, large files, and unicode correctly.",
+  "datePublished": "2026-10-16",
+  "author": {
+    "@type": "Person",
+    "name": "LocalJSON"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "LocalJSON",
+    "url": "https://localjson-black.vercel.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/"
+  },
+  "keywords": "json to csv, convert json to csv, json to excel"
+}
+    </script>
+
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f172a;
+            --bg-elevated: #1e293b;
+            --fg: #f1f5f9;
+            --fg-muted: #94a3b8;
+            --accent: #22d3ee;
+            --accent-hover: #06b6d4;
+            --amber: #fbbf24;
+            --amber-hover: #f59e0b;
+            --border: #334155;
+            --card: #1e293b;
+            --code-bg: #0f172a;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { color: var(--accent-hover); }
+        header { background: var(--bg-elevated); border-bottom: 1px solid var(--border); padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 1.25rem; color: var(--fg); }
+        .logo svg { width: 32px; height: 32px; color: var(--accent); }
+        .lang-switch { display: flex; gap: 0.5rem; }
+        .lang-btn { background: transparent; border: 1px solid var(--border); color: var(--fg-muted); padding: 0.375rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.875rem; transition: all 0.2s; }
+        .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .lang-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+        main { flex: 1; max-width: 800px; width: 100%; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumbs { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--fg-muted); margin-bottom: 1.5rem; }
+        .breadcrumbs a { color: var(--fg-muted); }
+        .breadcrumbs a:hover { color: var(--accent); }
+        .breadcrumbs span { color: var(--border); }
+        .back-link { display: inline-flex; align-items: center; gap: 0.375rem; color: var(--accent); font-size: 0.875rem; margin-bottom: 1.5rem; }
+        .back-link:hover { color: var(--accent-hover); }
+        article { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 2.5rem; }
+        article h1 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; color: var(--fg); line-height: 1.3; }
+        .article-meta { display: flex; align-items: center; gap: 1.5rem; font-size: 0.875rem; color: var(--fg-muted); margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .article-meta time { white-space: nowrap; }
+        .article-meta .cluster { background: var(--bg); padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid var(--border); }
+        .article-body { font-size: 1.0625rem; line-height: 1.8; }
+        .article-body h2 { font-size: 1.5rem; font-weight: 600; margin: 2.5rem 0 1rem; color: var(--fg); }
+        .article-body h3 { font-size: 1.25rem; font-weight: 600; margin: 2rem 0 0.75rem; color: var(--fg); }
+        .article-body p { margin-bottom: 1.25rem; }
+        .article-body ul, .article-body ol { margin: 1rem 0 1rem 1.5rem; }
+        .article-body li { margin-bottom: 0.5rem; }
+        .article-body code { background: var(--code-bg); padding: 0.125rem 0.375rem; border-radius: 4px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9em; color: var(--accent); }
+        .article-body pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; overflow-x: auto; margin: 1.5rem 0; }
+        .article-body pre code { background: none; padding: 0; color: var(--fg); font-size: 0.875rem; line-height: 1.7; }
+        .article-body strong { font-weight: 600; }
+        .article-body em { font-style: italic; }
+        .article-body blockquote { border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1.5rem 0; color: var(--fg-muted); font-style: italic; }
+        .article-body img { max-width: 100%; border-radius: 8px; margin: 1.5rem 0; }
+        .article-body a { border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        .article-body a:hover { border-color: var(--accent); }
+        footer { background: var(--bg-elevated); border-top: 1px solid var(--border); padding: 2rem; margin-top: auto; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; }
+        .footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--fg-muted); font-size: 0.875rem; }
+        .footer-links a:hover { color: var(--accent); }
+        .copyright { color: var(--fg-muted); font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <a href="/" class="logo" aria-label="LocalJSON — Home">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                    <rect x="8" y="8" width="8" height="8" rx="1"></rect>
+                </svg>
+                LocalJSON
+            </a>
+            <div class="lang-switch">
+                <button class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+                <button class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/blog/">Blog</a>
+            <span>/</span>
+            <span aria-current="page">JSON to CSV: The Complete Guide (Excel, Python, APIs)</span>
+        </nav>
+
+        <a href="/blog/" class="back-link">← Back to all posts</a>
+
+        <article>
+            <header>
+                <h1>JSON to CSV: The Complete Guide (Excel, Python, APIs)</h1>
+                <div class="article-meta">
+                    <time datetime="2026-10-16">October 16, 2026</time>
+                    <span class="cluster">converter</span>
+                </div>
+            </header>
+            <div class="article-body">
+<p>A vendor ships a 40 MB export. An API returns 200,000 log records. A finance team wants the numbers in a spreadsheet by Friday. In each case the data arrives as JSON and has to leave as CSV.</p>
+<p>Converting JSON to CSV looks like a one-liner until it isn&#039;t. Nested objects have no column to live in. Cyrillic and emoji turn into mojibake the moment Excel opens a file without a byte order mark. One record with an extra key crashes a naive Python script on row 900,000.</p>
+<p>This guide covers three routes — spreadsheet import, a Python script, and a browser tool — with the failure modes of each. Every code block below was executed against the sample data shown.</p>
+<h2>What is JSON and Why Convert to CSV</h2>
+<p>JSON is a hierarchy: a record holds scalars, but it also holds nested objects and arrays, and nothing fixes the depth in advance. CSV is a rectangle: every row has the same number of columns, and each column holds one kind of value.</p>
+<p>You convert when the consumer can only read tabular data:</p>
+<ul>
+<li>A finance report needs one row per invoice, with currency and total as columns.</li>
+<li>A legacy CRM accepts a CSV upload and nothing else.</li>
+<li>An analyst wants to pivot and chart the data in Excel, which has no concept of a nested field.</li>
+</ul>
+<p>You should not convert when the hierarchy <em>is</em> the payload. A JSON Schema document, a comment tree, a configuration file with nested defaults — flattening these discards structure the consumer needs, and the table usually gets read straight back into JSON.</p>
+<p>The practical rule: convert when the consumer is a spreadsheet, a database loader, or a CSV-only import endpoint. Keep JSON when the consumer is another program that expects a tree.</p>
+<p>Two properties decide the entire approach: how deep the nesting goes, and whether every record shares the same keys. A flat array of uniform objects converts in one line. Anything else needs a mapping step you write yourself.</p>
+<h2>Three Ways to Convert</h2>
+<h3>Method 1: Excel and Google Sheets</h3>
+<p>Excel imports JSON through Power Query: <strong>Data → Get Data → From File → From JSON</strong>. Power Query reads the file, presents the top-level array as a list, and offers a column-expander control that turns nested record fields into addressable columns.</p>
+<p>The workflow:</p>
+<ol>
+<li>Save the API response as a <code>.json</code> file.</li>
+<li><strong>Data → Get Data → From File → From JSON</strong>, then select the file.</li>
+<li>In the Power Query editor, select the list of records and choose <strong>Convert To Table</strong>.</li>
+<li>Use the expand icon in the column header to pull nested fields into columns, once per level.</li>
+<li><strong>Home → Close &amp; Load</strong> to write the result into a sheet.</li>
+</ol>
+<p>Google Sheets has no native JSON import — <strong>File → Import</strong> accepts CSV, XLSX and TSV and rejects a <code>.json</code> file. Getting JSON into Sheets means converting it first or writing an Apps Script function.</p>
+<p>What goes wrong on this route:</p>
+<ul>
+<li>Nested structures need manual expansion one level at a time; a three-level document means three passes and a rebuilt column set each time.</li>
+<li>Excel stops at 1,048,576 rows and 16,384 columns, and a single cell is capped at 32,767 characters — a serialized nested object reaches that ceiling.</li>
+<li>Encoding: Excel on Windows decodes a BOM-less UTF-8 CSV with the system ANSI code page, so non-Latin text and emoji are already corrupted on open.</li>
+<li>A 100 MB JSON file takes minutes to load and can exhaust memory.</li>
+</ul>
+<p>The Power Query menu path differs across Excel builds: recent Mac versions expose it under <strong>Data → Get Data (Power Query) → From File → From JSON</strong>, while older Mac builds have no Power Query at all. Confirm the exact path against your Excel version before documenting it for a team.</p>
+<h3>Method 2: Python</h3>
+<p>The standard library covers flat data. This script reads a JSON array and writes one CSV row per record:</p>
+<pre><code class="language-python">import json, csv
+
+with open(&#039;input.json&#039;) as f:
+    data = json.load(f)
+
+with open(&#039;output.csv&#039;, &#039;w&#039;, newline=&#039;&#039;) as f:
+    writer = csv.DictWriter(f, fieldnames=data[0].keys())
+    writer.writeheader()
+    writer.writerows(data)</code></pre>
+<p><code>json.load</code> builds a list of dicts; <code>DictWriter</code> maps keys onto columns in the order given by <code>fieldnames</code>, <code>writeheader</code> emits the header row, and <code>writerows</code> writes every record. <code>newline=&#039;&#039;</code> stops the <code>csv</code> module inserting a blank line between rows on Windows.</p>
+<p>Run against <code>[{&quot;id&quot;: 1, &quot;name&quot;: &quot;Alice&quot;, &quot;email&quot;: &quot;alice@example.com&quot;}, {&quot;id&quot;: 2, &quot;name&quot;: &quot;Bob&quot;, &quot;email&quot;: null}]</code>, the output is:</p>
+<pre><code>id,name,email
+1,Alice,alice@example.com
+2,Bob,</code></pre>
+<p>Two limits appear as soon as the input stops being uniform. Nested values are written with Python&#039;s <code>repr</code> rather than JSON:</p>
+<pre><code>id,user,tags
+1,&quot;{&#039;name&#039;: &#039;Alice&#039;, &#039;address&#039;: {&#039;city&#039;: &#039;Berlin&#039;}}&quot;,&quot;[&#039;a&#039;, &#039;b&#039;]&quot;
+2,&quot;{&#039;name&#039;: &#039;Bob&#039;, &#039;address&#039;: {&#039;city&#039;: &#039;Paris&#039;}}&quot;,[]</code></pre>
+<p>Note the single quotes. The cell holds a Python dict, and <code>json.loads</code> will not read it back. The second limit is harder: when records carry different keys, the script raises <code>ValueError: dict contains fields not in fieldnames: &#039;email&#039;</code>, because <code>fieldnames</code> was taken from the first record alone.</p>
+<p>Both are fixed by flattening first and collecting the union of all keys:</p>
+<pre><code class="language-python">import json, csv
+
+def flatten(obj, prefix=&#039;&#039;):
+    out = {}
+    for key, value in obj.items():
+        name = f&quot;{prefix}{key}&quot;
+        if isinstance(value, dict):
+            out.update(flatten(value, f&quot;{name}_&quot;))
+        elif isinstance(value, list):
+            out[name] = json.dumps(value, ensure_ascii=False)
+        else:
+            out[name] = value
+    return out
+
+with open(&#039;input.json&#039;) as f:
+    data = json.load(f)
+
+rows = [flatten(r) for r in data]
+fields = []
+for row in rows:
+    for key in row:
+        if key not in fields:
+            fields.append(key)
+
+with open(&#039;output.csv&#039;, &#039;w&#039;, newline=&#039;&#039;, encoding=&#039;utf-8-sig&#039;) as f:
+    writer = csv.DictWriter(f, fieldnames=fields, extrasaction=&#039;ignore&#039;)
+    writer.writeheader()
+    writer.writerows(rows)</code></pre>
+<p><code>flatten</code> recurses into objects and joins names with <code>_</code>, and serializes arrays as JSON text so a cell stays readable. The union loop keeps every key seen in any record, while <code>extrasaction=&#039;ignore&#039;</code> covers the reverse case of a key missing from the header. <code>encoding=&#039;utf-8-sig&#039;</code> writes the BOM that Excel needs.</p>
+<p>Output for the nested sample:</p>
+<pre><code>id,user_name,user_address_city,tags
+1,Alice,Berlin,&quot;[&quot;&quot;a&quot;&quot;, &quot;&quot;b&quot;&quot;]&quot;
+2,Bob,Paris,[]</code></pre>
+<p>If pandas is already in your stack, <code>pandas.json_normalize(data)</code> performs the same flattening, with <code>sep=&#039;_&#039;</code> for the joined names and <code>record_path</code> for arrays you want as separate rows. Treat it as a pointer to the right function rather than as verified output.</p>
+<h3>Method 3: Browser Tools</h3>
+<p>Browser converters exist for the case where you do not want to write a script: paste JSON, pick a format, download the file.</p>
+<ul>
+<li><strong>csvjson.com</strong> handles JSON to CSV and back, plus TSV and semicolon separators, quoted fields and Unicode.</li>
+<li><strong>convertcsv.com</strong> converts CSV, JSON, XML, SQL and Excel.</li>
+<li><strong>jsonformatter.org</strong> formats, validates and converts JSON.</li>
+</ul>
+<p>The interface cannot always tell you whether a converter ships your payload to a server. Read the privacy policy, or open the network tab in devtools on a test run. Financial records, customer lists and API logs containing tokens are not data you hand to an unknown server to find out.</p>
+<p>A workflow that keeps the file loadable:</p>
+<ol>
+<li>Paste the JSON array.</li>
+<li>Let the tool detect the schema and list the fields it found.</li>
+<li>Select only the columns you need — dropping nested blobs before export is the cheapest way to keep the output small.</li>
+<li>Export, then open the result and confirm the encoding survived.</li>
+</ol>
+<p><a href="https://localjson-black.vercel.app/">LocalJSON</a> runs this whole sequence in the page: the array is parsed in the browser, nested values are serialized into a single cell instead of being silently dropped, and the exported file is written with a UTF-8 BOM.</p>
+<img src="/blog/assets/json-to-csv.png" alt="LocalJSON interface showing JSON input on left and CSV export button on right">
+<p>The screenshot above shows the input area on the left, the detected schema with its column checkboxes, and the export control on the right.</p>
+<h2>Common Problems</h2>
+<p><strong>Nested JSON does not become a flat table on its own.</strong> Every tool above leaves a nested object as one cell of text. Flatten before export, or accept a column you cannot sort or pivot.</p>
+<p><strong>Unicode breaks without a BOM.</strong> Excel on Windows reads a BOM-less UTF-8 CSV with the local code page, so «Москва» arrives as mojibake and emoji disappear. Write with <code>encoding=&#039;utf-8-sig&#039;</code>, or pick an exporter that prepends the BOM.</p>
+<p><strong>Large files.</strong> A 100 MB JSON array becomes 1–2 GB of objects once parsed. Excel caps at 1,048,576 rows, and a browser tab parsing that much text will stall. Stream the conversion, or filter with <code>jq</code> before you start.</p>
+<p><strong>Nulls and empty arrays.</strong> Conventions differ: <code>null</code> becomes an empty cell in most CSV writers, the literal text <code>null</code> in others. <code>[]</code> may survive as <code>[]</code> or vanish entirely. Pick a convention and apply it in one place.</p>
+<p><strong>String versus number.</strong> <code>&quot;123&quot;</code> and <code>123</code> look identical in a spreadsheet but mean different things to a loader. Quoted numerics keep their leading zeros; unquoted ones get right-aligned and reformatted by Excel.</p>
+<h2>Best Practices</h2>
+<ul>
+<li>Write the BOM. <code>encoding=&#039;utf-8-sig&#039;</code> costs nothing and removes a whole class of Excel bug reports.</li>
+<li>Flatten before exporting, and fix the separator once (<code>_</code>) so column names stay stable across runs.</li>
+<li>Collect the union of keys from every record, not from the first one.</li>
+<li>Test the edges: a record with extra keys, a missing key, <code>null</code>, an empty array, an object nested three levels deep, and a string containing a quote, a comma and a newline.</li>
+<li>Version the output. A timestamped name such as <code>orders_2026-10-16.csv</code> makes it obvious which export a report came from.</li>
+<li>Keep the source JSON. The CSV is a projection: regenerating it is one command, reversing the conversion is not.</li>
+</ul>
+<h2>Try LocalJSON</h2>
+<p><a href="https://localjson-black.vercel.app/">LocalJSON</a> converts a JSON array to CSV in the browser. Paste the array, run the analysis, and the tool lists the fields it found; tick the columns you want and export. The output is quoted per RFC 4180, nested values are serialized as JSON into one cell, and the file is written with a UTF-8 BOM so Excel opens Cyrillic and emoji correctly.</p>
+<p>The page is client-side, so the data never leaves the tab.</p>
+<p>Pro is a one-time $5 lifetime license and adds unlimited record processing and a standalone offline HTML version.</p>
+<h2>Conclusion</h2>
+<p>Three routes, three cases. Spreadsheet import when the file is small, the nesting is shallow, and the person doing the work lives in Excel. A Python script when the conversion recurs, the nesting needs flattening, and the output feeds a pipeline — the standard library covers it and a dozen lines handle the edge cases. A browser tool when you need the CSV now and the data must not leave the machine.</p>
+<p>Whichever you choose, the same three details decide whether the file opens correctly: the BOM, the flattening rule, and the union of keys. Get those right and JSON to CSV stops being a support ticket.</p>
+            </div>
+        </article>
+
+        <a href="/blog/" class="back-link" style="margin-top: 2rem; display: inline-flex;">← Back to all posts</a>
+    </main>
+
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="/">Tool</a>
+                <a href="/blog/">Blog</a>
+            </div>
+            <div class="copyright">© 2026 LocalJSON. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Language switcher (static blog pages - no I18N dict, just navigation)
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.getAttribute('data-lang');
+                const currentPath = window.location.pathname;
+                let newPath;
+                if (lang === 'es') {
+                    // /es/blog/ does not exist yet — send ES readers to the Spanish home.
+                    newPath = '/es/';
+                } else {
+                    newPath = currentPath.replace('/es/blog/', '/blog/');
+                }
+                window.location.href = newPath;
+            });
+        });
+    </script>
+</body>
+</html>

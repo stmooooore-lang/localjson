@@ -73,12 +73,12 @@ const REQUIRED_FIELDS = ['slug', 'title', 'description', 'date', 'author', 'clus
 /* ------------------------------------------------------------------ Markdown to HTML */
 
 function escapeHtml(str) {
-    return str
-        .replace(/&/g, '&')
-        .replace(/</g, '<')
-        .replace(/>/g, '>')
-        .replace(/"/g, '"')
-        .replace(/'/g, '&apos;');
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
 }
 
 function parseInline(text, slugMap) {
