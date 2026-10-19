@@ -19,7 +19,7 @@
     <title>Blog | LocalJSON Blog</title>
     <link rel="canonical" href="https://localjson-black.vercel.app/blog/">
     <link rel="alternate" hreflang="en" href="https://localjson-black.vercel.app/blog/">
-    <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/es/blog/" />
+    <link rel="alternate" hreflang="es" href="https://localjson-black.vercel.app/es/" />
     <link rel="alternate" hreflang="x-default" href="https://localjson-black.vercel.app/blog/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     
@@ -47,9 +47,9 @@
   "blogPosts": [
     {
       "@type": "BlogPosting",
-      "headline": "Blog Pipeline Test Article",
-      "url": "https://localjson-black.vercel.app/blog/test-pipeline/",
-      "datePublished": "2026-10-13"
+      "headline": "JSON to CSV: The Complete Guide (Excel, Python, APIs)",
+      "url": "https://localjson-black.vercel.app/blog/json-to-csv-complete-guide/",
+      "datePublished": "2026-10-16"
     }
   ]
 }
@@ -148,7 +148,7 @@
             <header>
                 <h1>Blog</h1>
                 <div class="article-meta">
-                    <time datetime="2026-10-15">October 15, 2026</time>
+                    <time datetime="2026-10-19">October 19, 2026</time>
                     <span class="cluster">blog</span>
                 </div>
             </header>
@@ -163,14 +163,14 @@
             <div>
             <article style="background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
                 <h2 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.5rem;">
-                    <a href="/blog/test-pipeline/" style="color: var(--fg);">Blog Pipeline Test Article</a>
+                    <a href="/blog/json-to-csv-complete-guide/" style="color: var(--fg);">JSON to CSV: The Complete Guide (Excel, Python, APIs)</a>
                 </h2>
-                <p style="color: var(--fg-muted); margin-bottom: 0.75rem;">A test article to verify the blog generation pipeline works correctly with proper frontmatter, Markdown rendering, internal links, and acceptance checks.</p>
+                <p style="color: var(--fg-muted); margin-bottom: 0.75rem;">Three practical ways to convert JSON to CSV — in Excel, with Python, or in the browser. Handles nested JSON, large files, and unicode correctly.</p>
                 <div style="display: flex; align-items: center; gap: 1rem; font-size: 0.875rem; color: var(--fg-muted); flex-wrap: wrap;">
-                    <time datetime="2026-10-13">October 13, 2026</time>
-                    <span class="cluster" style="background: var(--bg); padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid var(--border);">formatter-beautifier</span>
+                    <time datetime="2026-10-16">October 16, 2026</time>
+                    <span class="cluster" style="background: var(--bg); padding: 0.125rem 0.5rem; border-radius: 999px; font-size: 0.75rem; border: 1px solid var(--border);">converter</span>
                 </div>
-                <a href="/blog/test-pipeline/" style="display: inline-block; margin-top: 0.75rem; color: var(--accent); font-size: 0.875rem;">Read →</a>
+                <a href="/blog/json-to-csv-complete-guide/" style="display: inline-block; margin-top: 0.75rem; color: var(--accent); font-size: 0.875rem;">Read →</a>
             </article>
         </div>
         
@@ -198,7 +198,8 @@
                 const currentPath = window.location.pathname;
                 let newPath;
                 if (lang === 'es') {
-                    newPath = currentPath.replace('/blog/', '/es/blog/');
+                    // /es/blog/ does not exist yet — send ES readers to the Spanish home.
+                    newPath = '/es/';
                 } else {
                     newPath = currentPath.replace('/es/blog/', '/blog/');
                 }

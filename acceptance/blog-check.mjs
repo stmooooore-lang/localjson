@@ -172,6 +172,11 @@ function main() {
         const filePath = path.join(BLOG_DIR, slug, 'index.html');
         const html = fs.readFileSync(filePath, 'utf8');
 
+        // Unfinished drafts must not reach production.
+        if (html.includes("TODO:") || html.includes("FIXME:")) {
+            fail("Article contains TODO or FIXME markers: " + slug);
+        }
+
         const errors = checkArticle(slug, html);
         if (errors.length === 0) {
             pass(`article "${slug}"`);
