@@ -26,11 +26,11 @@ function main() {
   }
   for (const item of plan) {
     if (item.status === 'pending' && !existing.has(item.slug)) {
-      console.log(`Следующая тема: ${item.title}`);
+      console.log(`Next topic: ${item.title}`);
       return;
     }
   }
-  console.log('Нет ожидающих тем');
+  console.log('No pending topics');
 }
 
 main();
