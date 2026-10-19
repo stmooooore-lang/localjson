@@ -1,0 +1,36 @@
+name: Weekly Blog Generation
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1'
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Generate Article Draft
+        run: node bin/generate-article.mjs
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+      - name: Build Blog and Screenshot
+        run: node bin/build-blog.mjs
+      - name: Validate
+        run: node acceptance/blog-check.mjs
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'LocalJSON Bot'
+          git config --global user.email 'bot@localjson.dev'
+          git add -A
+          git commit -m "bot: auto-publish new blog article" || echo "No changes"
+          git push

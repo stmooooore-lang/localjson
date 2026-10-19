@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "compare-json-files",
+    "title": "Comparing JSON Files: A Practical Guide",
+    "cluster": "compare-diff",
+    "status": "pending"
+  },
+  {
+    "slug": "map-vendor-json",
+    "title": "Mapping Vendor JSON to Your Schema",
+    "cluster": "b2b-cleaning",
+    "status": "pending"
+  },
+  {
+    "slug": "json-formatter-online",
+    "title": "JSON Formatter: Format, Validate, Beautify",
+    "cluster": "formatter-beautifier",
+    "status": "pending"
+  },
+  {
+    "slug": "large-json-viewer",
+    "title": "Reading Large JSON Files Without a Headache",
+    "cluster": "viewer",
+    "status": "pending"
+  },
+  {
+    "slug": "flatten-nested-json",
+    "title": "Flattening Nested JSON for Spreadsheets",
+    "cluster": "converter",
+    "status": "pending"
+  },
+  {
+    "slug": "json-to-yaml",
+    "title": "JSON to YAML and Back",
+    "cluster": "converter",
+    "status": "pending"
+  }
+]

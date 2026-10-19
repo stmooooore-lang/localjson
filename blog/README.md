@@ -133,3 +133,27 @@ Generated PNGs in `blog/assets/` are committed — CI does not need a browser.
 ## Rebuilding
 
 The pipeline is idempotent — run it anytime after adding/editing posts.
+
+## GitHub Actions — Automated Weekly Publishing
+
+A workflow (`.github/workflows/publish-blog.yml`) runs every Monday 09:00 UTC
+and on manual dispatch. It:
+
+1. Checks out the repo, installs Node 20 and Playwright Chromium.
+2. Runs `node bin/generate-article.mjs` (placeholder — logs the next topic).
+3. Runs `node bin/build-blog.mjs` to build HTML and screenshots.
+4. Runs `node acceptance/blog-check.mjs` to validate the new article.
+5. Commits and pushes any new/updated files.
+
+### Required GitHub Secret
+
+Go to **Settings → Secrets and variables → Actions → New repository secret**:
+
+- **Name**: `LLM_API_KEY`
+- **Value**: your LLM provider API key (e.g., OpenAI, Anthropic)
+
+The workflow exposes this as `LLM_API_KEY` to `generate-article.mjs`.
+When you implement the real LLM call, read `process.env.LLM_API_KEY`.
+
+**Without this secret the workflow will still run** (the placeholder script
+exits 0), but no real article will be generated.
