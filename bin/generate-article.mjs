@@ -88,7 +88,46 @@ async function main() {
   }
   // 4. Write article file
   const outPath = path.join(POSTS_DIR, `${topic.slug}.md`);
-  fs.writeFileSync(outPath, articleMarkdown, 'utf8');
+  
+  // Defensive: clean LLM output and ensure valid frontmatter
+  let finalMarkdown = articleMarkdown;
+  // Strip markdown fences (e.g., ```markdown ... ```)
+  finalMarkdown = finalMarkdown.replace(/^```(markdown)?\s*\n/, '').replace(/\n```\s*$/, '');
+  
+  const fmMatch = finalMarkdown.match(/^---\n([\s\S]*?)\n---\n/);
+  let fmFields = {};
+  let body = finalMarkdown;
+  
+  if (fmMatch) {
+    body = finalMarkdown.slice(fmMatch[0].length);
+    fmMatch[1].split('\n').forEach(line => {
+      const m = line.match(/^([a-zA-Z0-9-]+):\s*(.*)$/);
+      if (m) fmFields[m[1]] = m[2];
+    });
+  }
+  
+  body = body.trimStart();
+  
+  const date = new Date().toISOString().split('T')[0];
+  const safeTitle = (topic.title || '').replace(/"/g, '\\"');
+  const safeFmTitle = (fmFields.title || `"${safeTitle}"`).replace(/^"(.*)"$/, '$1');
+  const safeFmDesc = (fmFields.description || `"A practical guide on ${safeTitle}."`).replace(/^"(.*)"$/, '$1');
+  const safeFmAlt = (fmFields['screenshot-alt'] || `LocalJSON interface for ${safeTitle}`).replace(/^"(.*)"$/, '$1');
+  
+  const finalFm = `---
+slug: ${topic.slug}
+title: "${safeFmTitle}"
+description: "${safeFmDesc}"
+date: ${fmFields.date || date}
+author: ${fmFields.author || 'LocalJSON'}
+cluster: ${fmFields.cluster || topic.cluster || 'general'}
+keywords: ${fmFields.keywords || `["json", "${topic.slug.replace(/-/g, ' ')}"]`}
+screenshot-alt: "${safeFmAlt}"
+---
+
+`;
+  
+  fs.writeFileSync(outPath, finalFm + body, 'utf8');
   console.log(`[generate-article] Written article to ${outPath}`);
   // 5. Update plan.json
   const plan = JSON.parse(fs.readFileSync(PLAN_PATH, 'utf8'));
