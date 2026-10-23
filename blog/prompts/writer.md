@@ -28,7 +28,13 @@ You are a technical writer producing a blog post for **LocalJSON** (localjson-bl
    screenshot-alt: "Brief description of the screenshot"
    ---
    ```
-6. **Word count** — the rendered `<article>` must contain **≥ 1500 words** (pipeline enforces ≥ 1200; aim higher).
+6. **Word count** — hard requirement. The rendered `<article>` must contain **≥ 1500 words**. The pipeline rejects anything under 1200. LLM drafts are consistently ~50% shorter than intended, so do not trust your own sense of length. Use this section budget:
+
+   - Introduction: 180–220 words
+   - 4–5 main sections, each 250–350 words — concrete code examples, JSON snippets, comparison tables, not filler
+   - Conclusion: 150–200 words
+
+   Before finishing, count words in each section. If total is under 1500, add a worked example, a comparison table, or a "common pitfalls" section. Do not pad by restating earlier sentences.
 7. **No TODO / FIXME / XXX** — any such marker in the source will fail the pipeline.
 8. **Internal link** — include at least one `[[existing-slug]]` link to another published article (once a second article exists).
 7. **Homepage link** — include at least one link to `/` or `https://localjson-black.vercel.app/`.
