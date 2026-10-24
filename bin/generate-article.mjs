@@ -45,7 +45,7 @@ function getNextTopic() {
   return null;
 }
 
-async function callGemini(systemPrompt, userPrompt, retries = 1) {
+async function callGemini(systemPrompt, userPrompt) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`;
   const body = {
     contents: [
@@ -57,29 +57,36 @@ async function callGemini(systemPrompt, userPrompt, retries = 1) {
       maxOutputTokens: 4000
     }
   };
-  for (let attempt = 0; attempt <= retries; attempt++) {
+  // Exponential backoff for 503 (model overload). Gemini free tier returns
+  // this frequently under load; the delays give Google time to recover.
+  const delays = [30000, 60000, 120000, 240000];
+  const maxAttempts = delays.length + 1;
+  let lastErr;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
     const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     });
-    if (response.status === 503 && attempt < retries) {
-      console.warn(`[generate-article]   503 on attempt ${attempt + 1}/${retries + 1}, waiting 30s before retry...`);
-      await new Promise(r => setTimeout(r, 30000));
+    if (response.ok) {
+      const data = await response.json();
+      const candidate = data.candidates?.[0];
+      if (!candidate || !candidate.content?.parts?.[0]?.text) {
+        throw new Error('Unexpected Gemini response format');
+      }
+      return candidate.content.parts[0].text.trim();
+    }
+    const errText = await response.text();
+    lastErr = new Error(`Gemini API error ${response.status}: ${errText}`);
+    if (response.status === 503 && attempt < maxAttempts) {
+      const wait = delays[attempt - 1] / 1000;
+      console.warn(`[generate-article]   503 on attempt ${attempt}/${maxAttempts}, waiting ${wait}s before retry...`);
+      await new Promise(r => setTimeout(r, delays[attempt - 1]));
       continue;
     }
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API error ${response.status}: ${errText}`);
-    }
-    const data = await response.json();
-    const candidate = data.candidates?.[0];
-    if (!candidate || !candidate.content?.parts?.[0]?.text) {
-      throw new Error('Unexpected Gemini response format');
-    }
-    return candidate.content.parts[0].text.trim();
+    throw lastErr;
   }
-  throw new Error('callGemini: retries exhausted without a successful response');
+  throw lastErr || new Error('callGemini: retries exhausted');
 }
 
 async function generateOutline(systemPrompt, title, count = 5) {
