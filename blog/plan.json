@@ -3,7 +3,7 @@
     "slug": "compare-json-files",
     "title": "Comparing JSON Files: A Practical Guide",
     "cluster": "compare-diff",
-    "status": "pending"
+    "status": "draft"
   },
   {
     "slug": "map-vendor-json",
