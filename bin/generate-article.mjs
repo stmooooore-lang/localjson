@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 /**
  * bin/generate-article.mjs — generates a blog article via Google Gemini API.
- * Reads writer.md (system prompt), picks next pending topic from plan.json,
- * calls Gemini, writes the article to blog/posts/<slug>.md,
- * and updates plan.json status to "draft".
+ *
+ * Generation strategy (v2, sectioned pipeline):
+ *   1. Outline call — asks for N H2 section headings + briefs.
+ *   2. Intro call — standalone intro (no heading), 200–250 words.
+ *   3. Section calls — one per section, 350–400 words each.
+ *
+ * Why sectioned: a single call reliably returns 400–700 words, well below the
+ * 1200-word floor in acceptance/blog-check.mjs. Splitting the work makes the
+ * length deterministic (5 × 350 + 220 ≈ 1970 words, plus headroom).
+ *
+ * Cost: ~7 API calls per article instead of 1. Runtime ~4–8 min.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -37,7 +45,7 @@ function getNextTopic() {
   return null;
 }
 
-async function callGemini(systemPrompt, userPrompt) {
+async function callGemini(systemPrompt, userPrompt, retries = 1) {
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`;
   const body = {
     contents: [
@@ -49,22 +57,92 @@ async function callGemini(systemPrompt, userPrompt) {
       maxOutputTokens: 4000
     }
   };
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
-  });
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${errText}`);
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (response.status === 503 && attempt < retries) {
+      console.warn(`[generate-article]   503 on attempt ${attempt + 1}/${retries + 1}, waiting 30s before retry...`);
+      await new Promise(r => setTimeout(r, 30000));
+      continue;
+    }
+    if (!response.ok) {
+      const errText = await response.text();
+      throw new Error(`Gemini API error ${response.status}: ${errText}`);
+    }
+    const data = await response.json();
+    const candidate = data.candidates?.[0];
+    if (!candidate || !candidate.content?.parts?.[0]?.text) {
+      throw new Error('Unexpected Gemini response format');
+    }
+    return candidate.content.parts[0].text.trim();
   }
-  const data = await response.json();
-  // Extract text from candidates[0].content.parts[0].text
-  const candidate = data.candidates?.[0];
-  if (!candidate || !candidate.content?.parts?.[0]?.text) {
-    throw new Error('Unexpected Gemini response format');
+  throw new Error('callGemini: retries exhausted without a successful response');
+}
+
+async function generateOutline(systemPrompt, title, count = 5) {
+  const userPrompt = `Produce a content outline for a technical article titled "${title}".
+
+Return exactly ${count} H2 section headings (the last one must be "Conclusion"). Write one heading per line, starting with "## ". On the line immediately below each heading, write a one-sentence brief describing what that section covers.
+
+Do not write anything else. No intro paragraph, no frontmatter, no closing text. Just the headings and briefs, nothing else.`;
+  const raw = await callGemini(systemPrompt, userPrompt);
+  const sections = [];
+  let pending = null;
+  for (const rawLine of raw.split('\n')) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const h2 = line.match(/^##\s+(.+)$/);
+    if (h2) {
+      if (pending) sections.push(pending);
+      pending = { heading: h2[1].trim(), brief: '' };
+      continue;
+    }
+    if (pending && !pending.brief) {
+      pending.brief = line.replace(/^[-–—*•]\s*/, '').trim();
+    }
   }
-  return candidate.content.parts[0].text.trim();
+  if (pending) sections.push(pending);
+  if (sections.length < 3) {
+    throw new Error(`Outline returned only ${sections.length} section(s); expected at least 3`);
+  }
+  return sections;
+}
+
+async function generateIntro(systemPrompt, title) {
+  const userPrompt = `Write only the introduction of the article titled "${title}".
+
+Constraints:
+- No heading. Do not start with "#", "##", or any markdown header.
+- 200–250 words.
+- 2–3 paragraphs.
+- Open with a concrete scenario or problem an engineer would recognise, then state what the article covers.
+- No marketing tone. No "in today's world", no "delve", no "leverage", no "seamless".
+
+Return only the intro body, nothing else.`;
+  return (await callGemini(systemPrompt, userPrompt)).trim();
+}
+
+async function generateSectionBody(systemPrompt, title, section, index, total) {
+  const userPrompt = `Write only the "${section.heading}" section of the article titled "${title}".
+
+This is section ${index + 1} of ${total}. It should cover: ${section.brief || 'the topic indicated by the heading.'}
+
+Constraints:
+- Start with the exact line "## ${section.heading}".
+- Target 350–400 words of dense technical prose.
+- Include at least one concrete code block, JSON snippet, or comparison table where appropriate.
+- If a screenshot belongs in this section, put {{SCREENSHOT:descriptive-kebab-case-name}} on its own line.
+- Do NOT include the introduction, other sections, or a separate "## Conclusion". Write only this section.
+
+Return only this section, nothing else.`;
+  return (await callGemini(systemPrompt, userPrompt)).trim();
+}
+
+function countWords(text) {
+  return text.split(/\s+/).filter(Boolean).length;
 }
 
 // Fallback description when the LLM omits its own frontmatter.
@@ -87,6 +165,7 @@ function fallbackDescription(title) {
 async function main() {
   // 1. Load system prompt
   const systemPrompt = fs.readFileSync(WRITER_PATH, 'utf8');
+
   // 2. Get next topic
   const topic = getNextTopic();
   if (!topic) {
@@ -94,27 +173,48 @@ async function main() {
     return;
   }
   console.log(`[generate-article] Generating article for: ${topic.title} (${topic.slug})`);
-  // 3. Call Gemini
-  const userPrompt = `Write an article about: ${topic.title}`;
+
+  // 3. Sectioned generation
   let articleMarkdown;
   try {
-    articleMarkdown = await callGemini(systemPrompt, userPrompt);
+    console.log('[generate-article] Step 1/3: outline');
+    const outline = await generateOutline(systemPrompt, topic.title, 5);
+    console.log(`[generate-article]   outline has ${outline.length} sections:`);
+    outline.forEach((s, i) => {
+      const brief = s.brief.length > 60 ? s.brief.slice(0, 60) + '…' : s.brief;
+      console.log(`[generate-article]     ${i + 1}. ${s.heading} — ${brief}`);
+    });
+
+    console.log('[generate-article] Step 2/3: intro');
+    const intro = await generateIntro(systemPrompt, topic.title);
+    console.log(`[generate-article]   intro: ${countWords(intro)} words`);
+
+    console.log('[generate-article] Step 3/3: section bodies');
+    const bodies = [];
+    for (let i = 0; i < outline.length; i++) {
+      console.log(`[generate-article]   section ${i + 1}/${outline.length}: ${outline[i].heading}`);
+      const body = await generateSectionBody(systemPrompt, topic.title, outline[i], i, outline.length);
+      console.log(`[generate-article]     -> ${countWords(body)} words`);
+      bodies.push(body);
+    }
+
+    articleMarkdown = intro + '\n\n' + bodies.join('\n\n') + '\n';
+    console.log(`[generate-article]   assembled total: ${countWords(articleMarkdown)} words`);
   } catch (err) {
     console.error('[generate-article] Failed to generate article:', err.message);
     process.exit(1);
   }
-  // 4. Write article file
+
+  // 4. Write article file (with defensive frontmatter)
   const outPath = path.join(POSTS_DIR, `${topic.slug}.md`);
-  
-  // Defensive: clean LLM output and ensure valid frontmatter
+
   let finalMarkdown = articleMarkdown;
-  // Strip markdown fences (e.g., ```markdown ... ```)
   finalMarkdown = finalMarkdown.replace(/^```(markdown)?\s*\n/, '').replace(/\n```\s*$/, '');
-  
+
   const fmMatch = finalMarkdown.match(/^---\n([\s\S]*?)\n---\n/);
-  let fmFields = {};
+  const fmFields = {};
   let body = finalMarkdown;
-  
+
   if (fmMatch) {
     body = finalMarkdown.slice(fmMatch[0].length);
     fmMatch[1].split('\n').forEach(line => {
@@ -122,15 +222,15 @@ async function main() {
       if (m) fmFields[m[1]] = m[2];
     });
   }
-  
+
   body = body.trimStart();
-  
+
   const date = new Date().toISOString().split('T')[0];
   const safeTitle = (topic.title || '').replace(/"/g, '\\"');
   const safeFmTitle = (fmFields.title || `"${safeTitle}"`).replace(/^"(.*)"$/, '$1');
   const safeFmDesc = (fmFields.description || `"${fallbackDescription(safeTitle)}"`).replace(/^"(.*)"$/, '$1');
   const safeFmAlt = (fmFields['screenshot-alt'] || `LocalJSON interface for ${safeTitle}`).replace(/^"(.*)"$/, '$1');
-  
+
   const finalFm = `---
 slug: ${topic.slug}
 title: "${safeFmTitle}"
@@ -143,9 +243,10 @@ screenshot-alt: "${safeFmAlt}"
 ---
 
 `;
-  
+
   fs.writeFileSync(outPath, finalFm + body, 'utf8');
   console.log(`[generate-article] Written article to ${outPath}`);
+
   // 5. Update plan.json
   const plan = JSON.parse(fs.readFileSync(PLAN_PATH, 'utf8'));
   for (const item of plan) {
