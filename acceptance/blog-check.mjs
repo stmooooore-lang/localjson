@@ -128,10 +128,18 @@ function checkArticle(slug, html) {
         }
     }
 
-    // 9. Slug matches folder name
-    const folderSlugMatch = html.match(/href="\/blog\/([^"/]+)\//);
-    if (folderSlugMatch && folderSlugMatch[1] !== slug) {
-        errors.push(`slug mismatch: folder is "${slug}" but link has "${folderSlugMatch[1]}"`);
+    // 9. Slug matches folder name — prefer canonical link over internal links
+    const canonicalSlugMatch = html.match(/<link rel="canonical" href="[^"]*\/blog\/([^"/]+)\//);
+    if (canonicalSlugMatch) {
+        if (canonicalSlugMatch[1] !== slug) {
+            errors.push(`slug mismatch: canonical has "${canonicalSlugMatch[1]}" but folder is "${slug}"`);
+        }
+    } else {
+        // Fallback: first /blog/ link (should be canonical, but fallback for safety)
+        const folderSlugMatch = html.match(/href="\/blog\/([^"/]+)\//);
+        if (folderSlugMatch && folderSlugMatch[1] !== slug) {
+            errors.push(`slug mismatch: folder is "${slug}" but link has "${folderSlugMatch[1]}"`);
+        }
     }
 
     return errors;

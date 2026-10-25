@@ -185,6 +185,8 @@ The screenshot above shows the input area on the left, the detected schema with 
 
 [LocalJSON](https://localjson-black.vercel.app/) converts a JSON array to CSV in the browser. Paste the array, run the analysis, and the tool lists the fields it found; tick the columns you want and export. The output is quoted per RFC 4180, nested values are serialized as JSON into one cell, and the file is written with a UTF-8 BOM so Excel opens Cyrillic and emoji correctly.
 
+If you also need to compare JSON payloads before or after conversion, see [[compare-json-files]] for structural diffing approaches.
+
 The page is client-side, so the data never leaves the tab.
 
 Pro is a one-time $5 lifetime license and adds unlimited record processing and a standalone offline HTML version.

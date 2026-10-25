@@ -530,35 +530,39 @@ function build() {
         warn('no Markdown posts found in blog/posts/');
     }
 
-    const posts = [];
-    const slugMap = new Map(); // slug -> { title, ... }
+    // Pre-scan: collect all slugs and frontmatter to build slugMap for internal link resolution
+    const postsMeta = [];
+    const slugMap = new Map();
     const seenSlugs = new Set();
 
     for (const file of files) {
         const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
-        const { frontmatter, body } = parseFrontmatter(content);
-
+        const { frontmatter } = parseFrontmatter(content);
         if (!frontmatter) {
             fail(`no frontmatter found in ${file}`);
         }
-
-        // Validate required fields
         for (const field of REQUIRED_FIELDS) {
             if (!frontmatter[field] || (Array.isArray(frontmatter[field]) && frontmatter[field].length === 0)) {
                 fail(`missing required field "${field}" in ${file}`);
             }
         }
-
         const slug = frontmatter.slug;
         if (seenSlugs.has(slug)) {
             fail(`duplicate slug "${slug}" found in ${file}`);
         }
-        seenSlugs.add(slug);
-
-        // Validate slug format
+        seenSlugs.add(slug)
         if (!/^[a-z0-9-]+$/.test(slug)) {
             fail(`invalid slug "${slug}" in ${file} — must be lowercase, hyphens only`);
         }
+        postsMeta.push({ file, frontmatter, slug });
+        slugMap.set(slug, { title: frontmatter.title, ...frontmatter });
+    }
+
+    const posts = [];
+
+    for (const { file, frontmatter, slug } of postsMeta) {
+        const content = fs.readFileSync(path.join(POSTS_DIR, file), 'utf8');
+        const { frontmatter, body } = parseFrontmatter(content);
 
         // Convert Markdown to HTML, then resolve {{SCREENSHOT:name}} placeholders
         // (missing PNGs are generated on demand by bin/make-screenshot.mjs).

@@ -285,6 +285,7 @@ with open(&#039;output.csv&#039;, &#039;w&#039;, newline=&#039;&#039;, encoding=
 </ul>
 <h2>Try LocalJSON</h2>
 <p><a href="https://localjson-black.vercel.app/">LocalJSON</a> converts a JSON array to CSV in the browser. Paste the array, run the analysis, and the tool lists the fields it found; tick the columns you want and export. The output is quoted per RFC 4180, nested values are serialized as JSON into one cell, and the file is written with a UTF-8 BOM so Excel opens Cyrillic and emoji correctly.</p>
+<p>If you also need to compare JSON payloads before or after conversion, see <a href="/blog/compare-json-files/">Comparing JSON Files: A Practical Guide</a> for structural diffing approaches.</p>
 <p>The page is client-side, so the data never leaves the tab.</p>
 <p>Pro is a one-time $5 lifetime license and adds unlimited record processing and a standalone offline HTML version.</p>
 <h2>Conclusion</h2>

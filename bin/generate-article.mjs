@@ -173,19 +173,48 @@ async function main() {
   // 1. Load system prompt
   const systemPrompt = fs.readFileSync(WRITER_PATH, 'utf8');
 
-  // 2. Get next topic
+  // 2. Get next topic and existing articles
   const topic = getNextTopic();
   if (!topic) {
     console.log('[generate-article] No pending topics in plan.json');
     return;
   }
+
+  // Collect existing articles for internal linking
+  const existingArticles = [];
+  if (fs.existsSync(POSTS_DIR)) {
+    for (const f of fs.readdirSync(POSTS_DIR)) {
+      if (f.endsWith('.md')) {
+        const slug = f.slice(0, -3);
+        try {
+          const content = fs.readFileSync(path.join(POSTS_DIR, f), 'utf8');
+          const fmMatch = content.match(/^---\n([\s\S]*?)\n---/);
+          if (fmMatch) {
+            const titleMatch = fmMatch[1].match(/^title:\s*(.+)$/m);
+            if (titleMatch) {
+              existingArticles.push({ slug, title: titleMatch[1].replace(/^["']|["']$/g, '') });
+            }
+          }
+        } catch {}
+      }
+    }
+  }
   console.log(`[generate-article] Generating article for: ${topic.title} (${topic.slug})`);
+  console.log(`[generate-article] Existing articles for internal links: ${existingArticles.length}`);
+
+  // Inject existing articles into system prompt for internal linking
+  let augmentedSystemPrompt = systemPrompt;
+  if (existingArticles.length > 0) {
+    const articlesList = existingArticles.map(a => `- [[${a.slug}]] — ${a.title}`).join('\n');
+    const injection = `\n\n## Existing Articles for Internal Linking\nYou MUST include at least one internal link to an existing article using the [[slug]] syntax.\nAvailable articles:\n${articlesList}\n\nChoose the most relevant article(s) and link naturally in the body (e.g., in "Try LocalJSON", "Best Practices", or method comparison sections).\n`;
+    augmentedSystemPrompt = systemPrompt + injection;
+  }
 
   // 3. Sectioned generation
   let articleMarkdown;
   try {
     console.log('[generate-article] Step 1/3: outline');
-    const outline = await generateOutline(systemPrompt, topic.title, 5);
+    const outline = await generateOutline(augmentedSystemPrompt, topic.title, 5);
     console.log(`[generate-article]   outline has ${outline.length} sections:`);
     outline.forEach((s, i) => {
       const brief = s.brief.length > 60 ? s.brief.slice(0, 60) + '…' : s.brief;
@@ -193,14 +222,14 @@ async function main() {
     });
 
     console.log('[generate-article] Step 2/3: intro');
-    const intro = await generateIntro(systemPrompt, topic.title);
+    const intro = await generateIntro(augmentedSystemPrompt, topic.title);
     console.log(`[generate-article]   intro: ${countWords(intro)} words`);
 
     console.log('[generate-article] Step 3/3: section bodies');
     const bodies = [];
     for (let i = 0; i < outline.length; i++) {
       console.log(`[generate-article]   section ${i + 1}/${outline.length}: ${outline[i].heading}`);
-      const body = await generateSectionBody(systemPrompt, topic.title, outline[i], i, outline.length);
+      const body = await generateSectionBody(augmentedSystemPrompt, topic.title, outline[i], i, outline.length);
       console.log(`[generate-article]     -> ${countWords(body)} words`);
       bodies.push(body);
     }
