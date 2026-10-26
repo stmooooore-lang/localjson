@@ -188,6 +188,15 @@ lose the discussion. That is the whole difference; it is not about the models.
 A decision that fits none of the four gets a home proposed by you, not a
 shrug.
 
+## No real identifiers in repo files
+
+Never commit real chat_ids, tokens, or PII to `tasks/*.md` or any other
+repo file — reference them via env/secrets only (`TG_BOT_TOKEN`,
+`TG_CHAT_ID`, GitHub Actions secrets). A task brief uses placeholders
+(`<TOKEN>`, `${TG_CHAT_ID}`), and its acceptance grep checks the
+placeholder name, never the value. What a pushed repo shows is public,
+and history keeps what a later commit deletes.
+
 ## How you report back
 
 **The brief tells you.** How to report is decided per project by whoever wrote
