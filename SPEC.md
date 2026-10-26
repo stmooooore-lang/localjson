@@ -266,5 +266,5 @@ File Inventory:
 - hreflang: en → /, es → /es/, x-default → /.
 
 **Стратегия (2026-10-07):** продвижение через каналы
-(Reddit, HN, dev.to, PH), не через SEO-контент.
+(HN, dev.to, PH), не через SEO-контент.
 Подробности — DECISIONS.md.
