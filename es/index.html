@@ -553,6 +553,7 @@
             
             <div style="margin-bottom: 16px;">
                 <input type="text" id="licenseKey" placeholder="Pega la clave de licencia Pro aquí" data-i18n-attr="license-placeholder:placeholder" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
+                <p data-i18n="pro-lost-hint" style="font-size:11px;color:#94a3b8;margin-top:4px;">¿Perdiste acceso Pro? Pega tu clave de licencia (empieza con LJSON-PRO-) y haz clic en Activar.</p>
                 <button onclick="activatePro()" data-i18n="activate-btn" style="width:100%; background:#4f46e5; border:none; color:white; font-size:11px; font-weight:700; padding:6px; border-radius:8px; cursor:pointer;">Activar Licencia</button>
             </div>
 
@@ -674,6 +675,7 @@
             const keyInput = document.getElementById('licenseKey').value.trim();
             if (keyInput.startsWith('LJSON-PRO-') && keyInput.length > 14) {
                 localStorage.setItem('localjson_pro_status', 'activated');
+                localStorage.setItem('localjson_pro_key', keyInput);
                 alert("Success! Pro features unlocked.");
                 document.getElementById('m').classList.add('hidden');
                 checkProStatus();

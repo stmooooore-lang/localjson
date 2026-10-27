@@ -240,7 +240,8 @@
                 "buy-btn": "Purchase Activation Key",
                 "buy-btn-href": "https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310",
                 "toast-pro": "🎉 Pro activated! Unlimited actions unlocked.",
-                "toast-pro-invalid": "Invalid license key format. Use LJSON-PRO-XXXXXXXXXXXX"
+                "toast-pro-invalid": "Invalid license key format. Use LJSON-PRO-XXXXXXXXXXXX",
+                "pro-lost-hint": "Lost Pro access? Paste your license key (starts with LJSON-PRO-) and click Activate."
             },
             es: {
                 "meta-title": "LocalJSON — Formateador, Mapeador y Convertidor JSON del Lado del Cliente",
@@ -338,7 +339,8 @@
                 "buy-btn": "Comprar Clave de Activación",
                 "buy-btn-href": "https://app.lava.top/products/299d1b1c-24ea-42ac-b654-f66afe5cbfb8",
                 "toast-pro": "🎉 ¡Pro activado! Acciones ilimitadas desbloqueadas.",
-                "toast-pro-invalid": "Formato de clave de licencia inválido. Usa LJSON-PRO-XXXXXXXXXXXX"
+                "toast-pro-invalid": "Formato de clave de licencia inválido. Usa LJSON-PRO-XXXXXXXXXXXX",
+                "pro-lost-hint": "¿Perdiste acceso Pro? Pega tu clave de licencia (empieza con LJSON-PRO-) y haz clic en Activar."
             }
         };
         window.I18N = I18N;
@@ -779,6 +781,7 @@
             
             <div style="margin-bottom: 16px;">
                 <input type="text" id="licenseKey" placeholder="Paste Pro License Key here" data-i18n-attr="license-placeholder:placeholder" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
+                <p data-i18n="pro-lost-hint" style="font-size:11px;color:#94a3b8;margin-top:4px;">Lost Pro access? Paste your license key (starts with LJSON-PRO-) and click Activate.</p>
                 <button onclick="activatePro()" data-i18n="activate-btn" style="width:100%; background:#4f46e5; border:none; color:white; font-size:11px; font-weight:700; padding:6px; border-radius:8px; cursor:pointer;">Activate License</button>
             </div>
 
@@ -900,6 +903,7 @@
             const keyInput = document.getElementById('licenseKey').value.trim();
             if (keyInput.startsWith('LJSON-PRO-') && keyInput.length > 14) {
                 localStorage.setItem('localjson_pro_status', 'activated');
+                localStorage.setItem('localjson_pro_key', keyInput);
                 alert("Success! Pro features unlocked.");
                 document.getElementById('m').classList.add('hidden');
                 checkProStatus();
