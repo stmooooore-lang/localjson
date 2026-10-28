@@ -64,6 +64,7 @@
 | Medium | Testimonials / Social Proof | SPEC Phase 5 / BACKLOG |
 | Medium | Испанский checkout (Lava link) | SPEC Phase 5 / BACKLOG |
 | Medium | Внутренние ссылки index ↔ offline ↔ activate | SPEC Phase 5 / BACKLOG |
+| Medium | Настроить ежедневное напоминание (Telegram‑бот) для ручного запроса индексации в GSC (1 URL в день) | SEO‑PLAN |
 | Low | Core Web Vitals (PageSpeed) | BACKLOG |
 | Low | Email‑база / Backlink strategy | BACKLOG |
 | Low | Убрать «Phase 5» хвост из SPEC.md | BACKLOG |
