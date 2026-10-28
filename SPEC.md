@@ -108,7 +108,7 @@ Note: Currently only index.html is deployed. Offline/Activate pages distributed 
 Phase 1: Technical Foundation (Week 1) **DONE**
 - [x] Git repo connected
 - [x] .gitignore added
-- [x] robots.txt + sitemap.xml (auto-generated via GitHub Action)
+- [x] robots.txt + sitemap.xml (updated manually (CI workflow removed 2026-10-07))
 - [x] JSON-LD Schema.org (SoftwareApplication + Product + FAQPage)
 - [x] Open Graph / Twitter Cards
 - [x] Canonical URLs + hreflang=en
@@ -129,11 +129,15 @@ Phase 3: On-Page Optimization (Week 2) **MOSTLY DONE**
 - [x] Anchor links for scroll-to sections
 
 Phase 4: Authority & Signals (Ongoing) **PENDING**
-- [x] Submit sitemap to Google Search Console (manual) — accepted by Google, sitemap status: Success
+- [x] Submit sitemap to Google Search Console (manual) — Sitemap submitted. Coverage errors pending (see BACKLOG.md and SEO-PLAN.md)
 - [ ] Fix GSC coverage/indexing errors
 - [ ] Request indexing for updated pages (including `/index.html` — pending, daily quota blocked)
 - [ ] Index sitemap URLs — ensure all submitted URLs are indexed (backlog task)
-- [ ] Add to JSON tool directories (Product Hunt, Indie Hackers, AlternativeTo — already listed)
+- [ ] Add to JSON tool directories — Partial: PH, Indie Hackers, AlternativeTo - listed. Other directories - TODO
+
+### Other Search Engines
+- [ ] Bing Webmaster Tools (meta tag present, account not configured)
+- [ ] Яндекс.Вебмастер (not configured)
 
 Phase 5: Trust & Social Proof (Backlog)
 - [ ] Research & implement real testimonials/social proof: collect real tweets, Product Hunt comments, Indie Hackers feedback, user screenshots; add logos with permission. No fake content.
