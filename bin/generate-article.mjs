@@ -57,34 +57,45 @@ async function callGemini(systemPrompt, userPrompt) {
       maxOutputTokens: 4000
     }
   };
-  // Exponential backoff for 503 (model overload). Gemini free tier returns
-  // this frequently under load; the delays give Google time to recover.
+  // Exponential backoff for 503 (model overload) and network errors.
   const delays = [30000, 60000, 120000, 240000];
   const maxAttempts = delays.length + 1;
   let lastErr;
   for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    if (response.ok) {
-      const data = await response.json();
-      const candidate = data.candidates?.[0];
-      if (!candidate || !candidate.content?.parts?.[0]?.text) {
-        throw new Error('Unexpected Gemini response format');
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const candidate = data.candidates?.[0];
+        if (!candidate || !candidate.content?.parts?.[0]?.text) {
+          throw new Error('Unexpected Gemini response format');
+        }
+        return candidate.content.parts[0].text.trim();
       }
-      return candidate.content.parts[0].text.trim();
+      const errText = await response.text();
+      lastErr = new Error(`Gemini API error ${response.status}: ${errText}`);
+      if (response.status === 503 && attempt < maxAttempts) {
+        const wait = delays[attempt - 1] / 1000;
+        console.warn(`[generate-article]   503 on attempt ${attempt}/${maxAttempts}, waiting ${wait}s before retry...`);
+        await new Promise(r => setTimeout(r, delays[attempt - 1]));
+        continue;
+      }
+      throw lastErr;
+    } catch (err) {
+      // Network error or other fetch failure – treat as retriable
+      lastErr = err;
+      if (attempt < maxAttempts) {
+        const wait = delays[attempt - 1] / 1000;
+        console.warn(`[generate-article]   Network error on attempt ${attempt}/${maxAttempts}, waiting ${wait}s before retry...`);
+        await new Promise(r => setTimeout(r, delays[attempt - 1]));
+        continue;
+      }
+      throw err;
     }
-    const errText = await response.text();
-    lastErr = new Error(`Gemini API error ${response.status}: ${errText}`);
-    if (response.status === 503 && attempt < maxAttempts) {
-      const wait = delays[attempt - 1] / 1000;
-      console.warn(`[generate-article]   503 on attempt ${attempt}/${maxAttempts}, waiting ${wait}s before retry...`);
-      await new Promise(r => setTimeout(r, delays[attempt - 1]));
-      continue;
-    }
-    throw lastErr;
   }
   throw lastErr || new Error('callGemini: retries exhausted');
 }
