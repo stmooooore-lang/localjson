@@ -38,21 +38,39 @@ if (!token || !chatId) {
 
 async function sendTelegram() {
   const apiUrl = `https://api.telegram.org/bot${token}/sendMessage`;
-  const res = await fetch(apiUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: message,
-      parse_mode: 'Markdown'
-    })
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    console.error('Telegram API error:', data);
-    process.exit(1);
+  const maxAttempts = 3;
+  const retryDelayMs = 10000; // 10 seconds
+
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const res = await fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'Markdown'
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.error('Telegram API error:', data);
+        process.exit(1);
+      }
+      console.log('Telegram message sent:', data.result.message_id);
+      return; // success
+    } catch (err) {
+      // Network error (e.g., ETIMEDOUT, fetch failed)
+      if (attempt < maxAttempts) {
+        console.warn(`Network error sending to Telegram, retry ${attempt}/${maxAttempts} in 10s...`);
+        await new Promise(r => setTimeout(r, retryDelayMs));
+        continue;
+      }
+      // Last attempt failed
+      console.error('Failed to send Telegram message after retries:', err);
+      process.exit(1);
+    }
   }
-  console.log('Telegram message sent:', data.result.message_id);
 }
 
 sendTelegram().catch(err => {
