@@ -48,8 +48,8 @@ async function sendTelegram() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: chatId,
-          text: message,
-          parse_mode: 'Markdown'
+          text: message
+          // parse_mode removed to avoid 400 Bad Request on special chars
         })
       });
       const data = await res.json();
