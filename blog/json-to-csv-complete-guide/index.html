@@ -266,7 +266,7 @@ with open(&#039;output.csv&#039;, &#039;w&#039;, newline=&#039;&#039;, encoding=
 <li>Export, then open the result and confirm the encoding survived.</li>
 </ol>
 <p><a href="https://localjson-black.vercel.app/">LocalJSON</a> runs this whole sequence in the page: the array is parsed in the browser, nested values are serialized into a single cell instead of being silently dropped, and the exported file is written with a UTF-8 BOM.</p>
-<img src="/blog/assets/json-to-csv.png" alt="LocalJSON interface showing JSON input on left and CSV export button on right">
+<img src="/blog/assets/json-to-csv.png" alt="LocalJSON interface showing JSON input on left and CSV export button on right" width="1440" height="900" loading="lazy" decoding="async">
 <p>The screenshot above shows the input area on the left, the detected schema with its column checkboxes, and the export control on the right.</p>
 <h2>Common Problems</h2>
 <p><strong>Nested JSON does not become a flat table on its own.</strong> Every tool above leaves a nested object as one cell of text. Flatten before export, or accept a column you cannot sort or pivot.</p>

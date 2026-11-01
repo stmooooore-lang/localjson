@@ -504,7 +504,7 @@ function applyScreenshots(html, fm, slug) {
     for (const name of names) available.set(name, ensureScreenshot(name, slug));
 
     const imgTag = (name, offset) =>
-        `<img src="/blog/assets/${name}.png" alt="${escapeAttr(screenshotAlt(html, offset, fm))}">`;
+        `<img src="/blog/assets/${name}.png" alt="${escapeAttr(screenshotAlt(html, offset, fm))}" width="1440" height="900" loading="lazy" decoding="async">`;
 
     // A placeholder alone in its own paragraph becomes a bare <img>.
     let out = html.replace(/<p>\s*\{\{SCREENSHOT:([a-z0-9-]+)\}\}\s*<\/p>/g, (match, name, offset) =>
