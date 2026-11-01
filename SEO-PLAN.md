@@ -68,6 +68,7 @@
 | Low | Core Web Vitals (PageSpeed) | BACKLOG |
 | Low | Email‑база / Backlink strategy | BACKLOG |
 | Low | Убрать «Phase 5» хвост из SPEC.md | BACKLOG |
+| **Decision** | **Fake Testimonials rejected** – основатель решил не добавлять фейковые отзывы; блок Testimonials будет добавлен только с реальными цитатами. | FOUNDER |
 
 ## 7. Метрики успеха (KPIs)
 | Метрика | Текущее значение | Целевое (3 мес.) |
