@@ -143,7 +143,8 @@
             </div>
             
             <div style="margin-bottom: 16px;">
-                <input type="text" id="licenseKey" placeholder="Paste Pro License Key here" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
+                <input type="text" id="licenseKey" placeholder="Paste your LJSON-PRO- key here" style="width:100%; padding:8px 12px; background:#0f172a; border:1px solid #334155; border-radius:8px; color:white; font-size:12px; font-family:monospace; outline:none; text-align:center; margin-bottom:8px;">
+                <p style="font-size:11px;color:#94a3b8;margin-top:4px;">Lost Pro access? Paste your license key (starts with LJSON-PRO-) and click Activate.</p>
                 <button onclick="activatePro()" style="width:100%; background:#4f46e5; border:none; color:white; font-size:11px; font-weight:700; padding:6px; border-radius:8px; cursor:pointer;">Activate License</button>
             </div>
 
@@ -265,6 +266,7 @@
             const keyInput = document.getElementById('licenseKey').value.trim();
             if (keyInput.startsWith('LJSON-PRO-') && keyInput.length > 14) {
                 localStorage.setItem('localjson_pro_status', 'activated');
+                localStorage.setItem('localjson_pro_key', keyInput);
                 alert("Success! Pro features unlocked.");
                 document.getElementById('m').classList.add('hidden');
                 checkProStatus();
