@@ -22,6 +22,7 @@
 - [ ] **Испанский checkout** — обновить ссылку покупки Lava.top для ES версии (LocalJSON_Pro_Documentation_and_License_Key_es.html).
 - [ ] **Внутренние ссылки index ↔ offline ↔ activate** — добавить cross-page ссылки в футер/хедер на оффлайн-версию и страницу активации.
 - [ ] **Настроить Telegram-бота для ежедневных напоминаний о запросе индексации в GSC (ручной клик, безопасно).**
+- [ ] **Контент-план:** Вторник 15:00 МСК — Show HN (marketing/hn-post.md). Среда — dev.to (marketing/devto-post.md).
 
 ## Низкий
 
