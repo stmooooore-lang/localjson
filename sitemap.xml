@@ -19,18 +19,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://localjson-black.vercel.app/"/>
   </url>
   <url>
-    <loc>https://localjson-black.vercel.app/LocalJSON_Pro_Documentation_and_License_Key.html</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://localjson-black.vercel.app/LocalJSON_Pro_Documentation_and_License_Key_es.html</loc>
-    <lastmod>2026-10-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://localjson-black.vercel.app/blog/</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
