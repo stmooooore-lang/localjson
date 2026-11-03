@@ -86,3 +86,17 @@
 - **Контекст:** историческое решение 2026-10-07 «продвижение через
   каналы» (выше) сохраняется, но список каналов сужается до HN,
   dev.to и Product Hunt.
+
+## 2026-11-03. Hacker News исключён из контент-плана
+
+- **Решение:** Hacker News исключён из контент-плана. Фокус перенесен
+  на dev.to и Product Hunt.
+- **Причина:** жесткие ограничения для новых аккаунтов — временная
+  блокировка Show HN ("we are temporarily restricting Show HN"),
+  риск теневого бана. Официально: новые аккаунты не могут постить
+  Show HN без просьбы модераторам (email hn@ycombinator.com, без
+  гарантии ответа).
+- **Источники:** [HN: "We're going to at least restrict Show HNs"](https://news.ycombinator.com/item?id=47300772),
+  [Ask HN: "I can't post in Show HN"](https://news.ycombinator.com/item?id=49206984).
+- **Откат:** если аккаунт прогреть (карма 50+) или модераторы снимут
+  ограничение — вернуть HN в план, восстановить marketing/hn-post.md.

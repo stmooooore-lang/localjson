@@ -5,6 +5,7 @@ description: "Two identical JSON payloads, 400 changed lines in diff. Here's why
 tags: json, diffing, debugdiary, webdev
 cover_image: ""
 series:
+# PRIMARY MARKETING PRIORITY (HN excluded 2026-11-03)
 ---
 
 # A story you have probably lived
