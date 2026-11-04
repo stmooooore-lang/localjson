@@ -100,3 +100,10 @@
   [Ask HN: "I can't post in Show HN"](https://news.ycombinator.com/item?id=49206984).
 - **Откат:** если аккаунт прогреть (карма 50+) или модераторы снимут
   ограничение — вернуть HN в план, восстановить marketing/hn-post.md.
+
+## 2026-11-04. Первая статья опубликована на dev.to
+
+- **Решение:** зафиксирована первая внешняя публикация на dev.to.
+- **Ссылка:** https://dev.to/saint_moore/comparing-json-files-practical-diffing-strategies-for-developers-2ndb
+- **Контекент:** статья "Why diff -u lies to you about JSON (and what to do instead)" — переработанная версия блог-поста "Comparing JSON Files". Это первый работающий внешний маркетинговый канал. Ожидается передача SEO-веса через бэклинк на localjson-black.vercel.app.
+- **Следующие шаги:** отслеживать реферальный трафик в GA4, мониторить позиции по запросам "json diff", "compare json files", "structural json comparison".

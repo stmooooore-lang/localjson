@@ -70,6 +70,40 @@
 | Low | Убрать «Phase 5» хвост из SPEC.md | BACKLOG |
 | **Decision** | **Fake Testimonials rejected** – основатель решил не добавлять фейковые отзывы; блок Testimonials будет добавлен только с реальными цитатами. | FOUNDER |
 
+## 8. Backlink Tracking — внешние публикации
+
+### 2026-11-04. dev.to publication
+
+- **URL публикации:** https://dev.to/saint_moore/comparing-json-files-practical-diffing-strategies-for-developers-2ndb
+- **Дата публикации:** 2026-11-04
+- **Целевая страница:** https://localjson-black.vercel.app/blog/compare-json-files/
+- **Анкоры в тексте:**
+  - "LocalJSON" → https://localjson-black.vercel.app/
+  - "Comparing JSON Files" → https://localjson-black.vercel.app/blog/compare-json-files/
+- **Тип ссылки:** dofollow (dev.to передает SEO-вес)
+- **Ожидаемый эффект:** реферальный трафик, улучшение позиций по "json diff", "compare json files", "structural json comparison"
+- **Мониторинг:** GA4 (Traffic acquisition → Referral → dev.to), GSC (покрытие/позиции целевых запросов)
+
+### План накопления бэклинков
+
+| Приоритет | Канал | Статус |
+|-----------|-------|--------|
+| 1 | dev.to (статьи) | ✅ Первая опубликована |
+| 2 | Product Hunt (листинг) | 🔄 Активно (SPEC.md:99) |
+| 3 | Indie Hackers | ⏳ Планируется |
+| 4 | AlternativeTo | ⏳ Планируется |
+| 5 | JSON-каталоги (json-indent.com, jsonanalyzer.com и др.) | ⏳ Аудит |
+| 6 | Тематические блоги / гостевые посты | ⏳ Исследование |
+
+---
+
+## Метрики успеха (к концу Q1 2027)
+
+- **Referring domains:** ≥ 10 уникальных доменов
+- **Organic traffic:** +50% к текущему базлайну
+- **Top-10 positions:** ≥ 5 целевых запросов в топ-10
+- **Referral traffic from dev.to:** ≥ 100 сессий/месяц
+
 ## 7. Метрики успеха (KPIs)
 | Метрика | Текущее значение | Целевое (3 мес.) |
 |---------|------------------|-----------------|
