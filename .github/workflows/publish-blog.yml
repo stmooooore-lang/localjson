@@ -25,6 +25,8 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
       - name: Build Blog and Screenshot
         run: node bin/build-blog.mjs
+      - name: Submit to IndexNow
+        run: node scripts/submit-indexnow.mjs
       - name: Validate
         run: node acceptance/blog-check.mjs
       - name: Commit and Push

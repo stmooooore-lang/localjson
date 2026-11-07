@@ -10,26 +10,53 @@
 - **Meta‑теги** (OG, Twitter, JSON‑LD) – полные, валидны.
 - **Мультиязычность** – EN (default) + ES на `/es/`, переключатель без редиректов.
 - **Блог** – 2 статьи, еженедельный автопаблиш (GitHub Actions), план 6 тем.
-- **Каналы** – Reddit убран; HN, dev.to, Product Hunt – плановые, PH листинг активен.
+- **Каналы** – Reddit и Hacker News исключены; dev.to (первая статья опубликована 2026-11-04) и Product Hunt – активные, PH листинг в работе.
 
 ## 2. Реально подключённые поисковые системы
 | Система | Подключена | Sitemap отправлен | Статус |
 |---------|------------|-------------------|--------|
-| Google  | ✅ | ✅ (Success) | Есть ошибки покрытия |
-| Bing    | ⚠️ (только тэг) | ❌ | Требует настройки |
-| Яндекс  | ❌ | ❌ | Требует настройки |
+| Google  | ✅ | ✅ (Success) | Есть ошибки покрытия; ручная очередь через бота |
+| Bing    | ✅ через IndexNow | n/a (IndexNow) | Мгновенные URL-нотификации, авто при сборке блога |
+| DuckDuckGo | ✅ через IndexNow | n/a (IndexNow) | Мгновенные URL-нотификации |
+| Yahoo   | ✅ через индекс Bing | n/a (наследует) | Бесплатно, следует за индексом Bing |
+| Яндекс  | ❌ | ❌ | Требует настройки (Вебмастер + sitemap) |
+
+### 2.1 IndexNow — мгновенная индексация
+
+Внедрено 2026-11-07. Позволяет уведомлять одномоментно Bing, Yandex,
+DuckDuckGo, Yahoo, Naver, Seznam и part of AI-answer engines вместо
+ожидания следующего обхода.
+
+- **Ключ:** `NDkCKfQYMQ-HZS3asUKxO4csyzaEWrdm`
+- **Файл подтверждения:** `/<key>.txt` в корне репозитория (раздаётся Vercel,
+  `.vercelignore` его не блокирует) — Bing проверяет владение по нему.
+- **Скрипт:** `scripts/submit-indexnow.mjs` — читает `sitemap.xml`,
+  POST на `https://api.indexnow.org/indexnow`, печатает отчёт со статусом.
+- **Воркфлоу:** шаг «Submit to IndexNow» в `publish-blog.yml` сразу после
+  «Build Blog» — каждое авто-обновление блога мгновенно рассылается.
+- **Dry-run:** `node scripts/submit-indexnow.mjs --dry-run` — проверить
+  состав URL без реальной отправки.
+- **Ручной запуск:** `node scripts/submit-indexnow.mjs` (npm-окружение не
+  требуется, используется встроенный `fetch` из Node 18+).
+
+### 2.2 Очередь ручной индексации GSC (Google)
+
+Google не участвует в IndexNow, поэтому остаётся ручная подача.
+Ведётся постоянная очередь `state/gsc-queue.json` + бот
+`scripts/pick-url.js` (см. DECISIONS.md от 2026-11-07).
 
 ## 3. План покрытия индекса (целевые URL)
 | Язык | Страница | Приоритет | Статус индексации |
 |------|----------|-----------|-------------------|
 | EN   | `/` | 1.0 | В индексе |
 | ES   | `/es/` | 0.9 | В индексе |
-| EN   | `/LocalJSON_Pro_Documentation_and_License_Key.html` | 0.5 | В индексе |
-| ES   | `/LocalJSON_Pro_Documentation_and_License_Key_es.html` | 0.5 | В индексе |
 | EN   | `/blog/` | 0.9 | В индексе |
 | EN   | `/blog/compare-json-files/` | 0.8 | В индексе |
 | EN   | `/blog/json-to-csv-complete-guide/` | 0.8 | В индексе |
+| EN   | `/blog/map-vendor-json/` | 0.8 | По мере публикации |
 | *будущие статьи* | `/blog/<slug>/` | 0.8 | По мере публикации |
+
+> **Примечание:** Страницы документации (`LocalJSON_Pro_Documentation_and_License_Key.html` и `_es.html`) исключены из индексации (noindex) решением от 2026-11-03. Они удалены из sitemap.xml, закрыты `<meta name="robots" content="noindex, follow">` и заголовком `X-Robots-Tag`.
 
 ## 4. Технические требования (чек‑лист)
 - [x] `robots.txt` с ссылкой на sitemap  

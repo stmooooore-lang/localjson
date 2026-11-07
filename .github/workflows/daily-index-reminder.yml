@@ -8,6 +8,8 @@ on:
 jobs:
   remind:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -18,3 +20,10 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node scripts/pick-url.js
+      - name: Persist queue state
+        run: |
+          git config --global user.name 'LocalJSON Bot'
+          git config --global user.email 'bot@localjson.dev'
+          git add state/gsc-queue.json
+          git commit -m "bot: update GSC indexing queue" || echo "No changes"
+          git push
