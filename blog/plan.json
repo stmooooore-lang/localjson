@@ -15,7 +15,7 @@
     "slug": "json-formatter-online",
     "title": "JSON Formatter: Format, Validate, Beautify",
     "cluster": "formatter-beautifier",
-    "status": "pending"
+    "status": "draft"
   },
   {
     "slug": "large-json-viewer",
