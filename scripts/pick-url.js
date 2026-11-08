@@ -139,6 +139,21 @@ const getUpdates = offset =>
 const answerCallbackQuery = (id) =>
   tg('answerCallbackQuery', { callback_query_id: id }, 'answerCallback');
 
+// Replaces the message text and drops the inline keyboard in one call, so
+// the buttons visually disappear once acted on. Non-fatal: Telegram
+// rejects edits on messages older than 48h or when nothing changed.
+const editMessageText = (chatId, messageId, text) =>
+  tg(
+    'editMessageText',
+    {
+      chat_id: chatId,
+      message_id: messageId,
+      text,
+      reply_markup: { inline_keyboard: [] },
+    },
+    'editMessageText'
+  );
+
 const sendMessage = (text, replyMarkup) =>
   tg(
     'sendMessage',
@@ -181,17 +196,29 @@ async function main() {
       // Stop the spinner on the button; non-fatal if it fails.
       await answerCallbackQuery(cb.id);
 
+      // Feedback shown in place of the prompt, replacing the keyboard.
+      const chatId = cb.message && cb.message.chat && cb.message.chat.id;
+      const messageId = cb.message && cb.message.message_id;
+      const ackInPlace = (status) => {
+        if (!chatId || !messageId) return Promise.resolve();
+        return editMessageText(chatId, messageId, status);
+      };
+
       if (cb.data === 'done') {
         doneCount++;
         if (state.pending.length > 0) {
           const removed = state.pending.shift();
           console.log('[queue] DONE -> removed from queue: ' + removed);
+          await ackInPlace('✅ Принято: проиндексировано\n' + removed);
         } else {
           console.log('[queue] DONE ignored, queue already empty');
+          await ackInPlace('✅ Принято: очередь уже пуста');
         }
       } else if (cb.data === 'quota') {
         quotaCount++;
-        console.log('[queue] QUOTA -> kept at head: ' + state.pending[0]);
+        const head = state.pending[0] || '(очередь пуста)';
+        console.log('[queue] QUOTA -> kept at head: ' + head);
+        await ackInPlace('⏳ Принято: квота GSC. Повтор завтра\n' + head);
       } else {
         console.log('[queue] unknown callback data, ignored: ' + cb.data);
       }
@@ -221,13 +248,14 @@ async function main() {
     message =
       '⏰ Запросите индексацию в GSC\n' +
       nextUrl +
-      '\n\nСсылка на GSC:\n' +
-      gscLink +
       '\n\nОсталось в очереди: ' +
       state.pending.length +
       ' стр.';
+    // URL button first: one tap opens GSC pre-filled with this URL, no
+    // need to copy the long inspect link out of the message body.
     replyMarkup = {
       inline_keyboard: [
+        [{ text: '🔗 Открыть GSC', url: gscLink }],
         [{ text: '✅ Готово', callback_data: 'done' }],
         [{ text: '⏳ Квота', callback_data: 'quota' }],
       ],
