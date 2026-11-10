@@ -21,7 +21,6 @@
 - [ ] **Собрать 3 реальных отзыва (Twitter, Reddit, PH) после запуска и добавить блок на главную.**
 - [ ] **Испанский checkout** — обновить ссылку покупки Lava.top для ES версии (LocalJSON_Pro_Documentation_and_License_Key_es.html).
 - [ ] **Внутренние ссылки index ↔ offline ↔ activate** — добавить cross-page ссылки в футер/хедер на оффлайн-версию и страницу активации.
-- [ ] **Настроить Telegram-бота для ежедневных напоминаний о запросе индексации в GSC (ручной клик, безопасно).**
 
 ## Низкий
 
@@ -51,3 +50,14 @@
 - [x] **Удаление Reddit из стратегии** — удалён из BACKLOG, SPEC, добавлена запись в DECISIONS (коммит e5d87e7).
 - [x] **Обновление статуса Product Hunt** — статус изменён на «поддержка листинга», добавлен Changelog (коммит d854deb).
 - [x] **P0 фиксы /es/** — twitter:url, ссылка «Inicio» в футере, таблица Free vs Pro полностью на испанском (уже было в коммите 36476d7; подтверждено после регенерации /es/).
+
+## Закрыто 2026-11-03 … 2026-11-07
+
+- [x] **noindex для страниц документации** — meta robots + X-Robots-Tag в vercel.json, URL убраны из sitemap.xml (коммит 6feda0b).
+- [x] **Perf блога** — width/height/loading/decoding у `<img>` в генераторе, Cache-Control на год для /blog/assets/ (коммит da1c505).
+- [x] **Hacker News исключён** — временная блокировка Show HN для новых аккаунтов; маркетинговые черновики переведены на dev.to (коммиты 9c603a3, 71ab88c).
+- [x] **dev.to: первая статья опубликована** (2026-11-04, коммит 10d74c1).
+- [x] **Умная очередь GSC + IndexNow** — `scripts/pick-url.js` с кнопками «Готово/Квота», `state/gsc-queue.json`, `scripts/submit-indexnow.mjs`, шаги в обоих воркфлоу (коммит bb72e6e).
+- [x] **Правки бота: кликабельная ссылка на GSC + исчезающие кнопки** (коммит 01736df).
+- [x] **JSON-LD Offer с price** — исправлены ошибки GSC «Product snippets» / «Merchant listings» на EN и /es/ (коммит 01736df).
+- [x] **Удаление легаси-брифов из корня** — i18n-refactor-task.md, seo-foundation-task.md, remove-debug-js-task.md (коммит 76f63ae).

@@ -93,7 +93,7 @@ Target Keyword Clusters:
 - /privacy/ (future): Privacy Policy - GDPR/CCPA compliance - Yes
 - /terms/ (future): Terms of Service - Legal - Yes
 
-Note: Currently only index.html is deployed. Offline/Activate pages distributed as files to buyers.
+Note: Deployed to production: index.html (EN, at /), es/index.html (ES, at /es/), and the blog (/blog/ plus one page per article). Offline/Activate pages distributed as files to buyers.
 
 ## 7. Backlinks & Listings (Known)
 - Product Hunt: https://www.producthunt.com/products/localjson — Active listing (confirmed by owner)
@@ -125,7 +125,7 @@ Phase 2: Content Expansion (Week 1-2) **DONE**
 Phase 3: On-Page Optimization (Week 2) **MOSTLY DONE**
 - [x] Optimize title / meta description / h1 for target clusters
 - [x] Add keyword-rich section headings (h2, h3)
-- [ ] Internal links: index <-> offline <-> activate (footer has anchor links to sections; cross-page links to offline/activate HTML files not added)
+- [x] Internal links: index <-> offline <-> activate (footer has anchor links to sections; cross-page links to offline/activate HTML files added in footer 2026-10-07, confirmed live at index.html footer "Documentation" and "Offline Version")
 - [x] Anchor links for scroll-to sections
 
 Phase 4: Authority & Signals (Ongoing) **PENDING**
@@ -192,24 +192,26 @@ Environment Variables (Vercel):
 ## 11. Quick Reference for AI Assistants
 When user asks to modify the site:
 1. Read this SPEC.md first
-2. Edit index.html (main app) - it is the only deployed file
-3. Update SPEC.md with changes
-4. git add -A && git commit -m "type: description" && git push
-5. Vercel deploys automatically
+2. Edit index.html (EN main app), blog/posts/*.md (articles)
+3. Rebuild derived artifacts: `node bin/build-es.mjs` (ES page), `node bin/build-blog.mjs` (blog pages + sitemap)
+4. Commit locally. **Do NOT push without the founder's written «принято»** — see AGENTS.md, "Push and deploy — founder gate"
+5. Vercel deploys automatically after the founder approves and the push happens
 
 File locations:
-- Main app: /index.html
+- Main app EN: /index.html  → served at /
+- Main app ES: /es/index.html (generated, do not edit by hand) → served at /es/
+- Blog articles: /blog/posts/*.md (source) → /blog/<slug>/ (generated)
 - Offline version: /LocalJSON_Pro_Offline_Version.html
 - Activation docs: /LocalJSON_Pro_Documentation_and_License_Key.html
 - Spec: /SPEC.md
 
 Do NOT:
-- Add build steps / bundlers / frameworks
+- Add build steps / bundlers / frameworks (exception: bin/build-es.mjs and bin/build-blog.mjs, both sanctioned)
 - Add server-side code
 - Change license validation (client-only by design)
 - Remove privacy-first architecture
 
-*Last updated: 2026-10-06 - EN/ES i18n + SEO work deployed*
+*Last updated: 2026-11-08 — docs audit: deployment note, sitemap contents, internal links, founder gate in Quick Reference*
 - [ ] Create comparison content (vs jsonformatter.org, vs onlinejsontools.com)
 
 Phase 5: Performance & UX (Parallel)
@@ -264,9 +266,10 @@ File Inventory:
 
 **SEO:**
 - GSC: главная проиндексирована, краулится регулярно (Oct 3).
-- Показы за 3 месяца: 7, клики: 0. Причина — одна страница, ноль
-  ссылок. Не техническая поломка. Рост — только через каналы.
-- sitemap.xml: /, /es/, две докстраницы (EN и ES).
+- Показы за 3 месяца (базлайн 2026-10-08): 7, клики: 0. Причина —
+  новый сайт без внешних ссылок. Не техническая поломка. Рост —
+  через каналы (dev.to опубликован 2026-11-04).
+- sitemap.xml: 6 URL — /, /es/, /blog/ and the three blog articles. License documentation pages were removed on 2026-11-03 (noindex).
 - hreflang: en → /, es → /es/, x-default → /.
 
 **Стратегия (2026-10-07):** продвижение через каналы

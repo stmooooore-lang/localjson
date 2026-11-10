@@ -28,19 +28,16 @@ checks itself. It collapsed exactly this way on 2026-08-22.
 
 ## What a brief must make the agent do
 
-- **establish state first**: `git status`, uncommitted work, the last run's
-  logs, what the queue already accepted;
+- **establish state first**: `git status`, uncommitted work, the last GitHub
+  Actions run's logs (`gh run view --log`), what `BACKLOG.md` already closed;
 - **write task files with addresses** — path and line, not intention. Measured
-  across four lanes: 181 edits cost 689 shell commands and 303 file reads, one
-  file read 47 times, because briefs carried no addresses;
+  across earlier detached runs: 181 edits cost 689 shell commands and 303 file
+  reads, one file read 47 times, because briefs carried no addresses;
 - **give every task an `## Acceptance` section** with exactly one ```bash block;
-- **register the tasks** in the lane's `queue-tasks.txt`;
-- **start the lane himself**, once the tasks are written and registered. One
-  command, the same in every project: `cd "<stack>" && ./lane.sh <lane>`. It
-  detaches itself, so the run outlives the session that started it — a lane
-  started inside a chat used to die with the chat, which is how a localjson run
-  was lost on 2026-08-21. Never any other way: `bash queue.sh` by hand puts the
-  run in the wrong directory, with the wrong task list and state file;
+- **put open work in `BACKLOG.md`** and let the workflows do the running:
+  `.github/workflows/publish-blog.yml` (weekly article) and
+  `.github/workflows/daily-index-reminder.yml` (daily GSC reminder). Work that
+  must not be automated needs a reason written down, not a chat instruction;
 - **report in the shape you define.** There is no standard form and there
   should not be: what matters in this project is not what matters next door.
   Look at the folder, then say in the brief what the report must contain and
@@ -55,8 +52,9 @@ and how you will know it is true — that is your half.
 
 The first step of any specification is not writing it. It is finding out where
 the work actually stopped: `git status`, uncommitted checkpoints, the last
-run's logs in the lane's `queue-log/`, what the queue already accepted
-(`queue-done.txt`). Only then write the task.
+GitHub Actions run's logs (`gh run list`, `gh run view --log`), and what the
+backlog already closed (`BACKLOG.md`, "Закрыто" sections). Only then write the
+task.
 
 A specification written without this describes work that may already be done,
 or contradicts what an interrupted run left behind. This is a criterion of a
@@ -67,8 +65,8 @@ courtesy step.
 
 A decision that exists only in the conversation is lost — not degraded, lost.
 Measured on 2026-08-22: localisation work agreed in chat and interrupted from
-the terminal was found in no queue log, no Cline git checkpoint, and no Cline
-extension storage. It had never been written anywhere.
+the terminal was found in no commit, no session log, and no autosave. It had
+never been written anywhere.
 
 Address-carrying task files do not help here: there is nothing to address if
 nothing was saved. So the rule is procedural, not formal:
