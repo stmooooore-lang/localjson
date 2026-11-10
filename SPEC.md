@@ -269,7 +269,7 @@ File Inventory:
 - Показы за 3 месяца (базлайн 2026-10-08): 7, клики: 0. Причина —
   новый сайт без внешних ссылок. Не техническая поломка. Рост —
   через каналы (dev.to опубликован 2026-11-04).
-- sitemap.xml: 6 URL — /, /es/, /blog/ and the three blog articles. License documentation pages were removed on 2026-11-03 (noindex).
+- sitemap.xml: 7 URL — /, /es/, /blog/ and the four blog articles. License documentation pages were removed on 2026-11-03 (noindex).
 - hreflang: en → /, es → /es/, x-default → /.
 
 **Стратегия (2026-10-07):** продвижение через каналы
