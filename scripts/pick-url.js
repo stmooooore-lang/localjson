@@ -142,8 +142,19 @@ const escapeHtml = (s) =>
 const getUpdates = offset =>
   tg('getUpdates', { offset, timeout: 0, allowed_updates: ['callback_query'] }, 'getUpdates');
 
-const answerCallbackQuery = (id) =>
-  tg('answerCallbackQuery', { callback_query_id: id }, 'answerCallback');
+const answerCallbackQuery = (id, text) =>
+  tg(
+    'answerCallbackQuery',
+    text ? { callback_query_id: id, text } : { callback_query_id: id },
+    'answerCallback'
+  );
+
+// Toast text shown on the pressed button. Answering with text is what makes
+// the press visible; answering without it only stops the spinner silently.
+const TOAST = {
+  done: '✅ Принято — URL убран из очереди',
+  quota: '⏳ Принято — квота GSC, повтор завтра',
+};
 
 // Replaces the message text and drops the inline keyboard in one call, so
 // the buttons visually disappear once acted on. Non-fatal: Telegram
@@ -201,8 +212,9 @@ async function main() {
 
       console.log('[queue] callback_query data=' + cb.data + ' from=' + (cb.from && cb.from.id));
 
-      // Stop the spinner on the button; non-fatal if it fails.
-      await answerCallbackQuery(cb.id);
+      // Stop the spinner on the button and confirm the press with a toast;
+      // non-fatal if it fails.
+      await answerCallbackQuery(cb.id, TOAST[cb.data]);
 
       // Feedback shown in place of the prompt, replacing the keyboard.
       const chatId = cb.message && cb.message.chat && cb.message.chat.id;
@@ -257,18 +269,21 @@ async function main() {
     console.log('[queue] queue empty — nothing to submit today');
   } else {
     const gscLink = GSC_BASE + encodeURIComponent(nextUrl);
+    // The inspect link is printed as bare text, not as an <a> anchor: Telegram
+    // pops a confirmation dialog for links in the message body, and a raw URL
+    // is only offered for copy — no dialog, no dead end. It still has to be
+    // escaped, because parse_mode is HTML and a bare & fails the parse.
     message =
       '⏰ Запросите индексацию в GSC\n\n' +
-      '<a href="' + escapeHtml(gscLink) + '">Запросить индексацию</a>' +
+      escapeHtml(gscLink) +
       '\n\nСтраница (клик — копирование):\n' +
       '<code>' + escapeHtml(nextUrl) + '</code>' +
       '\n\nОсталось в очереди: ' +
       state.pending.length +
       ' стр.';
-    // No URL button: Telegram shows a confirmation dialog for inline-keyboard
-    // URL buttons, which adds a third tap to the flow. An anchor link in the
-    // message body opens the same pre-filled URL directly, so the flow stays
-    // at two taps (copy the URL, or tap the link), then Готово/Квота.
+    // No URL button: an inline-keyboard URL button also raises a confirmation
+    // dialog, which costs an extra tap. The message carries both URLs as text,
+    // and these buttons only report what was done.
     replyMarkup = {
       inline_keyboard: [
         [{ text: '✅ Готово', callback_data: 'done' }],
