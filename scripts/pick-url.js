@@ -133,6 +133,12 @@ async function tg(method, body, label) {
   return null;
 }
 
+// Telegram's HTML parse mode rejects raw &, < and > in the message text and
+// fails the send outright, so any URL carrying a query string is escaped
+// before it goes into <code>.
+const escapeHtml = (s) =>
+  String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
 const getUpdates = offset =>
   tg('getUpdates', { offset, timeout: 0, allowed_updates: ['callback_query'] }, 'getUpdates');
 
@@ -149,6 +155,7 @@ const editMessageText = (chatId, messageId, text) =>
       chat_id: chatId,
       message_id: messageId,
       text,
+      parse_mode: 'HTML',
       reply_markup: { inline_keyboard: [] },
     },
     'editMessageText'
@@ -160,6 +167,7 @@ const sendMessage = (text, replyMarkup) =>
     {
       chat_id: CHAT_ID,
       text,
+      parse_mode: 'HTML',
       reply_markup: replyMarkup, // undefined -> omitted -> plain text
     },
     'sendMessage'
@@ -209,7 +217,9 @@ async function main() {
         if (state.pending.length > 0) {
           const removed = state.pending.shift();
           console.log('[queue] DONE -> removed from queue: ' + removed);
-          await ackInPlace('✅ Принято: проиндексировано\n' + removed);
+          await ackInPlace(
+            '✅ Принято: проиндексировано\n<code>' + escapeHtml(removed) + '</code>'
+          );
         } else {
           console.log('[queue] DONE ignored, queue already empty');
           await ackInPlace('✅ Принято: очередь уже пуста');
@@ -218,7 +228,9 @@ async function main() {
         quotaCount++;
         const head = state.pending[0] || '(очередь пуста)';
         console.log('[queue] QUOTA -> kept at head: ' + head);
-        await ackInPlace('⏳ Принято: квота GSC. Повтор завтра\n' + head);
+        await ackInPlace(
+          '⏳ Принято: квота GSC. Повтор завтра\n<code>' + escapeHtml(head) + '</code>'
+        );
       } else {
         console.log('[queue] unknown callback data, ignored: ' + cb.data);
       }
@@ -247,7 +259,7 @@ async function main() {
     const gscLink = GSC_BASE + encodeURIComponent(nextUrl);
     message =
       '⏰ Запросите индексацию в GSC\n' +
-      nextUrl +
+      '<code>' + escapeHtml(nextUrl) + '</code>' +
       '\n\nОсталось в очереди: ' +
       state.pending.length +
       ' стр.';
