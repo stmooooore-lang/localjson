@@ -88,12 +88,19 @@ Target Keyword Clusters:
   activates Pro through this path; the doc pages
   (LocalJSON_Pro_Documentation_and_License_Key*.html)
   are certificates and do not participate in activation.
-- /offline/ (future): Offline Version - Pre-activated Pro, no network - Yes
-- /activate/ (future): Activation & Docs - License entry, documentation - Yes
+- /offline/: **not a route** — the offline build is the file
+  LocalJSON_Pro_Offline_Version.html (+ _es), distributed to buyers. No
+  /offline/ directory exists; the earlier "(future)" entry was a spec bug
+  (audited 2026-11-11).
+- /activate/: **not a route and not a planned page** — activation is
+  already implemented in two live places: the Pro modal on / (license
+  entry, `activatePro()`) and the `/?auth=success` redirect above. A
+  separate page would add nothing; the modal also covers the lost-key
+  case. Removed as a spec bug (audited 2026-11-11).
 - /privacy/ (future): Privacy Policy - GDPR/CCPA compliance - Yes
 - /terms/ (future): Terms of Service - Legal - Yes
 
-Note: Deployed to production: index.html (EN, at /), es/index.html (ES, at /es/), and the blog (/blog/ plus one page per article). Offline/Activate pages distributed as files to buyers.
+Note: Deployed to production: index.html (EN, at /), es/index.html (ES, at /es/), and the blog (/blog/ plus one page per article). The offline build and the documentation certificates are distributed to buyers as standalone files, not served as routes.
 
 ## 7. Backlinks & Listings (Known)
 - Product Hunt: https://www.producthunt.com/products/localjson — Active listing (confirmed by owner)
