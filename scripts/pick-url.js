@@ -258,16 +258,19 @@ async function main() {
   } else {
     const gscLink = GSC_BASE + encodeURIComponent(nextUrl);
     message =
-      '⏰ Запросите индексацию в GSC\n' +
+      '⏰ Запросите индексацию в GSC\n\n' +
+      '<a href="' + escapeHtml(gscLink) + '">Запросить индексацию</a>' +
+      '\n\nСтраница (клик — копирование):\n' +
       '<code>' + escapeHtml(nextUrl) + '</code>' +
       '\n\nОсталось в очереди: ' +
       state.pending.length +
       ' стр.';
-    // URL button first: one tap opens GSC pre-filled with this URL, no
-    // need to copy the long inspect link out of the message body.
+    // No URL button: Telegram shows a confirmation dialog for inline-keyboard
+    // URL buttons, which adds a third tap to the flow. An anchor link in the
+    // message body opens the same pre-filled URL directly, so the flow stays
+    // at two taps (copy the URL, or tap the link), then Готово/Квота.
     replyMarkup = {
       inline_keyboard: [
-        [{ text: '🔗 Открыть GSC', url: gscLink }],
         [{ text: '✅ Готово', callback_data: 'done' }],
         [{ text: '⏳ Квота', callback_data: 'quota' }],
       ],
