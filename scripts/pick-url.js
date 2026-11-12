@@ -40,13 +40,19 @@ const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 // guard necessary: without it the chat would receive ~96 reminders a day.
 // Only the *send* is gated — getUpdates and the press handling still run on
 // every wake-up, which is the whole point of the new schedule.
-const BOT_TZ = process.env.BOT_TZ || 'Europe/Moscow';
+//
+// Timezone is Spanish time: the /es/ version is why the bot's prompts are in
+// Russian for the owner but the product audience is Spanish-speaking, so
+// reminders are anchored to Madrid rather than to the runner's UTC clock.
+// Override with BOT_TZ.
+const BOT_TZ = process.env.BOT_TZ || 'Europe/Madrid';
 const BOT_SEND_FROM_HOUR = Number.isFinite(Number(process.env.BOT_SEND_FROM_HOUR))
   ? Number(process.env.BOT_SEND_FROM_HOUR)
   : 9; // 09:00 local — a single reminder per morning
 
 // Calendar date in the bot's timezone, not in UTC: GitHub Actions runs in
-// UTC, so a UTC "day" boundary would put the reminder at 03:00 Moscow time.
+// UTC, so a UTC "day" boundary would put the reminder at 01:00-03:00 in
+// Spanish time, in the middle of the night.
 function zonedToday() {
   const parts = new Intl.DateTimeFormat('en-CA', {
     timeZone: BOT_TZ,
