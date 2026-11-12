@@ -41,6 +41,8 @@ jobs:
         # a separate change once the baseline is agreed.
 
       # HTML reports are for the founder, not for the CI log.
+      # include-hidden-files is required: lhci writes into .lighthouseci/,
+      # and a leading dot is exactly what upload-artifact skips by default.
       - name: Upload Lighthouse reports
         uses: actions/upload-artifact@v4
         with:
@@ -48,3 +50,4 @@ jobs:
           path: .lighthouseci/
           retention-days: 30
           if-no-files-found: error
+          include-hidden-files: true
