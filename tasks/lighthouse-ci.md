@@ -1,6 +1,6 @@
 # LCI-01 — Lighthouse CI для Core Web Vitals
 
-**Приоритет:** Medium · **Статус:** ready · **Создан:** 2026-11-11
+**Приоритет:** Medium · **Статус:** done 2026-11-12 · **Создан:** 2026-11-11
 **Основание:** BACKLOG.md Medium («Проверить результаты в PSI»),
 SEO-PLAN.md §8.1 («Core Web Vitals — не измерено»)
 
