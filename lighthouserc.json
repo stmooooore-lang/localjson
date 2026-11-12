@@ -1,0 +1,45 @@
+{
+  "ci": {
+    "collect": {
+      "url": [
+        "https://localjson-black.vercel.app/",
+        "https://localjson-black.vercel.app/es/",
+        "https://localjson-black.vercel.app/blog/json-formatter-online/"
+      ],
+      "numberOfRuns": 1,
+      "settings": {
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 412,
+          "height": 823,
+          "deviceScaleFactor": 1.75,
+          "disabled": false
+        },
+        "throttlingMethod": "simulate",
+        "disableStorageReset": false,
+        "chromeFlags": [
+          "--no-sandbox",
+          "--disable-dev-shm-usage",
+          "--disable-gpu"
+        ]
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": "off",
+        "categories:accessibility": "off",
+        "categories:best-practices": "off",
+        "categories:seo": "off",
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }],
+        "cumulative-layout-shift": ["warn", { "maxNumericValue": 0.1 }],
+        "total-blocking-time": ["warn", { "maxNumericValue": 200 }],
+        "first-contentful-paint": ["warn", { "maxNumericValue": 1800 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": ".lighthouseci"
+    }
+  }
+}

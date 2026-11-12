@@ -104,7 +104,7 @@ Note: Deployed to production: index.html (EN, at /), es/index.html (ES, at /es/)
 
 ## 7. Backlinks & Listings (Known)
 - Product Hunt: https://www.producthunt.com/products/localjson — Active listing (confirmed by owner)
-- Indie Hackers: https://www.indiehackers.com/product/localjson — Active listing (confirmed by owner)
+- Indie Hackers: НЕТ листинга. URL `https://www.indiehackers.com/product/localjson` возвращает **404** (проверено 2026-11-12); предыдущая запись «Active listing (confirmed by owner)» была ошибочной. Листинг нужно создать — черновик поста в `marketing/indie-hackers-draft.md`.
 - AlternativeTo: https://alternativeto.net/software/localjson/ — Active listing
 - Gumroad / Lemonsqueezy product page: Marketplace - Active (legacy, now Lava.top)
 - Vercel dashboard: Platform - Active

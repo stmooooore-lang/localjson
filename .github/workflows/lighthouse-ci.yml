@@ -1,0 +1,50 @@
+name: Lighthouse CI
+
+# Core Web Vitals guard for the three live URLs that matter: the English
+# landing, the Spanish landing, and a blog article. All three are checked
+# because /es/ and the blog are generated from different pipelines and
+# degrade separately — a homepage-only check misses that (proven in the
+# 2026-11-12 baseline: /es/ is the slowest of the three).
+#
+# Deliberately NOT on push: Lighthouse burns runner minutes on every run,
+# and the measurement is slow, noisy and local-machine dependent. Weekly
+# plus manual dispatch is the right cadence for a zero-budget project.
+on:
+  schedule:
+    - cron: '0 8 * * 1'   # Mondays 08:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # No lockfile in the repo on purpose (the site itself has no build
+      # step), so npm ci is not available here. Lighthouse lives in
+      # devDependencies only and is never part of the shipped site.
+      - name: Install dev dependencies
+        run: npm install --no-audit --no-fund --loglevel silent
+
+      - name: Run Lighthouse CI
+        run: npx lhci autorun
+        # Assertions are configured as warn, not error, in lighthouserc.json:
+        # the first round is a baseline measurement, so a red build from an
+        # unknown baseline would only be noise. Thresholds get tightened in
+        # a separate change once the baseline is agreed.
+
+      # HTML reports are for the founder, not for the CI log.
+      - name: Upload Lighthouse reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 30
+          if-no-files-found: error

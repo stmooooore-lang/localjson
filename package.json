@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/stmooooore-lang/localjson#readme",
   "devDependencies": {
+    "@lhci/cli": "0.16.1",
     "playwright": "1.54"
   }
 }
