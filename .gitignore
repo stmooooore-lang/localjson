@@ -19,3 +19,12 @@ Thumbs.db
 
 # Node
 node_modules/
+
+# Local secrets. scripts/gsc-check.mjs reads the service-account JSON from
+# GSC_SERVICE_ACCOUNT_JSON, which locally lives in .env. Committing that file
+# would publish a Google private key, so it is ignored together with any
+# local variant (.env.production and the like). The committed
+# .env.example carries no values and stays tracked.
+.env
+.env.*
+!.env.example
