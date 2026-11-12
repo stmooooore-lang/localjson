@@ -33,6 +33,33 @@ const GSC_BASE =
 const TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
+// The reminder itself is rate-limited. The workflow used to run once a day
+// and could therefore send on every wake-up; it now runs every 15 minutes
+// (see .github/workflows/daily-index-reminder.yml) so that button presses
+// get answered within minutes instead of the next morning. That makes a
+// guard necessary: without it the chat would receive ~96 reminders a day.
+// Only the *send* is gated — getUpdates and the press handling still run on
+// every wake-up, which is the whole point of the new schedule.
+const BOT_TZ = process.env.BOT_TZ || 'Europe/Moscow';
+const BOT_SEND_FROM_HOUR = Number.isFinite(Number(process.env.BOT_SEND_FROM_HOUR))
+  ? Number(process.env.BOT_SEND_FROM_HOUR)
+  : 9; // 09:00 local — a single reminder per morning
+
+// Calendar date in the bot's timezone, not in UTC: GitHub Actions runs in
+// UTC, so a UTC "day" boundary would put the reminder at 03:00 Moscow time.
+function zonedToday() {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: BOT_TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    hour12: false,
+  }).formatToParts(new Date());
+  const get = t => (parts.find(p => p.type === t) || {}).value || '';
+  return { date: get('year') + '-' + get('month') + '-' + get('day'), hour: Number(get('hour')) || 0 };
+}
+
 if (!TOKEN || !CHAT_ID) {
   console.error('Missing TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID env vars');
   process.exit(1);
@@ -60,7 +87,11 @@ function loadState() {
   try {
     const raw = fs.readFileSync(STATE_PATH, 'utf8');
     const parsed = JSON.parse(raw);
+    // Spread first so fields this script does not own (lastSentDate, and
+    // anything a later version adds) survive a save instead of being
+    // silently dropped.
     return {
+      ...parsed,
       pending: Array.isArray(parsed.pending) ? parsed.pending : [],
       lastUpdateId: Number.isFinite(parsed.lastUpdateId) ? parsed.lastUpdateId : 0,
     };
@@ -152,9 +183,13 @@ const answerCallbackQuery = (id, text) =>
 // Toast text shown on the pressed button. Answering with text is what makes
 // the press visible; answering without it only stops the spinner silently.
 const TOAST = {
-  done: '✅ Принято — URL убран из очереди',
-  quota: '⏳ Принято — квота GSC, повтор завтра',
+  done: '✅ Индекс страницы запрошен',
+  quota: '⏳ Сработала квота',
 };
+
+// Message that replaces the prompt after a press. The count is the queue
+// length *after* the press: "готово" drops the head, "квота" leaves it.
+const ackText = (text, count) => text + ' Осталось в очереди: ' + count + ' стр.';
 
 // Replaces the message text and drops the inline keyboard in one call, so
 // the buttons visually disappear once acted on. Non-fatal: Telegram
@@ -229,20 +264,16 @@ async function main() {
         if (state.pending.length > 0) {
           const removed = state.pending.shift();
           console.log('[queue] DONE -> removed from queue: ' + removed);
-          await ackInPlace(
-            '✅ Принято: проиндексировано\n<code>' + escapeHtml(removed) + '</code>'
-          );
+          await ackInPlace(ackText('✅ Индекс страницы запрошен.', state.pending.length));
         } else {
           console.log('[queue] DONE ignored, queue already empty');
-          await ackInPlace('✅ Принято: очередь уже пуста');
+          await ackInPlace(ackText('✅ Индекс страницы запрошен.', state.pending.length));
         }
       } else if (cb.data === 'quota') {
         quotaCount++;
         const head = state.pending[0] || '(очередь пуста)';
         console.log('[queue] QUOTA -> kept at head: ' + head);
-        await ackInPlace(
-          '⏳ Принято: квота GSC. Повтор завтра\n<code>' + escapeHtml(head) + '</code>'
-        );
+        await ackInPlace(ackText('⏳ Сработала квота.', state.pending.length));
       } else {
         console.log('[queue] unknown callback data, ignored: ' + cb.data);
       }
@@ -259,6 +290,31 @@ async function main() {
 
   // --- 3. pick the head of the queue -----------------------------------
   const nextUrl = state.pending[0];
+
+  // --- 4. persist state BEFORE sending ----------------------------------
+  // Saving first means a failed send still advances lastUpdateId, so
+  // button presses are not re-processed forever.
+  state.lastUpdateId = offset;
+  saveState(state);
+
+  // --- 5. send, but at most one reminder per morning ---------------------
+  // Presses were already handled above and the state is already saved, so
+  // skipping the send is a complete run: the bot woke up, did its job, and
+  // goes back to sleep without spamming the chat 96 times a day.
+  const today = zonedToday();
+  const alreadySent = state.lastSentDate === today.date;
+  const inSendWindow = today.hour >= BOT_SEND_FROM_HOUR;
+
+  if (alreadySent) {
+    console.log('[queue] reminder already sent today (' + today.date + ') — not sending again');
+  } else if (!inSendWindow) {
+    console.log(
+      '[queue] before the send window (hour ' + today.hour + ' < ' + BOT_SEND_FROM_HOUR +
+      ' in ' + BOT_TZ + ') — press checks only, not sending'
+    );
+  }
+
+  if (alreadySent || !inSendWindow) return;
 
   let message;
   let replyMarkup;
@@ -293,17 +349,15 @@ async function main() {
     console.log('[queue] next URL to index: ' + nextUrl);
   }
 
-  // --- 4. persist state BEFORE sending ----------------------------------
-  // Saving first means a failed send still advances lastUpdateId, so
-  // button presses are not re-processed forever.
-  state.lastUpdateId = offset;
-  saveState(state);
-
   const sent = await sendMessage(message, replyMarkup);
   if (!sent) {
     console.error('Failed to send Telegram message after retries');
     process.exit(1);
   }
+  // Recorded only after a successful send, so a failed run retries later
+  // the same morning instead of staying silent until tomorrow.
+  state.lastSentDate = today.date;
+  saveState(state);
   console.log('Telegram message sent, message_id=' + sent.result.message_id);
 }
 

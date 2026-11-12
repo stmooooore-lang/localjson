@@ -1,9 +1,23 @@
-name: Daily GSC Indexing Reminder
+name: GSC Indexing Reminder
 
+# Runs every 15 minutes on purpose. The reminder itself is still sent at
+# most once per morning - scripts/pick-url.js gates the send on
+# state/gsc-queue.json -> lastSentDate plus a morning hour window - but
+# button presses are now answered within minutes instead of on the next
+# morning. GitHub routinely delays a scheduled run by 5-10 minutes, so a
+# press can take up to ~25 minutes to be acknowledged; that is the reason
+# for the short interval.
 on:
   schedule:
-    - cron: '0 7 * * *'   # 10:00 MSK (UTC+3) = 07:00 UTC
+    - cron: '*/15 * * * *'
   workflow_dispatch:
+
+# A wake-up takes a few seconds, so overlapping runs should not happen -
+# but two runs writing state/gsc-queue.json at the same time would let one
+# overwrite the other's button handling. Serialise instead of racing.
+concurrency:
+  group: gsc-index-reminder
+  cancel-in-progress: false
 
 jobs:
   remind:
