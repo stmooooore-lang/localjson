@@ -1,3 +1,11 @@
+#!/usr/bin/env python3
+"""
+write_spec.py - Generate SPEC.md from a clean template.
+
+This script maintains the single source of truth for the project specification.
+Run with: python3 write_spec.py
+"""
+
 import pathlib
 
 content = """# LocalJSON Project Specification
@@ -10,7 +18,7 @@ content = """# LocalJSON Project Specification
 - Google Site Verification: 10xz_XA9jkc2g8rJb77XIRslZtHqtnQJPcS_rvBGpYM
 - Primary Branch: main
 - Deploy Trigger: Push to main -> Vercel auto-deploy
-- Language: English only (EN)
+- Language: English + Spanish (EN/ES switcher, ?lang= URL param, ES license/docs page live)
 - Target Audience: Web developers, data analysts, B2B integrators working with JSON
 
 ## 2. Product Overview
@@ -28,26 +36,42 @@ Landing (index.html) -> Free tier (3 actions/day) -> Pro upgrade (LJSON-PRO-*) -
 ## 3. Tech Stack
 - Runtime: Browser (ES2020+)
 - Structure: Single-file HTML (HTML + CSS + JS inlined)
-- Dependencies: Zero - vanilla- Dependencies: Zero - vanilla- Dependencies: Zero - vanilr, license key)
-- Parsing: JSON.par- Parsing: JSON.par- Parsing: JSON.par- Parsing: JSON.par- Parsing: JSti- Parsing: JSON.par- os- Parsing: JSON.par- Parsing: JSON.par- Parsiuto-deploy on push to main
+- Dependencies: Zero - vanilla JS only
+- Parsing: JSON.parse + custom unescape/repair logic
 
-File InvenFile InvenFile InvenFile InvenFile InvenFile InvenFile InvenFile InvenFile InvenFine_File InvenFile InvenFffline, pre-activated Pro - Live (distributed to buyers)
-- LocalJSON_Pro_Documentation_and_License_Key.html: Activation page + docs - Live
-- 1.jpg, 2.jpg: Screenshots for listings - Assets
-- README.txt: Buyer delivery note - L- README.txt: Buyer delivery note - L- README.txt: Bu LJSON-- README.txt: Buyer delivery not total)
+## 4. Monetization & Licensing
+Pro Key Format: LJSON-PRO-<ALPHANUMERIC> (min 15 chars total)
+Validation Logic (client-side only):
+if (keyInput.startsWith("LJSON-PRO-") && keyInput.length > 14) {
+    localStorage.setItem("localjson_pro_status", "activated");
+}
 
-Validation Logic (clienValidation Logic (clienValidation Logic (clienValidationkeyInput.length Validation Logic (clienValidation Logic (clienValidation Logic (clienValidationkeyInput.le3 aValidation Logi(format / map / export = 1 actiValidation Logic (clienValidation Logic (clienValidatired in localStorage.localjson_usage_counter as {date: "YYYY-MM-DD", count: N}
+Free Tier Limits:
+- 3 actions per day (format / map / export = 1 action each)
+- Counter resets at midnight local time
+- Stored in localStorage.localjson_usage_counter as {date: "YYYY-MM-DD", count: N}
 
 Pro Tier:
-- Unlimited actio- Unlimited actio- Unlimited actio- Unlimited actio- Unlimited actio- Unlimited actio- Unlimited actid locally
+- Unlimited actions
+- Persisted in localStorage.localjson_pro_status = "activated"
+- No server validation - key checked locally
 
 Payment Flow (External):
-1. User buys via Gumroad / Lemonsqueezy / Stripe l1. User buys via Gumroad / Lemonsqueezy / Stripe l1. User buys via Gumroad / Lemonsqueezy / Stripe l1. User buys via Gumroad / Lemonsqueezy / Stripe l1. User buys via Gumr separate HTML (pre-activated)
+1. User buys via Lava.top (https://app.lava.top/products/ccfa8af0-17cc-4dfb-b9f0-062f0f2ad310) — "Purchase Activation Key" button in Pro modal
+2. Lava redirects to /?auth=success
+3. index.html reads ?auth=success, sets localStorage.localjson_pro_status = "activated"
+4. **Live production mechanism — DO NOT REMOVE.** Lava.top requires this redirect for seller verification/support.
+
+Buyer Packages:
+- localjson.zip (EN): offline HTML + doc page + README.txt
+- localjson-es.zip (ES): offline HTML ES + doc page ES + README_es.txt
+- Rebuilt manually, uploaded to Lava.top manually.
+- .vercelignore blocks *.zip, *.md, bin/, acceptance/, tasks/ from public serving on Vercel.
 
 ## 5. SEO - Current State (Audit)
 
 Present:
-- title:- title:- titlffline Privacy-First B2B JSON Data Mapper & Cleaner
+- title: LocalJSON — Privacy-First B2B JSON Data Mapper & Cleaner
 - meta description: 100% client-side, privacy-first JSON utility for web developers and analysts. Format, map, and clean sensitive B2B data arrays securely in your browser. Zero server uploads.
 - meta keywords: local json mapper, offline json viewer, privacy first json formatter, client side data cleaner, secure json utility, b2b data mapper
 - h1: Implicit in logo (LocalJSON + Privacy-First B2B JSON Data Mapper)
@@ -65,33 +89,61 @@ Missing / Weak:
 - Structured content blocks (How it works, Use cases, FAQ): Missing
 - Internal linking between pages: Missing
 - hreflang=en: Missing
-- Image alt attributes: Missing (sc- Image alt aterformance hints (preload, def- Image alt attributes: Missing (sc- Image al: json mapper, json formatter- Image alt attributes: Missing (sc- Image alt aterformance hints (preload, def- Image alt attributes: Missing (sc- Image al: json mapper, json formatter- Image alt atcious)
-- B2B/Dev: b2b json data cleaner, json data mapping tool, api response formatter, json array to csv (Professional)
-- Pro/Commercial: json mapper pro, unlimited json forma- Pro/Commercial: json mapper pro, unlimited json forma- Pro/Commerciaat- Pro/Commercial: json mapper pro, unlimite+ Pro unlock - Yes
-- /?auth=success: Post-payment redirect - Sets Pro in localStorage - N- /?auth=succeo /)
-- /offline/ (future): Offline Version - Pre-activated Pro, no network - Yes
-- /activate/ (future): Activation & Docs - License entry, documentation - Yes
-- /privacy/ (futu- /privacy/ (futu- /privacy/ (futu- /privacy/ (futu- /privacy/ (fu): Terms of Service - Legal - Yes
+- Image alt attributes: Missing (sc)
+- Performance hints (preload, def)
 
-Note: Currently only index.html Note: Currently only index.html Note: Currently only index.html Note: Currently only index.html Note: Currently only index.html Note: Currently only index.html Note: Currently only index.html Note: Currently ub repo: Code host - Active
+## 6. Routes & Pages
+
+| Route | Page | Purpose | Live? |
+|---|---|---|---|
+| / | index.html | EN landing + app | Yes |
+| /es/ | es/index.html | ES landing + app | Yes |
+| /blog/ | blog/index.html | Blog listing (auto) | Yes |
+| /blog/<slug>/ | blog/<slug>/index.html | Blog article (auto) | Yes |
+| /offline/ | **not a route** | The offline build is the file | No |
+| /activate/ | **not a route** | Activation lives in Pro modal + ?auth=success | No |
+| /?auth=success | index.html (redirect target) | Post-payment Pro activation | Yes |
+
+Note: Deployed to production: index.html (EN, at /), es/index.html (ES, at /es/), and the blog (/blog/ plus one page per article). The offline build and the documentation certificates are distributed to buyers as standalone files, not served as routes.
+
+## 7. Backlinks & Listings (Known)
+- Product Hunt: https://www.producthunt.com/products/localjson — Active listing (confirmed by owner)
+- Indie Hackers: НЕТ листинга. URL `https://www.indiehackers.com/product/localjson` возвращает **404** (проверено 2026-11-12); предыдущая запись «Active listing (confirmed by owner)» была ошибочной. Листинг нужно создать — черновик поста в `marketing/indie-hackers-draft.md`.
+- AlternativeTo: НЕТ листинга. Проверено 2026-11-13 в My Submissions основателем — листинг не создан.
+- Gumroad / Lemonsqueezy product page: Marketplace - Active (legacy, now Lava.top)
+- Vercel dashboard: Platform - Active
+- GitHub repo: Code host - Active
+- Core: json mapper, json formatter online, json to csv converter, json viewer (Tool usage)
 
 ## 8. Roadmap - SEO First (Zero Budget)
 
-Phase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Foundation (Week 1)generated via GitHub Action)Phase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Foundation (Week 1)generated via GitHub Action)Phase 1: Technical FounutPhase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Foundation (Week -5 sPhase 1: Technical Foundation (Week 1) IN PROGRESPhase 1: Technical Founda, Offline work)
-- [ ] FAQ (8-10 questions, marked up with FAQPage schema)
-- [ ] Feature Comparison table (Free vs Pro)
-- [ ] Testimonials / Social Proof placeholder
+Phase 1: Technical Foundation (Week 1) **DONE**
+- [x] robots.txt
+- [x] sitemap.xml
+- [x] JSON-LD Schema.org (Product + FAQPage)
+- [x] Open Graph / Twitter Cards
+- [x] Semantic HTML5 (main, article, section)
+- [x] Structured content blocks (How it works, Use cases, FAQ)
+- [x] Internal linking between pages
+- [x] hreflang=en/es/x-default
+- [x] Image alt attributes
+- [x] Performance hints (preload, defer)
 
-Phase 3: On-Page Optimization (Week 2)
-- [ ] Optimize title / meta description / h1 for target clusters
-- [ ] Add keyword-rich section headings (h2, h3)
-- [ ] Internal links: index <-> offline <-> activate
-- [ ] Anchor links for scroll-to sections
+Phase 2: Content Depth (Week 1-2) **DONE**
+- [x] FAQ (8-10 questions, marked up with FAQPage schema)
+- [x] Feature Comparison table (Free vs Pro)
+- [x] Testimonials / Social Proof placeholder
+
+Phase 3: On-Page Optimization (Week 2) **DONE**
+- [x] Optimize title / meta description / h1 for target clusters
+- [x] Add keyword-rich section headings (h2, h3)
+- [x] Internal links: index <-> offline <-> activate
+- [x] Anchor links for scroll-to sections
 
 Phase 4: Authority & Signals (Ongoing)
-- [ ] Submit - [ ] Submit - [ ] Submit - [ ] Submit Fix GSC coverage/indexing errors
+- [ ] Fix GSC coverage/indexing errors
 - [ ] Request indexing for updated pages
-- [ ] Add to JSON tool directories (alternative.to, producthunt, etc.)
+- [ ] Add to JSON tool directories (AlternativeTo, Product Hunt, etc.)
 - [ ] Create comparison content (vs jsonformatter.org, vs onlinejsontools.com)
 
 Phase 5: Performance & UX (Parallel)
@@ -110,19 +162,37 @@ git revert HEAD && git push origin main
 # Or: Vercel dashboard -> Deployments -> Promote previous
 
 Local Development:
-# No build step - open i# No build step - open i# No build stpx# No build step - open i# No build step - open i# No build stpASU# No build step - open i# No build step - 0. Chan# No build step - open i# No build step - open i# Nall production files committed
-- 2025-08-20: (this session) - .gitignore added, SPEC.md created
+# No build step - open index.html directly in browser
+# All production files committed
+
+## 10. Change Log
+
+- 2026-08-20: .gitignore added, SPEC.md created
+- 2026-11-12: CWV baseline via Lighthouse CI, IH draft ready
+- 2026-11-13: AlternativeTo confirmed NOT published
 
 ## 11. Quick Reference for AI Assistants
-When user asks to modify the siWhen user asks to modify the siWhen useinWhen user asks to modify the siWhen user asks to modify the siPEC.md with changes
-4. git add -A && git commit -m "type: description" && git push
-5. Ver5. Ver5. Ver5. Ver5. Ver5. Ver5. Veat5. Ver5. Ver5. Ver5. Ver5. Ver5. Ver5.  versi5. Ver5. Ver5. Ver5. Ver5. Ver5. Vehtml
-- Activation docs: /LocalJSON_Pro_Documentation_and_License_Key.html
-- Spec: /SPEC.md
+
+When user asks to modify the specification:
+1. Edit this script (write_spec.py)
+2. Run: python3 write_spec.py
+3. git add SPEC.md && git commit -m "type: description"
+4. git push origin HEAD:main
+
+Key files:
+- Activation docs: LocalJSON_Pro_Documentation_and_License_Key.html
+- Spec: SPEC.md
+- EN index: index.html
+- ES index: es/index.html
 
 Do NOT:
 - Add build steps / bundlers / frameworks
-- A- A- A- A- A- A- A- A- A- A- A- A- A- A-idation (client- A- A- A- A- A- A- A- A- A- A- A- irst - A- A- A- A- A- A- A- A- A- A- A- A- A- A-idation (clied, repo connected*
+- Add server-side code, DB
+- Change monetization without explicit decision
+- Remove ?auth=success (Lava.top requirement, repo connected)
+
+---
+
 """
 
 pathlib.Path('/Users/moore/my work/localjson/SPEC.md').write_text(content)

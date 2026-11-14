@@ -33,11 +33,30 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
         run: node scripts/pick-url.js
-      - name: Persist queue state
+      - name: Persist queue state (with retry + rebase on conflict)
         run: |
           git config --global user.name 'LocalJSON Bot'
           git config --global user.email 'bot@localjson.dev'
-          git add state/gsc-queue.json
-          git commit -m "bot: update GSC indexing queue" || echo "No changes"
-          git push
+          
+          for attempt in 1 2 3; do
+            git add state/gsc-queue.json
+            if git diff --cached --quiet; then
+              echo "No changes to commit"
+              exit 0
+            fi
+            git commit -m "bot: update GSC indexing queue"
+            
+            # Try push with rebase on conflict
+            if git pull --rebase origin main && git push; then
+              echo "Push succeeded on attempt $attempt"
+              exit 0
+            else
+              echo "Push failed (attempt $attempt), retrying..."
+              sleep 5
+            fi
+          done
+          
+          echo "All push attempts failed"
+          exit 1
